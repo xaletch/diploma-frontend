@@ -1,6 +1,7 @@
 import { Button, Form, Input } from "@/shared/ui"
 import { LoginSchema } from "../model/schemas/login.schema"
 import { useLogin } from "../model/hooks/login.hook";
+import { Link } from "@tanstack/react-router";
 
 export const Login = () => {
   const { onSubmit, isLoading } = useLogin();
@@ -34,6 +35,9 @@ export const Login = () => {
           </>
         )}
       </Form>
+      <div className="flex items-center justify-center mt-2.5">
+        <Link to={"/register"} className="text-sm text-blue-500">Нет аккаунта?</Link>
+      </div>
     </div>
   )
 }

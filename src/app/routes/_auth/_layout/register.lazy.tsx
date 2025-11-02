@@ -1,3 +1,4 @@
+import { Register } from '@/pages/auth/ui/register'
 import { createLazyFileRoute } from '@tanstack/react-router'
 
 export const Route = createLazyFileRoute('/_auth/_layout/register')({
@@ -5,5 +6,5 @@ export const Route = createLazyFileRoute('/_auth/_layout/register')({
 })
 
 function RouteComponent() {
-  return <div>Hello "/auth/register"!</div>
+  return <Register />
 }
