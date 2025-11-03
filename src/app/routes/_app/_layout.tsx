@@ -8,7 +8,7 @@ export const Route = createFileRoute('/_app/_layout')({
 function RouteComponent() {
   return (
     <PrivateRoute>
-      <div>Hello "/_app/_layout"! <Outlet /></div>
+      <Outlet />
     </PrivateRoute>
   )
 }

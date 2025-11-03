@@ -8,9 +8,13 @@ export const PrivateRoute = ({ children }: PropsWithChildren) => {
   const access = !!getCookie("access_token");
   const refresh = !!getCookie("refresh_token");
 
-  const { isLoading, isError } = useMeQuery();
+  const { data, isLoading, isError } = useMeQuery();
 
   if (isLoading) return <AppLoading />;
+
+  if (data?.company === null) {
+    return <Navigate to={"/company/create"} replace/>;
+  }
 
   if (isError || (!access || !refresh)) {
     return (

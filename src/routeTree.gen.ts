@@ -14,6 +14,7 @@ import { Route as rootRouteImport } from './app/routes/__root'
 import { Route as AuthLayoutRouteImport } from './app/routes/_auth/_layout'
 import { Route as AppLayoutRouteImport } from './app/routes/_app/_layout'
 import { Route as AppLayoutIndexRouteImport } from './app/routes/_app/_layout/index'
+import { Route as AppLayoutCompanyCreateIndexRouteImport } from './app/routes/_app/_layout/company/create/index'
 
 const AuthLayoutRegisterLazyRouteImport = createFileRoute(
   '/_auth/_layout/register',
@@ -47,16 +48,24 @@ const AuthLayoutLoginLazyRoute = AuthLayoutLoginLazyRouteImport.update({
 } as any).lazy(() =>
   import('./app/routes/_auth/_layout/login.lazy').then((d) => d.Route),
 )
+const AppLayoutCompanyCreateIndexRoute =
+  AppLayoutCompanyCreateIndexRouteImport.update({
+    id: '/company/create/',
+    path: '/company/create/',
+    getParentRoute: () => AppLayoutRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/login': typeof AuthLayoutLoginLazyRoute
   '/register': typeof AuthLayoutRegisterLazyRoute
   '/': typeof AppLayoutIndexRoute
+  '/company/create': typeof AppLayoutCompanyCreateIndexRoute
 }
 export interface FileRoutesByTo {
   '/login': typeof AuthLayoutLoginLazyRoute
   '/register': typeof AuthLayoutRegisterLazyRoute
   '/': typeof AppLayoutIndexRoute
+  '/company/create': typeof AppLayoutCompanyCreateIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -65,12 +74,13 @@ export interface FileRoutesById {
   '/_auth/_layout/login': typeof AuthLayoutLoginLazyRoute
   '/_auth/_layout/register': typeof AuthLayoutRegisterLazyRoute
   '/_app/_layout/': typeof AppLayoutIndexRoute
+  '/_app/_layout/company/create/': typeof AppLayoutCompanyCreateIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/login' | '/register' | '/'
+  fullPaths: '/login' | '/register' | '/' | '/company/create'
   fileRoutesByTo: FileRoutesByTo
-  to: '/login' | '/register' | '/'
+  to: '/login' | '/register' | '/' | '/company/create'
   id:
     | '__root__'
     | '/_app/_layout'
@@ -78,6 +88,7 @@ export interface FileRouteTypes {
     | '/_auth/_layout/login'
     | '/_auth/_layout/register'
     | '/_app/_layout/'
+    | '/_app/_layout/company/create/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -122,15 +133,24 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthLayoutLoginLazyRouteImport
       parentRoute: typeof AuthLayoutRoute
     }
+    '/_app/_layout/company/create/': {
+      id: '/_app/_layout/company/create/'
+      path: '/company/create'
+      fullPath: '/company/create'
+      preLoaderRoute: typeof AppLayoutCompanyCreateIndexRouteImport
+      parentRoute: typeof AppLayoutRoute
+    }
   }
 }
 
 interface AppLayoutRouteChildren {
   AppLayoutIndexRoute: typeof AppLayoutIndexRoute
+  AppLayoutCompanyCreateIndexRoute: typeof AppLayoutCompanyCreateIndexRoute
 }
 
 const AppLayoutRouteChildren: AppLayoutRouteChildren = {
   AppLayoutIndexRoute: AppLayoutIndexRoute,
+  AppLayoutCompanyCreateIndexRoute: AppLayoutCompanyCreateIndexRoute,
 }
 
 const AppLayoutRouteWithChildren = AppLayoutRoute._addFileChildren(
