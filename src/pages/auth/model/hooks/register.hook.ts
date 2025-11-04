@@ -10,13 +10,6 @@ interface RegisterReturnProps {
   isLoading: boolean;
 }
 
-interface IError {
-  data: {
-    message: string;
-    statusCode: number;
-  }
-}
-
 export const useRegister = (): RegisterReturnProps => {
   const [register, { isLoading }] = useRegisterMutation();
   const location = useLocation()
@@ -33,9 +26,8 @@ export const useRegister = (): RegisterReturnProps => {
       navigate({ to: to, replace: true });
     }
     catch (err) {
-      const { data } = err as IError;
-      console.error("Не удалось зарегистрировать аккаунт", err);
-      toast.error("Ошибка!", { description: data.message });
+      const { data } = err as HttpError;
+      toast.error(data.title, { description: data.detail });
     }
   }
 
