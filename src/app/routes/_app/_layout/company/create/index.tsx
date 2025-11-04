@@ -1,3 +1,4 @@
+import { CompanyCreate } from '@/pages/company'
 import { createFileRoute } from '@tanstack/react-router'
 
 export const Route = createFileRoute('/_app/_layout/company/create/')({
@@ -5,5 +6,5 @@ export const Route = createFileRoute('/_app/_layout/company/create/')({
 })
 
 function RouteComponent() {
-  return <div>Hello "/_app/_layout/company/create/"!</div>
+  return <CompanyCreate />
 }

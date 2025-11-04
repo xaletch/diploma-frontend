@@ -1,5 +1,6 @@
-import { getCookie, setCookie } from "@/shared/utils";
+import { deleteCookie, getCookie, setCookie } from "@/shared/utils";
 import { baseQuery } from "./base-query";
+import { toast } from "sonner";
 
 type Verify = {
   success: boolean;
@@ -36,11 +37,20 @@ export const reauthQuery: typeof baseQuery = async (args, api, opt) => {
 
           res = await baseQuery(args, api, opt);
         } else {
+          deleteCookie("access_token");
+          deleteCookie("refresh_token");
           console.log("LOGOUT"); // ОПИСАТЬ ФУНКЦИЮ НА LOGOUT
         }
       } else {
+        deleteCookie("access_token");
+        deleteCookie("refresh_token");
         console.log("LOGOUT"); // ОПИСАТЬ ФУНКЦИЮ НА LOGOUT
       }
+    }
+
+    if (res.error) {
+      const { data } = res.error as HttpError;
+      toast.error(data.title, { description: data.detail });
     }
   }
 

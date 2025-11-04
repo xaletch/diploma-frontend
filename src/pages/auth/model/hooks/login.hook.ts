@@ -26,8 +26,8 @@ export const useLogin = (): LoginReturnProps => {
       navigate({ to: to, replace: true });
     }
     catch (err) {
-      console.error("Неверный логин или пароль", err);
-      toast.error("Неверный логин или пароль", { description: JSON.stringify(err) });
+      const { data } = err as HttpError;
+      toast.error(data.title, { description: data.detail });
     }
   }
 

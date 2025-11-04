@@ -1,10 +1,12 @@
 import { useMeQuery } from "@/entities/account";
 import { getCookie } from "@/shared/utils";
 import { AppLoading } from "@/widgets/loading";
-import { Navigate } from "@tanstack/react-router";
+import { Navigate, useLocation } from "@tanstack/react-router";
 import type { PropsWithChildren } from "react";
 
 export const PrivateRoute = ({ children }: PropsWithChildren) => {
+  const location = useLocation();
+
   const access = !!getCookie("access_token");
   const refresh = !!getCookie("refresh_token");
 
@@ -12,8 +14,8 @@ export const PrivateRoute = ({ children }: PropsWithChildren) => {
 
   if (isLoading) return <AppLoading />;
 
-  if (data?.company === null) {
-    return <Navigate to={"/company/create"} replace/>;
+  if (data?.company === null && location.pathname !== "/company/create") {
+    return <Navigate to={"/company/create"} replace />;
   }
 
   if (isError || (!access || !refresh)) {
