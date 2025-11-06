@@ -1,3 +1,4 @@
+import { companySlice } from "@/pages/company";
 import { API } from "@/shared/api";
 import { configureStore } from "@reduxjs/toolkit";
 
@@ -6,6 +7,7 @@ export const store = configureStore({
     [API.reducerPath]: API.reducer,
 
     // ...
+    company: companySlice,
   },
 
   middleware(getDefaultMiddleware) {

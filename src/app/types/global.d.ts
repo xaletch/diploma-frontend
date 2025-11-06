@@ -9,4 +9,6 @@ declare global {
     }
     status: number
   }
+
+  type ICurrency = "RUB" | "USD" | "EUR";
 }
