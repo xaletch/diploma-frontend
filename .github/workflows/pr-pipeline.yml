@@ -1,0 +1,17 @@
+name: PR
+
+on:
+  pull_request:
+    types: [assigned, opened, synchronize, reopened]
+    branches:
+      - main
+
+jobs:
+  CLI:
+    uses: ./.github/workflows/cli.yml
+  
+  # Labeler:
+  #   permissions:
+  #     contents: read
+  #     pull-requests: write
+  #   uses: ./.github/workflows/labeler.yml
