@@ -1,15 +1,12 @@
-import { getCookie } from "@/shared/utils"
-import { Navigate, useLocation } from "@tanstack/react-router";
+import { useAccount } from "@/entities/account";
+import { Navigate } from "@tanstack/react-router";
 import type { PropsWithChildren } from "react"
+import { useSelector } from "react-redux";
 
 export const AuthLayout = ({ children }: PropsWithChildren) => {
-  const location = useLocation();
-  const isAccess = !!getCookie("access_token");
+  const { isAuthenticated } = useSelector(useAccount);
 
-  if (isAccess) {
-    const from = location.search.from || "/";
-    return <Navigate to={from} replace />;
-  }
+  if (isAuthenticated) return <Navigate to={"/"} replace />;
 
   return (
     <div className="flex flex-col h-full py-8">

@@ -8,6 +8,8 @@ import { companySelector } from "../selector/company.selector";
 import type { CompanyCredentials } from "../type/company-create.type";
 import type { ISpecialization } from "../type/specialization.type";
 import { useNavigate } from "@tanstack/react-router";
+import { setAccount, useLazyMeQuery } from "@/entities/account";
+import { useState } from "react";
 
 interface CompanyCreateReturnProps {
   step: number;
@@ -25,9 +27,12 @@ export const useCompanyCreate = (): CompanyCreateReturnProps => {
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
 
+  const [isLoading, setIsLoading] = useState(false);
+
   const { company: companyData, step, specialization } = useSelector(companySelector);
   
-  const [company, { isLoading }] = useCompanyCreateMutation();
+  const [company] = useCompanyCreateMutation();
+  const [account] = useLazyMeQuery();
 
   const setCompany = (data: CompanyType) => {
     const d = {
@@ -52,6 +57,7 @@ export const useCompanyCreate = (): CompanyCreateReturnProps => {
   }
 
   const create = async (): Promise<void> => {
+    setIsLoading(true);
     try {
       if (!companyData) return;
       const payload = { 
@@ -77,13 +83,18 @@ export const useCompanyCreate = (): CompanyCreateReturnProps => {
       } satisfies CompanyCredentials;
 
       await company(payload).unwrap();
+      const me = await account().unwrap();
 
+      dispatch(setAccount(me));
       navigate({ to: "/", replace: true });
-      clearCompany();
+      dispatch(clearCompany());
     }
     catch (err) {
       console.error("Не удалось создать компанию", err);
       toast.error("Не удалось создать компанию", { description: JSON.stringify(err) });
+    }
+    finally {
+      setIsLoading(false);
     }
   };
 

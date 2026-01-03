@@ -198,8 +198,6 @@ const Form = <
 };
 
 export {
-  // eslint-disable-next-line react-refresh/only-export-components
-  useFormField,
   Form,
   FormProvider,
   FormItem,

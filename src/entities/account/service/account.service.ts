@@ -13,4 +13,4 @@ export const AccountApi = API.injectEndpoints({
   }),
 });
 
-export const { useMeQuery } = AccountApi;
+export const { useMeQuery, useLazyMeQuery } = AccountApi;

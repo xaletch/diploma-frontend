@@ -1,14 +1,13 @@
-import { deleteCookie } from "@/shared/utils";
+import { useAuth } from "@/features/auth";
 
 interface LogoutReturnProps {
   logout: () => void
 }
 
 export const useLogout = (): LogoutReturnProps => {
-  const logout = () => {
-    deleteCookie("access_token");
-    deleteCookie("refresh_token");
-  }
+  const { logout: logoutState } = useAuth();
+  
+  const logout = () => logoutState();
 
   return { logout }
 }

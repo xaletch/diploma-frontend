@@ -1,6 +1,7 @@
-import { deleteCookie, getCookie, setCookie } from "@/shared/utils";
+import { getCookie, setCookie } from "@/shared/utils";
 import { baseQuery } from "./base-query";
 import { toast } from "sonner";
+import { logout } from "@/entities/account";
 
 type Verify = {
   success: boolean;
@@ -33,19 +34,15 @@ export const reauthQuery: typeof baseQuery = async (args, api, opt) => {
 
         if (refresh.data && "access_token" in refresh.data) {
           const token = refresh.data.access_token;
-          setCookie("access_token", token, 3600);
+          setCookie("access_token", token, { days: 7 });
 
           res = await baseQuery(args, api, opt);
-          console.log('refresh.data && "access_token" in refresh.data');
+          console.log(`refresh.data && "access_token" in refresh.data ${refresh.data && "access_token" in refresh.data}`);
         } else {
-          deleteCookie("access_token");
-          deleteCookie("refresh_token");
-          console.log("LOGOUT"); // ОПИСАТЬ ФУНКЦИЮ НА LOGOUT
+          api.dispatch(logout());
         }
       } else {
-        deleteCookie("access_token");
-        deleteCookie("refresh_token");
-        console.log("LOGOUT"); // ОПИСАТЬ ФУНКЦИЮ НА LOGOUT
+        api.dispatch(logout());
       }
     }
 

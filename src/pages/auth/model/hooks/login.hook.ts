@@ -1,9 +1,9 @@
 import { toast } from "sonner";
 import { useLoginMutation } from "../../service/auth.service";
 import type { LoginType } from "../schemas/login.schema";
-import { setCookie } from "@/shared/utils";
 import type { UserSession } from "../types/auth.type";
 import { useLocation, useNavigate } from "@tanstack/react-router";
+import { useAuth } from "@/features/auth";
 
 interface LoginReturnProps {
   onSubmit: (data: LoginType) => void;
@@ -15,12 +15,13 @@ export const useLogin = (): LoginReturnProps => {
   const location = useLocation()
   const navigate = useNavigate();
 
+  const { login: loginState } = useAuth();
+
   const onSubmit = async (data: LoginType): Promise<void> => {
     try {
       const { access_token, refresh_token } = await login(data).unwrap() satisfies UserSession;
 
-      setCookie("access_token", access_token);
-      setCookie("refresh_token", refresh_token, 30 * 24 * 60);
+      loginState(access_token, refresh_token);
 
       const to = location.search.from || "/";
       navigate({ to: to, replace: true });

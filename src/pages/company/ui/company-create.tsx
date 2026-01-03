@@ -2,9 +2,20 @@ import { Button } from "@/shared/ui";
 import { useCompanyCreate } from "../model/hook/company-create.hook";
 import { CompanyCreateForm, CompanyCreateIndustry, CompanyCreateService } from "./components";
 import SvgChevronRight from "@/shared/icons/ChevronRight";
+import { useSelector } from "react-redux";
+import { useAccount } from "@/entities/account";
+import { useNavigate } from "@tanstack/react-router";
 
 export const CompanyCreate = () => {
   const { setCompany, step, selectSpecialization, selectIndustry, specialization, isLoading, create, prevStep } = useCompanyCreate();
+  const { isCompany } = useSelector(useAccount);
+  
+  const navigate = useNavigate();
+
+  if (isCompany) {
+    navigate({ to: "/", replace: true });
+    return null;
+  }
 
   return (
     <div className={`max-w-140 mx-auto w-full pt-10 lg:pt-20 pb-28 px-5 flex-1 ${step === 1 ? "max-w-140" : "max-w-220"}`}>

@@ -17,6 +17,7 @@ export interface IMe {
   phone: string;
   first_name: string;
   last_name: string;
+  name: string;
   avatar: string | null;
   role: string;
   role_id: { id: number; };
