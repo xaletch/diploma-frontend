@@ -16,13 +16,14 @@ export const getCookie = (name: string) => {
 // KEY - cookie name
 // VALUE - cookie value
 // MINUTES - cookie expiration time in minutes
-export const setCookie = ( key: string, value: string, minutes: number): void => {
-  const now = new Date();
-  
-  now.setTime(now.getTime() + minutes * 60 * 1000);
-  const expires = `expires=${now.toUTCString()}`;
-  
-  document.cookie = `${key}=${value}; ${expires}; path=/;`;
+export const setCookie = (key: string, value: string, minutes?: number): void => {
+  let expires = "";
+  if (typeof minutes === "number") {
+    const now = new Date();
+    now.setTime(now.getTime() + minutes * 60 * 1000);
+    expires = `; expires=${now.toUTCString()}`;
+  }
+  document.cookie = `${encodeURIComponent(key)}=${encodeURIComponent(value)}${expires}; path=/`;
 }
 
 // delete cookie

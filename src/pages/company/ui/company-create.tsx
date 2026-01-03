@@ -1,119 +1,36 @@
-import { Button, Form, Input } from "@/shared/ui"
-import { CompanySchema } from "../model/schema/company.schema"
+import { Button } from "@/shared/ui";
 import { useCompanyCreate } from "../model/hook/company-create.hook";
-import { toast } from "sonner";
+import { CompanyCreateForm, CompanyCreateIndustry, CompanyCreateService } from "./components";
+import SvgChevronRight from "@/shared/icons/ChevronRight";
 
 export const CompanyCreate = () => {
-  const { stepOne } = useCompanyCreate();
-
-  toast.error("ERROR");
-  toast.success("SUCCESS");
-  toast.warning("WARN");
+  const { setCompany, step, selectSpecialization, selectIndustry, specialization, isLoading, create, prevStep } = useCompanyCreate();
 
   return (
-    <div className="max-w-5xl mx-auto w-full py-20 px-10">
-      <h1 className="text-2xl font-bold mb-6">Создание компании</h1>
-      <Form onSubmit={(data) => stepOne(data)} schema={CompanySchema}>
-        {({ register, formState }) => (
-          <div className="flex justify-between">
-            <div className="w-full max-w-md flex flex-col gap-4">
-              <Input
-                name="name"
-                id="name"
-                type="text"
-                register={register("name")}
-                error={formState.errors["name"]}
-                label="Наименование компании"
-                required
-              />
-              <div className="mt-5">
-                <h2 className="text-xl font-bold">Локация</h2>
-                <div className="flex flex-col gap-4 mt-5">
-                  <Input
-                    name="country"
-                    id="country"
-                    type="text"
-                    register={register("country")}
-                    error={formState.errors["country"]}
-                    label="Страна"
-                    required
-                  />
-                  <div className="grid grid-cols-2 gap-4">
-                    <Input
-                      name="city"
-                      id="city"
-                      type="text"
-                      register={register("city")}
-                      error={formState.errors["city"]}
-                      label="Город"
-                      required
-                    />
-                    <Input
-                      name="region"
-                      id="region"
-                      type="text"
-                      register={register("region")}
-                      error={formState.errors["region"]}
-                      label="Регион"
-                      required
-                    />
-                    <Input
-                      name="street"
-                      id="street"
-                      type="text"
-                      register={register("street")}
-                      error={formState.errors["street"]}
-                      label="Улица"
-                    />
-                    <Input
-                      name="house"
-                      id="house"
-                      type="text"
-                      register={register("house")}
-                      error={formState.errors["house"]}
-                      label="Дом"
-                    />
-                  </div>
-                  <Input
-                    name="post_code"
-                    id="post_code"
-                    type="text"
-                    register={register("post_code")}
-                    error={formState.errors["post_code"]}
-                    label="Почтовый индекс"
-                  />
-                </div>
-              </div>
-              <div className="mt-5">
-                <h2 className="text-xl font-bold">Настройки</h2>
-                <div className="flex flex-col gap-4 mt-5">
-                  <Input
-                    name="currency"
-                    id="currency"
-                    type="text"
-                    register={register("currency")}
-                    error={formState.errors["currency"]}
-                    label="Валюта компании"
-                    required
-                  />
-                  <Input
-                    name="timezone"
-                    id="timezone"
-                    type="text"
-                    register={register("timezone")}
-                    error={formState.errors["timezone"]}
-                    label="Часовой пояс"
-                    required
-                  />
-                </div>
-              </div>
-            </div>
-            <div className="w-full max-w-80 py-6">
-              <Button type="submit" isLoading={false}>Создать</Button>
-            </div>
-          </div>
-        )}
-      </Form>
+    <div className={`max-w-140 mx-auto w-full pt-10 lg:pt-20 pb-28 px-5 flex-1 ${step === 1 ? "max-w-140" : "max-w-220"}`}>
+      <h1 className="text-32 leading-8 font-extrabold">
+        {step === 1 ? "Создание компании" : step === 2 || step === 3 ? "В какой индустрии работает ваш бизнес?" : null}
+      </h1>
+      <div className="mt-8 md:mt-10 w-full">
+        {step === 1 && <CompanyCreateForm setCompany={setCompany} />}
+        {step === 2 && <CompanyCreateService selectSpecialization={selectSpecialization} />}
+        {step === 3 && <CompanyCreateIndustry specialization={specialization} selectIndustry={selectIndustry} isLoading={isLoading} create={create} />}
+      </div>
+
+      {step === 2 && (
+        <div className="left-0 right-0 mx-auto fixed bottom-0 flex justify-center md:bg-transparent backdrop-blur-xs bg-black/4 py-6 rounded-t-3xl px-5">
+          <Button
+            type={"button"}
+            variant={"prev"}
+            size={"size_48"}
+            className={"w-full md:max-w-50"}
+            iconLeft={<SvgChevronRight width={20} height={20} className="rotate-180" />}
+            onClick={prevStep}
+          >
+            Назад
+          </Button>
+        </div>
+      )}
     </div>
   )
 }

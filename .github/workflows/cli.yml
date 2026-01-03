@@ -25,7 +25,7 @@ jobs:
         with:
           node-version: '>=24'
       - name: Setup Go
-        run: yarn install
+        run: yarn install --ignore-scripts
 
       - name: Linter
         if: ${{ inputs.run_linter }}

@@ -10,7 +10,7 @@ export default {
           },
         },
       },
-      removeDimensions,
+      'removeDimensions',
     ],
   },
   plugins: ["@svgr/plugin-svgo", "@svgr/plugin-jsx"],

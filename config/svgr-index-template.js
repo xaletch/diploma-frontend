@@ -1,6 +1,6 @@
 import path from 'path';
 
-function indexTemplate(filePaths) {
+export default function indexTemplate(filePaths) {
   const exportEntries = filePaths.map(({ path: filePath }) => {
     const basename = path.basename(filePath, path.extname(filePath));
     const safeName = /^\d/.test(basename) ? `_${basename}` : basename;
@@ -9,5 +9,3 @@ function indexTemplate(filePaths) {
   });
   return exportEntries.join('\n');
 }
-
-module.exports = indexTemplate;

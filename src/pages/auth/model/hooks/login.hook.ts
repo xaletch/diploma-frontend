@@ -19,7 +19,7 @@ export const useLogin = (): LoginReturnProps => {
     try {
       const { access_token, refresh_token } = await login(data).unwrap() satisfies UserSession;
 
-      setCookie("access_token", access_token, 60);
+      setCookie("access_token", access_token);
       setCookie("refresh_token", refresh_token, 30 * 24 * 60);
 
       const to = location.search.from || "/";
