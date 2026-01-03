@@ -12,7 +12,10 @@ export const CompanyCreate = () => {
   
   const navigate = useNavigate();
 
-  if (isCompany) return navigate({ to: "/", replace: true });
+  if (isCompany) {
+    navigate({ to: "/", replace: true });
+    return null;
+  }
 
   return (
     <div className={`max-w-140 mx-auto w-full pt-10 lg:pt-20 pb-28 px-5 flex-1 ${step === 1 ? "max-w-140" : "max-w-220"}`}>
