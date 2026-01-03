@@ -68,10 +68,13 @@
 
   /* breakpoints */
   --breakpoint-3xl: 120rem;
+  --breakpoint-820: 820px;
+  --breakpoint-580: 580px;
   --breakpoint-480: 480px;
   --breakpoint-420: 420px;
   --breakpoint-380: 380px;
   --breakpoint-360: 360px;
+  --breakpoint-340: 340px;
 
   /* colors */
   --color-background: var(--background);
@@ -106,13 +109,17 @@
   --color-success-color-icon: var(--success-color-icon);
   
   /* rounded */
+  --radius-13: 13px;
   --radius-xl: 15px;
+  --radius-10: 10px;
+  --radius-18: 18px;
 
   /* text */
+  --text-32: 32px;
   --text-md: 15px;
   --text-xs: 13px;
   --text-xss: 12px;
-  --text-32: 32px;
+  --text-11: 11px;
 
   /* ... */
 }

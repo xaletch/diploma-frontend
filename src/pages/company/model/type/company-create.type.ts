@@ -10,8 +10,8 @@ export interface CompanyCredentials {
   region: string;
   timezone: string;
   timezone_offset: string;
-  lat: string;
-  lng: string;
+  lat: number;
+  lng: number;
   specialization: number;
   industry: number;
 }

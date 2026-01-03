@@ -1,39 +1,55 @@
 import type { AppDispatch } from "@/app/providers/redux/config";
 import { useDispatch, useSelector } from "react-redux";
 import type { CompanyType } from "../schema/company.schema";
-import { addCompany, addCompanyService, clearCompany } from "../slice/company.slice";
-import { useNavigate } from "@tanstack/react-router";
-import type { ServicePayload } from "../type/payload-service.type";
+import { addCompany, addCompanyIndustry, addCompanySpecialization, clearCompany, CompanyNextStep, CompanyPrevStep } from "../slice/company.slice";
 import { useCompanyCreateMutation } from "../../service/company.service";
 import { toast } from "sonner";
 import { companySelector } from "../selector/company.selector";
 import type { CompanyCredentials } from "../type/company-create.type";
+import type { ISpecialization } from "../type/specialization.type";
+import { useNavigate } from "@tanstack/react-router";
 
 interface CompanyCreateReturnProps {
-  stepOne: (data: CompanyType) => void;
-  stepTwo: (payload: ServicePayload) => void;
-  create: () => void;
+  step: number;
+  isLoading: boolean;
+  specialization: ISpecialization | undefined;
+  
+  setCompany: (data: CompanyType) => void;
+  selectSpecialization: (specialization: ISpecialization) => void;
+  selectIndustry: (industryId: number) => void;
+  create: () => Promise<void>;
+  prevStep: () => void;
 }
 
 export const useCompanyCreate = (): CompanyCreateReturnProps => {
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
-  const { company: companyData } = useSelector(companySelector);
 
-  const [company] = useCompanyCreateMutation();
+  const { company: companyData, step, specialization } = useSelector(companySelector);
+  
+  const [company, { isLoading }] = useCompanyCreateMutation();
 
-  const stepOne = (data: CompanyType) => {
+  const setCompany = (data: CompanyType) => {
     const d = {
       ...data,
       timezone_offset: data.timezone,
     };
     dispatch(addCompany(d));
-    navigate({ to: "service" });
+    dispatch(CompanyNextStep());
   };
   
-  const stepTwo = (payload: ServicePayload): void => {
-    dispatch(addCompanyService(payload));
+  const selectSpecialization = (specialization: ISpecialization): void => {
+    dispatch(addCompanySpecialization(specialization));
+    dispatch(CompanyNextStep());
   };
+
+  const prevStep = () => {
+    dispatch(CompanyPrevStep());
+  }
+
+  const selectIndustry = (industryId: number): void => {
+    dispatch(addCompanyIndustry(industryId));
+  }
 
   const create = async (): Promise<void> => {
     try {
@@ -52,8 +68,8 @@ export const useCompanyCreate = (): CompanyCreateReturnProps => {
 
         timezone: companyData.timezone,
         timezone_offset: companyData.timezone_offset,
-        lat: "55.7558",
-        lng: "37.6173",
+        lat: 55.7558,
+        lng: 37.6173,
         //
 
         specialization: companyData.specialization ?? 0, 
@@ -61,6 +77,8 @@ export const useCompanyCreate = (): CompanyCreateReturnProps => {
       } satisfies CompanyCredentials;
 
       await company(payload).unwrap();
+
+      navigate({ to: "/", replace: true });
       clearCompany();
     }
     catch (err) {
@@ -69,5 +87,16 @@ export const useCompanyCreate = (): CompanyCreateReturnProps => {
     }
   };
 
-  return { stepOne, stepTwo, create };
+  return {
+    step,
+    isLoading,
+    specialization,
+
+    setCompany,
+    selectSpecialization,
+    selectIndustry,
+    create,
+    prevStep,
+  };
 }
+
