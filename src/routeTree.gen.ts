@@ -14,9 +14,12 @@ import { Route as rootRouteImport } from './app/routes/__root'
 import { Route as AuthLayoutRouteImport } from './app/routes/_auth/_layout'
 import { Route as AppLayoutRouteImport } from './app/routes/_app/_layout'
 import { Route as AppLayoutIndexRouteImport } from './app/routes/_app/_layout/index'
+import { Route as AppLayoutSettingsIndexRouteImport } from './app/routes/_app/_layout/settings/index'
+import { Route as AppLayoutScheduleIndexRouteImport } from './app/routes/_app/_layout/schedule/index'
+import { Route as AppLayoutNotificationsIndexRouteImport } from './app/routes/_app/_layout/notifications/index'
+import { Route as AppLayoutEmployeesIndexRouteImport } from './app/routes/_app/_layout/employees/index'
+import { Route as AppLayoutCustomersIndexRouteImport } from './app/routes/_app/_layout/customers/index'
 import { Route as AppLayoutCompanyCreateIndexRouteImport } from './app/routes/_app/_layout/company/create/index'
-import { Route as AppLayoutCompanyCreateServiceIndexRouteImport } from './app/routes/_app/_layout/company/create/service/index'
-import { Route as AppLayoutCompanyCreateServiceService_idRouteImport } from './app/routes/_app/_layout/company/create/service/$service_id'
 
 const AuthLayoutRegisterLazyRouteImport = createFileRoute(
   '/_auth/_layout/register',
@@ -50,22 +53,36 @@ const AuthLayoutLoginLazyRoute = AuthLayoutLoginLazyRouteImport.update({
 } as any).lazy(() =>
   import('./app/routes/_auth/_layout/login.lazy').then((d) => d.Route),
 )
+const AppLayoutSettingsIndexRoute = AppLayoutSettingsIndexRouteImport.update({
+  id: '/settings/',
+  path: '/settings/',
+  getParentRoute: () => AppLayoutRoute,
+} as any)
+const AppLayoutScheduleIndexRoute = AppLayoutScheduleIndexRouteImport.update({
+  id: '/schedule/',
+  path: '/schedule/',
+  getParentRoute: () => AppLayoutRoute,
+} as any)
+const AppLayoutNotificationsIndexRoute =
+  AppLayoutNotificationsIndexRouteImport.update({
+    id: '/notifications/',
+    path: '/notifications/',
+    getParentRoute: () => AppLayoutRoute,
+  } as any)
+const AppLayoutEmployeesIndexRoute = AppLayoutEmployeesIndexRouteImport.update({
+  id: '/employees/',
+  path: '/employees/',
+  getParentRoute: () => AppLayoutRoute,
+} as any)
+const AppLayoutCustomersIndexRoute = AppLayoutCustomersIndexRouteImport.update({
+  id: '/customers/',
+  path: '/customers/',
+  getParentRoute: () => AppLayoutRoute,
+} as any)
 const AppLayoutCompanyCreateIndexRoute =
   AppLayoutCompanyCreateIndexRouteImport.update({
     id: '/company/create/',
     path: '/company/create/',
-    getParentRoute: () => AppLayoutRoute,
-  } as any)
-const AppLayoutCompanyCreateServiceIndexRoute =
-  AppLayoutCompanyCreateServiceIndexRouteImport.update({
-    id: '/company/create/service/',
-    path: '/company/create/service/',
-    getParentRoute: () => AppLayoutRoute,
-  } as any)
-const AppLayoutCompanyCreateServiceService_idRoute =
-  AppLayoutCompanyCreateServiceService_idRouteImport.update({
-    id: '/company/create/service/$service_id',
-    path: '/company/create/service/$service_id',
     getParentRoute: () => AppLayoutRoute,
   } as any)
 
@@ -73,17 +90,23 @@ export interface FileRoutesByFullPath {
   '/login': typeof AuthLayoutLoginLazyRoute
   '/register': typeof AuthLayoutRegisterLazyRoute
   '/': typeof AppLayoutIndexRoute
+  '/customers': typeof AppLayoutCustomersIndexRoute
+  '/employees': typeof AppLayoutEmployeesIndexRoute
+  '/notifications': typeof AppLayoutNotificationsIndexRoute
+  '/schedule': typeof AppLayoutScheduleIndexRoute
+  '/settings': typeof AppLayoutSettingsIndexRoute
   '/company/create': typeof AppLayoutCompanyCreateIndexRoute
-  '/company/create/service/$service_id': typeof AppLayoutCompanyCreateServiceService_idRoute
-  '/company/create/service': typeof AppLayoutCompanyCreateServiceIndexRoute
 }
 export interface FileRoutesByTo {
   '/login': typeof AuthLayoutLoginLazyRoute
   '/register': typeof AuthLayoutRegisterLazyRoute
   '/': typeof AppLayoutIndexRoute
+  '/customers': typeof AppLayoutCustomersIndexRoute
+  '/employees': typeof AppLayoutEmployeesIndexRoute
+  '/notifications': typeof AppLayoutNotificationsIndexRoute
+  '/schedule': typeof AppLayoutScheduleIndexRoute
+  '/settings': typeof AppLayoutSettingsIndexRoute
   '/company/create': typeof AppLayoutCompanyCreateIndexRoute
-  '/company/create/service/$service_id': typeof AppLayoutCompanyCreateServiceService_idRoute
-  '/company/create/service': typeof AppLayoutCompanyCreateServiceIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -92,9 +115,12 @@ export interface FileRoutesById {
   '/_auth/_layout/login': typeof AuthLayoutLoginLazyRoute
   '/_auth/_layout/register': typeof AuthLayoutRegisterLazyRoute
   '/_app/_layout/': typeof AppLayoutIndexRoute
+  '/_app/_layout/customers/': typeof AppLayoutCustomersIndexRoute
+  '/_app/_layout/employees/': typeof AppLayoutEmployeesIndexRoute
+  '/_app/_layout/notifications/': typeof AppLayoutNotificationsIndexRoute
+  '/_app/_layout/schedule/': typeof AppLayoutScheduleIndexRoute
+  '/_app/_layout/settings/': typeof AppLayoutSettingsIndexRoute
   '/_app/_layout/company/create/': typeof AppLayoutCompanyCreateIndexRoute
-  '/_app/_layout/company/create/service/$service_id': typeof AppLayoutCompanyCreateServiceService_idRoute
-  '/_app/_layout/company/create/service/': typeof AppLayoutCompanyCreateServiceIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -102,17 +128,23 @@ export interface FileRouteTypes {
     | '/login'
     | '/register'
     | '/'
+    | '/customers'
+    | '/employees'
+    | '/notifications'
+    | '/schedule'
+    | '/settings'
     | '/company/create'
-    | '/company/create/service/$service_id'
-    | '/company/create/service'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/login'
     | '/register'
     | '/'
+    | '/customers'
+    | '/employees'
+    | '/notifications'
+    | '/schedule'
+    | '/settings'
     | '/company/create'
-    | '/company/create/service/$service_id'
-    | '/company/create/service'
   id:
     | '__root__'
     | '/_app/_layout'
@@ -120,9 +152,12 @@ export interface FileRouteTypes {
     | '/_auth/_layout/login'
     | '/_auth/_layout/register'
     | '/_app/_layout/'
+    | '/_app/_layout/customers/'
+    | '/_app/_layout/employees/'
+    | '/_app/_layout/notifications/'
+    | '/_app/_layout/schedule/'
+    | '/_app/_layout/settings/'
     | '/_app/_layout/company/create/'
-    | '/_app/_layout/company/create/service/$service_id'
-    | '/_app/_layout/company/create/service/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -167,6 +202,41 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthLayoutLoginLazyRouteImport
       parentRoute: typeof AuthLayoutRoute
     }
+    '/_app/_layout/settings/': {
+      id: '/_app/_layout/settings/'
+      path: '/settings'
+      fullPath: '/settings'
+      preLoaderRoute: typeof AppLayoutSettingsIndexRouteImport
+      parentRoute: typeof AppLayoutRoute
+    }
+    '/_app/_layout/schedule/': {
+      id: '/_app/_layout/schedule/'
+      path: '/schedule'
+      fullPath: '/schedule'
+      preLoaderRoute: typeof AppLayoutScheduleIndexRouteImport
+      parentRoute: typeof AppLayoutRoute
+    }
+    '/_app/_layout/notifications/': {
+      id: '/_app/_layout/notifications/'
+      path: '/notifications'
+      fullPath: '/notifications'
+      preLoaderRoute: typeof AppLayoutNotificationsIndexRouteImport
+      parentRoute: typeof AppLayoutRoute
+    }
+    '/_app/_layout/employees/': {
+      id: '/_app/_layout/employees/'
+      path: '/employees'
+      fullPath: '/employees'
+      preLoaderRoute: typeof AppLayoutEmployeesIndexRouteImport
+      parentRoute: typeof AppLayoutRoute
+    }
+    '/_app/_layout/customers/': {
+      id: '/_app/_layout/customers/'
+      path: '/customers'
+      fullPath: '/customers'
+      preLoaderRoute: typeof AppLayoutCustomersIndexRouteImport
+      parentRoute: typeof AppLayoutRoute
+    }
     '/_app/_layout/company/create/': {
       id: '/_app/_layout/company/create/'
       path: '/company/create'
@@ -174,37 +244,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppLayoutCompanyCreateIndexRouteImport
       parentRoute: typeof AppLayoutRoute
     }
-    '/_app/_layout/company/create/service/': {
-      id: '/_app/_layout/company/create/service/'
-      path: '/company/create/service'
-      fullPath: '/company/create/service'
-      preLoaderRoute: typeof AppLayoutCompanyCreateServiceIndexRouteImport
-      parentRoute: typeof AppLayoutRoute
-    }
-    '/_app/_layout/company/create/service/$service_id': {
-      id: '/_app/_layout/company/create/service/$service_id'
-      path: '/company/create/service/$service_id'
-      fullPath: '/company/create/service/$service_id'
-      preLoaderRoute: typeof AppLayoutCompanyCreateServiceService_idRouteImport
-      parentRoute: typeof AppLayoutRoute
-    }
   }
 }
 
 interface AppLayoutRouteChildren {
   AppLayoutIndexRoute: typeof AppLayoutIndexRoute
+  AppLayoutCustomersIndexRoute: typeof AppLayoutCustomersIndexRoute
+  AppLayoutEmployeesIndexRoute: typeof AppLayoutEmployeesIndexRoute
+  AppLayoutNotificationsIndexRoute: typeof AppLayoutNotificationsIndexRoute
+  AppLayoutScheduleIndexRoute: typeof AppLayoutScheduleIndexRoute
+  AppLayoutSettingsIndexRoute: typeof AppLayoutSettingsIndexRoute
   AppLayoutCompanyCreateIndexRoute: typeof AppLayoutCompanyCreateIndexRoute
-  AppLayoutCompanyCreateServiceService_idRoute: typeof AppLayoutCompanyCreateServiceService_idRoute
-  AppLayoutCompanyCreateServiceIndexRoute: typeof AppLayoutCompanyCreateServiceIndexRoute
 }
 
 const AppLayoutRouteChildren: AppLayoutRouteChildren = {
   AppLayoutIndexRoute: AppLayoutIndexRoute,
+  AppLayoutCustomersIndexRoute: AppLayoutCustomersIndexRoute,
+  AppLayoutEmployeesIndexRoute: AppLayoutEmployeesIndexRoute,
+  AppLayoutNotificationsIndexRoute: AppLayoutNotificationsIndexRoute,
+  AppLayoutScheduleIndexRoute: AppLayoutScheduleIndexRoute,
+  AppLayoutSettingsIndexRoute: AppLayoutSettingsIndexRoute,
   AppLayoutCompanyCreateIndexRoute: AppLayoutCompanyCreateIndexRoute,
-  AppLayoutCompanyCreateServiceService_idRoute:
-    AppLayoutCompanyCreateServiceService_idRoute,
-  AppLayoutCompanyCreateServiceIndexRoute:
-    AppLayoutCompanyCreateServiceIndexRoute,
 }
 
 const AppLayoutRouteWithChildren = AppLayoutRoute._addFileChildren(

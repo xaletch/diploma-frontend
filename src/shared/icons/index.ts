@@ -23,4 +23,5 @@ export { default as PersonIcon } from "./Person";
 export { default as ResearchIcon } from "./Research";
 export { default as SettingIcon } from "./Setting";
 export { default as StatisticsIcon } from "./Statistics";
+export { default as SubscribeIcon } from "./Subscribe";
 export { default as TagsIcon } from "./Tags";

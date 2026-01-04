@@ -20,7 +20,7 @@ export const AccountDropdown = ({ avatar_url, first_name, last_name, name, role 
           <div className="flex items-center gap-3 flex-1">
             <Avatar avatar_url={avatar_url} name={`${first_name.slice(0, 1)}${last_name.slice(0, 1)}`} />
             <div className="flex flex-col">
-              <p className="text-start text-md font-semibold leading-3">{name}</p>
+              <p className="text-start text-sm font-semibold leading-3">{name}</p>
               <UserRole role={role}/>
             </div>
           </div>

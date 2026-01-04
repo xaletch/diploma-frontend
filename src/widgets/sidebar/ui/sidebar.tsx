@@ -1,6 +1,8 @@
 import { useAccount } from "@/entities/account";
-import { AccountDropdown, LocationDropdown } from "@/features/sidebar";
+import { AccountDropdown, AsideItem, LocationDropdown } from "@/features/sidebar";
 import { useSelector } from "react-redux";
+import { SidebarAside } from "./sidebar-aside";
+import SvgSetting from "@/shared/icons/Setting";
 
 export const Sidebar = () => {
   const { account, location } = useSelector(useAccount);
@@ -15,17 +17,20 @@ export const Sidebar = () => {
     
             <div className="px-5">
               <h1 className="text-lg leading-5 font-extrabold">{account?.company?.name}</h1>
-              <span className="text-xss leading-3 text-white/70">G CRM</span>
+              <span className="text-xss leading-3 text-white/70">{account.company?.industry.name}</span>
             </div>
     
             <LocationDropdown avatar_url={location?.avatar} name={location?.name ?? ""} selectId={location?.id} locations={account.locations} />
-    
-            <aside className="px-5">
-              aside
-            </aside>
+
+            <SidebarAside />
           </div>
     
           <div>
+
+            <div className="flex flex-col gap-2 px-5">
+              {/* <AsideItem to="/" name="Помощь" className="hover:bg-transparent! px-0" icon={<SvgHelp width={16} height={16}/>} /> */}
+              <AsideItem to="/settings" name="Настройки" className="hover:bg-transparent! px-0" icon={<SvgSetting width={20} height={20}/>} />
+            </div>
     
             <AccountDropdown
               avatar_url={account.avatar}
