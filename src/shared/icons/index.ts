@@ -57,6 +57,8 @@ export { default as SubscribeIcon } from "./Subscribe";
 export { default as SunIcon } from "./Sun";
 export { default as TagsIcon } from "./Tags";
 export { default as TranslateIcon } from "./Translate";
+export { default as TrendingDownIcon } from "./TrendingDown";
+export { default as TrendingUpIcon } from "./TrendingUp";
 export { default as UserPlusIcon } from "./UserPlus";
 export { default as UsersGroupIcon } from "./UsersGroup";
 export { default as VerifyCheckIcon } from "./VerifyCheck";

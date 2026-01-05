@@ -9,6 +9,8 @@ const Card = forwardRef<
   <div
     ref={ref}
     className={cn(
+      // bg-black/4
+      // bg-card/60
       "rounded-3xl bg-card/60",
       className
     )}
@@ -60,7 +62,7 @@ const CardContent = forwardRef<
   HTMLDivElement,
   HTMLAttributes<HTMLDivElement>
 >(({ className, ...props }, ref) => (
-  <div ref={ref} className={cn("p-6 pb-0", className)} {...props} />
+  <div ref={ref} className={cn("p-6", className)} {...props} />
 ))
 CardContent.displayName = "CardContent"
 

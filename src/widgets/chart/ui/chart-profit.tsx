@@ -13,14 +13,18 @@ export const description = "An interactive area chart"
 
 
 const chartData = [
-  { date: "05-01-2025 13:00", profit: 97, },
-  { date: "05-01-2025 14:00", profit: 222, },
-  { date: "05-01-2025 15:00", profit: 167, },
-  { date: "05-01-2025 16:00", profit: 0, },
-  { date: "05-01-2025 18:00", profit: 0, },
-  { date: "05-01-2025 19:00", profit: 301, },
-  { date: "05-01-2025 20:00", profit: 245, },
-  { date: "05-01-2025 21:00", profit: 409, },
+  { date: "05-01-2025 13:00", profit: 0, },
+  { date: "06-01-2025 14:00", profit: 0, },
+  { date: "07-01-2025 15:00", profit: 999, },
+  { date: "08-01-2025 16:00", profit: 700, },
+  { date: "09-01-2025 12:00", profit: 0, },
+  { date: "09-01-2025 14:00", profit: 1250, },
+  { date: "09-01-2025 15:00", profit: 1250, },
+  { date: "09-01-2025 16:00", profit: 2500, },
+  { date: "10-01-2025 19:00", profit: 1000, },
+  { date: "10-01-2025 20:00", profit: 0, },
+  { date: "11-01-2025 20:00", profit: 1500, },
+  { date: "12-01-2025 21:00", profit: 1800, },
 ]
 
 const chartConfig = {
@@ -39,10 +43,10 @@ export const ChartProfit = () => {
       <CardHeader>
         <CardTitle>Статистика</CardTitle>
       </CardHeader>
-      <CardContent>
+      <CardContent className="pb-0">
         <ChartContainer
           config={chartConfig}
-          className="aspect-auto h-105 w-full"
+          className="aspect-auto h-45 w-full"
         >
           <AreaChart data={chartData} accessibilityLayer={false}>
             <defs>
@@ -50,12 +54,12 @@ export const ChartProfit = () => {
                 {/* <stop
                   offset="10%"
                   stopColor="var(--color-profit)"
-                  stopOpacity={0.1}
+                  stopOpacity={0.7}
                 /> */}
                 <stop
-                  offset="95%"
+                  offset="100%"
                   stopColor="var(--color-profit)"
-                  stopOpacity={0.2}
+                  stopOpacity={0.1}
                 />
               </linearGradient>
             </defs>
@@ -81,7 +85,7 @@ export const ChartProfit = () => {
             />
             <Area
               dataKey={"profit"}
-              type={"bump"}
+              type={"monotone"}
               fill={"url(#fill-profit)"}
               stroke={"var(--color-profit)"}
               strokeWidth={2}

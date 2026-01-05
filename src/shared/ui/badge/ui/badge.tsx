@@ -8,7 +8,9 @@ const badgeVariants = cva(
     variants: {
       variant: {
         default: "border-transparent bg-primary text-primary-foreground [a&]:hover:bg-primary/90",
-        action: "w-10 h-10 rounded-10! bg-stone-500/35 border-none [&>svg]:size-4.5!"
+        action: "w-10 h-10 rounded-10! bg-stone-500/35 border-none [&>svg]:size-4.5!",
+        profit_up: "px-2.5 py-0.5 text-11 text-green border-success-background/45 bg-success-background/10 [&>svg]:size-4",
+        profit_down: "px-2.5 py-0.5 text-11 text-red border-red/15 bg-red/8 [&>svg]:size-4",
       },
     },
     defaultVariants: {
