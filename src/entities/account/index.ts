@@ -10,3 +10,4 @@ export { useAccount } from './model/selector/account.selector';
 
 // TYPES
 export * from './model/types/me.type';
+export * from './model/types/role.type';

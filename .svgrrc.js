@@ -11,6 +11,12 @@ export default {
         },
       },
       'removeDimensions',
+      {
+        name: "convertColors",
+        params: {
+          currentColor: true,
+        },
+      },
     ],
   },
   plugins: ["@svgr/plugin-svgo", "@svgr/plugin-jsx"],

@@ -5,45 +5,42 @@
   :root {
     --font-gilroy: "Gilroy";
 
-    --background: oklch(93.928% 0.0096 72.464);
-    --foreground: oklch(29.788% 0.01245 62.071);
+    --background: oklch(93.928% 0.0096 72.464);             /* #efeae4 */
+    --foreground: oklch(29.788% 0.01245 62.071);            /* #322c27 */
 
-    --card-foreground: oklch(13.987% 0.04474 4.477);
-    /* --primary: oklch(49.466% 0.17871 11.472); */
-    --primary-foreground: oklch(96.586% 0.01803 0.039);
-    /* --muted: oklch(96.492% 0.00898 359.427); */
-    /* --muted-foreground: oklch(54.646% 0.05218 1.982); */
-    /* --border: oklch(24.354% 0.00003 271.152 / 0.09); */
+    --card-foreground: oklch(13.987% 0.04474 4.477);        /* #170207 */
+    --primary-foreground-v2: oklch(96.586% 0.01803 0.039);  /* #ffeff3 */
     
     /* new */
-    --accent: oklch(29.788% 0.01245 62.071);
-    --primary: oklch(43.906% 0.02163 64.455);
-    --primary-foreground: oklch(83.29% 0.12987 68.95);
-    --muted: oklch(90.751% 0.02632 71.105);
-    --muted-foreground: oklch(94.91% 0.01409 74.304);
+    --accent: oklch(29.788% 0.01245 62.071);                /* #322c27 */
+    --accent-foreground: oklch(35.447% 0.01628 63.41);      /* #423A33 */
+    --primary: oklch(43.906% 0.02163 64.455);               /* #5b5046 */
+    --primary-foreground: oklch(83.29% 0.12987 68.95);      /* #ffb864 */
+    --muted: oklch(90.751% 0.02632 71.105);                 /* #ecdece */
+    --muted-foreground: oklch(94.91% 0.01409 74.304);       /* #f4ede4 */
     
-    --border: oklch(43.906% 0.02163 64.455 / 0.1);
-    --border-foreground: oklch(91.12% 0.00909 78.141);
-    --card: oklch(43.906% 0.02163 64.455 / 0.08);;
+    --border: oklch(43.906% 0.02163 64.455 / 0.102);        /* #5b50461a */
+    --border-foreground: oklch(91.12% 0.00909 78.141);      /* #e5e1db */
+    --card: oklch(43.906% 0.02163 64.455 / 0.078);          /* #5b504614 */
 
-    --red: oklch(69.103% 0.17056 26.222);
-    --red-100: oklch(66.604% 0.22173 30.905);
+    --red: oklch(69.103% 0.17056 26.222);                   /* #f36a61 */
+    --red-100: oklch(66.604% 0.22173 30.905);               /* #ff4931 */
     
-    --green: oklch(67.311% 0.16242 144.231);
+    --green: oklch(67.311% 0.16242 144.231);                /* #4caf50 */
 
 
     /* notify colors */
-    --warn-background: oklch(81.081% 0.12154 70.422);
-    --warn-color-text: oklch(25.785% 0.05555 70.851 / 0.6);
-    --warn-color-icon: oklch(83.29% 0.12987 68.95);
+    --warn-background: oklch(81.081% 0.12154 70.422);       /* #f3b364 */
+    --warn-color-text: oklch(25.785% 0.05555 70.851 / 0.6); /* #341e0099 */
+    --warn-color-icon: oklch(83.29% 0.12987 68.95);         /* #ffb864 */
 
-    --error-background: oklch(58.667% 0.19856 28.932);
-    --error-color-text: oklch(20.785% 0.07343 30.8 / 0.6);
-    --error-color-icon: oklch(69.103% 0.17056 26.222);
+    --error-background: oklch(58.667% 0.19856 28.932);      /* #d9392d */
+    --error-color-text: oklch(20.785% 0.07343 30.8 / 0.6);  /* #32050299 */
+    --error-color-icon: oklch(69.103% 0.17056 26.222);      /* #f36a61 */
 
-    --success-background: #63da69;
-    --success-color-text: oklch(28.959% 0.08582 135.83 / 0.6);
-    --success-color-icon: oklch(80.957% 0.15026 144.979);
+    --success-background: oklch(79.443% 0.18711 144.488);   /* #63da69 */
+    --success-color-text: oklch(28.959% 0.08582 135.83 / 0.6); /* #15340099 */
+    --success-color-icon: oklch(80.957% 0.15026 144.979);   /* #7eda82 */
   }
 
   body {
@@ -81,8 +78,10 @@
   --color-foreground: var(--foreground);
 
   --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
   --color-primary: var(--primary);
   --color-primary-foreground: var(--primary-foreground);
+  --color-primary-foreground-v2: var(--primary-foreground-v2);
   --color-muted: var(--muted);
   --color-muted-foreground: var(--muted-foreground);
 
@@ -109,6 +108,7 @@
   --color-success-color-icon: var(--success-color-icon);
   
   /* rounded */
+  --radius-12: 12px;
   --radius-13: 13px;
   --radius-xl: 15px;
   --radius-10: 10px;
@@ -116,10 +116,15 @@
 
   /* text */
   --text-32: 32px;
+  --text-20: 20px;
   --text-md: 15px;
   --text-xs: 13px;
   --text-xss: 12px;
   --text-11: 11px;
+  --text-10: 10px;
+
+  /* shadow */
+  --shadow-dropdown: 0 4px 4px 0 var(--accent);
 
   /* ... */
 }

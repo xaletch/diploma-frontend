@@ -1,5 +1,5 @@
 import type { AppDispatch } from "@/app/providers/redux/config";
-import { setAccount, useLazyMeQuery } from "@/entities/account";
+import { setAccount, setLocation, useLazyMeQuery } from "@/entities/account";
 import { useNavigate } from "@tanstack/react-router";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useDispatch } from "react-redux";
@@ -36,6 +36,12 @@ export const useInitialize = (): InitializeReturnProps => {
 
       const me = await account().unwrap();
       dispatch(setAccount(me));
+      
+      if (!localStorage.getItem("location")) {
+        localStorage.setItem("location", JSON.stringify(me.locations[0]));
+        dispatch(setLocation(me.locations[0]));
+      }
+
       setState(p => ({ ...p, progress: 50 }));
   
       if (me.company === null) {

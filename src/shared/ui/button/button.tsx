@@ -11,7 +11,9 @@ const buttonVariants = cva(
         default: "bg-primary text-white hover:bg-primary/90 active:bg-primary/70 disabled:hover:bg-primary/80 disabled:active:bg-primary/80",
         link: "text-primary underline-offset-4 hover:underline disabled:hover:no-underline",
         industry: "p-4.5! 480:p-6! rounded-18 bg-card flex items-center justify-center cursor-pointer border-2 border-transparent hover:border-primary active:opacity-60 active:scale-96 duration-200!",
-        prev: "px-6 py-3 bg-white! rounded-13 hover:opacity-90 active:opacity-75"
+        prev: "px-6 py-3 bg-white! rounded-13 hover:opacity-90 active:opacity-75",
+        dropdown: "bg-white/4 w-full rounded-12 pl-1 py-1 pr-2 flex items-center justify-between gap-1.5 cursor-pointer",
+        location_dropdown: "w-full flex items-center gap-3 px-2.5 py-2 hover:bg-primary/90 active:opacity-55 hover:text-white/90 duration-200 text-white/70 cursor-pointer rounded-12",
       },
       size: {
         none: "",
@@ -44,6 +46,7 @@ export type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> &
     isLoading?: boolean;
     iconLeft?: React.ReactNode;
     iconRight?: React.ReactNode;
+    classNameChild?: string;
   };
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
@@ -56,6 +59,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       isLoading,
       iconLeft,
       iconRight,
+      classNameChild,
       ...props
     },
     ref,
@@ -66,10 +70,10 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         ref={ref}
         {...props}
       >
-        {isLoading && <Spinner className="text-current" />}
-        {!isLoading && iconLeft && <span>{iconLeft}</span>}
-        <span className="mx-2">{children}</span>
-        {iconRight && <span>{iconRight}</span>}
+        {isLoading && <Spinner className="mr-2 text-current" />}
+        {!isLoading && iconLeft && <span className="mr-2">{iconLeft}</span>}
+        <span className={classNameChild}>{children}</span>
+        {iconRight && <span className="ml-2">{iconRight}</span>}
       </button>
     );
   },

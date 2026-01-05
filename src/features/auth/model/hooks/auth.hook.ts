@@ -8,7 +8,7 @@ import { toast } from "sonner";
 
 interface AuthReturnProps {
   login: (access: string, refresh: string) => void;
-  refresh: (access: string, refresh: string) => void;
+  refresh: (access: string) => void;
   logout: () => void;
 }
 
@@ -22,9 +22,8 @@ export const useAuth = (): AuthReturnProps => {
     dispatch(setAuthenticated(true));
   }, []);
 
-  const refresh = useCallback((access: string, refresh: string) => {
+  const refresh = useCallback((access: string) => {
     setCookie("access_token", access, { days: 7 });
-    setCookie("refresh_token", refresh,  { days: 30 });
   }, []);
 
   const logout = useCallback(() => {
