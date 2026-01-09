@@ -16,6 +16,7 @@ const buttonVariants = cva(
         location_dropdown: "w-full flex items-center gap-3 px-2.5 py-2 hover:bg-primary/90 active:opacity-55 hover:text-white/90 duration-200 text-white/70 cursor-pointer rounded-12",
         accent: "font-medium px-5 bg-accent-foreground text-white hover:bg-accent-foreground/95 active:opacity-85",
         secondary: "font-medium bg-card border border-border px-5 hover:bg-border-foreground active:opacity-70",
+        white: "bg-white text-foreground",
       },
       size: {
         none: "",
