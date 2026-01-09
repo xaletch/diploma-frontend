@@ -10,3 +10,4 @@ export * from './empty';
 export * from './chart';
 export * from './card';
 export * from './switch';
+export * from './page-header';

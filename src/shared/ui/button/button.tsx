@@ -8,7 +8,7 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        default: "bg-primary text-white hover:bg-primary/90 active:bg-primary/70 disabled:hover:bg-primary/80 disabled:active:bg-primary/80",
+        default: "px-6 bg-primary text-white hover:bg-primary/90 active:bg-primary/70 disabled:hover:bg-primary/80 disabled:active:bg-primary/80",
         link: "text-primary underline-offset-4 hover:underline disabled:hover:no-underline",
         industry: "p-4.5! 480:p-6! rounded-18 bg-card flex items-center justify-center cursor-pointer border-2 border-transparent hover:border-primary active:opacity-60 active:scale-96 duration-200!",
         prev: "px-6 py-3 bg-white! rounded-13 hover:opacity-90 active:opacity-75",
@@ -37,12 +37,18 @@ const buttonVariants = cva(
         none: "",
         scale_sm: "active:scale-99",
         scale_98: "active:scale-98",
+      },
+      animation: {
+        none: "",
+        toggle: "active:scale-97 active:opacity-80",
+        pulse: "disabled:animate-pulse"
       }
     },
     defaultVariants: {
       variant: "default",
       size: "default",
       active: "none",
+      animation: "none",
     },
   },
 );
@@ -63,6 +69,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       variant,
       size,
       active,
+      animation,
       children,
       isLoading,
       iconLeft,
@@ -74,7 +81,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ) => {
     return (
       <button
-        className={cn(buttonVariants({ variant, size, active, className }))}
+        className={cn(buttonVariants({ variant, size, active, animation, className }))}
         ref={ref}
         {...props}
       >
