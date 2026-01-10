@@ -12,8 +12,8 @@ function RouteComponent() {
     <>
       <AuthLayout>
         <Outlet />
-        <NavigationHandler />
         <OnlineHandler />
+        <NavigationHandler />
       </AuthLayout>
     </>
   )

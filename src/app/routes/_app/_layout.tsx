@@ -15,8 +15,8 @@ function RouteComponent() {
       <AppLayout>
         <Outlet />
       </AppLayout>
-      <NavigationHandler />
       <OnlineHandler />
+      <NavigationHandler />
     </PrivateRoute>
   )
 }
