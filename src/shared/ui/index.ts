@@ -13,4 +13,4 @@ export * from './switch';
 export * from './page-header';
 export * from './table';
 export * from './tooltip';
-export * from './textarea';
+export { Textarea } from './textarea';
