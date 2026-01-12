@@ -11,5 +11,5 @@ export const baseQuery = fetchBaseQuery({
 
     return head;
   },
-  headers: {  },
+  // headers: {  },
 });

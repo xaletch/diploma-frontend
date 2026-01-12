@@ -21,9 +21,7 @@ export const useCreateLocation = (): CreateLocationReturnProps => {
     try {
       const { timezone, timezone_offset } = timezoneCredSchema.parse(data.timezone);
       const payload = {
-        phone: data.phone,
-        name: data.name,
-        country: data.country,
+        ...data,
         city: "Москва",
         region: "Московская область",
 

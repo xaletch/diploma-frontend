@@ -6,3 +6,5 @@ export * from './date-format/date-format.util';
 export * from './storage/storage.util';
 export * from './currency';
 export { extractTimezoneOffset } from './timezone-offset/timezone-offset.util';
+export { sleep } from './sleeper/sleep';
+export { replaceAddress } from './replace/replace-address';

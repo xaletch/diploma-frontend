@@ -19,6 +19,7 @@ export interface ILocation {
   id: string;
   name: string;
   avatar: string | null;
+  is_active: boolean;
   description: string | null;
   phone: string;
   category: string[];
@@ -29,11 +30,10 @@ export interface ILocationResponse extends ILocation {
   address: ILocationAddress,
 }
 
-export interface ILocationUser {
-  user_id: string;
-  role: IRole;
-  is_banned: boolean;
-  profile: IUserProfile;
+export interface LocationUsersList {
+  id: string;
+  name: string;
+  avatar: string | null;
 }
 
 export interface ILocationUserQuery {
@@ -41,13 +41,18 @@ export interface ILocationUserQuery {
   user_id: string;
 }
 
+export interface ILocationUser {
+  user_id: string;
+  role: IRole;
+  is_banned: boolean;
+  profile: IUserProfile;
+}
+
 export interface ILocationDetail extends ILocation {
+  address: ILocationAddress;
   timezone: string;
   user_count: number;
-  address: ILocationAddress & {
-    post_code: number | null;
-    map: IMap;
-  };
+  users: LocationUsersList[];
 }
 
 export interface LocationCredentials extends AddressCredentials {
@@ -62,4 +67,9 @@ export interface LocationCredentials extends AddressCredentials {
 export interface UpdateLocationRequest {
   location_id: string;
   body: LocationCredentials;
+}
+
+export interface ChangeLocationStatusRequest {
+  locationId: string;
+  active: boolean;
 }

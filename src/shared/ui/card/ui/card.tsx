@@ -65,4 +65,37 @@ const CardContent = forwardRef<
 ))
 CardContent.displayName = "CardContent"
 
-export { Card, CardHeader, CardTitle, CardDescription, CardContent }
+const CardContentLabel = forwardRef<
+  HTMLDivElement,
+  HTMLAttributes<HTMLDivElement>
+>(({ className, ...props }, ref) => (
+  <div ref={ref} className={cn("space-y-0.5", className)} {...props} />
+))
+CardContentLabel.displayName = "CardContentLabel"
+
+const CardContentLabelTitle = forwardRef<
+  HTMLDivElement,
+  HTMLAttributes<HTMLDivElement>
+>(({ className, ...props }, ref) => (
+  <div ref={ref} className={cn("text-sm font-medium opacity-50", className)} {...props} />
+))
+CardContentLabelTitle.displayName = "CardContentLabelTitle"
+
+const CardContentLabelDescription = forwardRef<
+  HTMLDivElement,
+  HTMLAttributes<HTMLDivElement>
+>(({ className, ...props }, ref) => (
+  <div ref={ref} className={cn("font-medium text-md", className)} {...props} />
+))
+CardContentLabelDescription.displayName = "CardContentLabelDescription"
+
+export { 
+  Card,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+  CardContent,
+  CardContentLabel,
+  CardContentLabelTitle,
+  CardContentLabelDescription,
+}

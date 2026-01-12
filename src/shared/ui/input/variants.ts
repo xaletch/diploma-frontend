@@ -1,7 +1,7 @@
 import { cva } from "class-variance-authority";
 
 export const inputVariants = cva(
-  "w-full flex text-md rounded-xl px-4 py-4 disabled:cursor-not-allowed focus-visible:outline-none disabled:opacity-50 placeholder:opacity-50 duration-200",
+  "w-full flex text-md rounded-xl px-4 py-4 disabled:cursor-not-allowed focus-visible:outline-none disabled:opacity-50 placeholder:opacity-50 read-only:focus:border-transparent duration-200",
   {
     variants: {
       variant: {

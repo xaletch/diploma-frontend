@@ -1,0 +1,15 @@
+import { cn } from "@/shared/utils";
+
+function Skeleton({ className, ...props }: React.ComponentProps<"div">) {
+  return (
+    <div
+      data-ui="skeleton"
+      className={cn("bg-card animate-pulse rounded-3xl", className)}
+      {...props}
+    />
+  )
+}
+
+export {
+  Skeleton,
+}

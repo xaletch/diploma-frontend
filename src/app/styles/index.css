@@ -23,6 +23,7 @@
     --border: oklch(43.906% 0.02163 64.455 / 0.102);        /* #5b50461a */
     --border-foreground: oklch(91.12% 0.00909 78.141);      /* #e5e1db */
     --card: oklch(43.906% 0.02163 64.455 / 0.078);          /* #5b504614 */
+    --card-ring: oklch(91.807% 0.00965 72.467);             /* #E8E3DD */
 
     --red: oklch(69.103% 0.17056 26.222);                   /* #f36a61 */
     --red-100: oklch(66.604% 0.22173 30.905);               /* #ff4931 */
@@ -95,6 +96,7 @@
   --color-border: var(--border);
   --color-border-foreground: var(--border-foreground);
   --color-card: var(--card);
+  --color-card-ring: var(--card-ring);
   
   --color-red: var(--red);
   --color-red-100: var(--red-100);
