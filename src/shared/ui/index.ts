@@ -14,3 +14,5 @@ export * from './page-header';
 export * from './table';
 export * from './tooltip';
 export { Textarea } from './textarea';
+export * from './skeleton';
+export * from './input/input';

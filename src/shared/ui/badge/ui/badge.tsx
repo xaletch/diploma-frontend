@@ -11,6 +11,8 @@ const badgeVariants = cva(
         action: "w-10 h-10 rounded-10! bg-stone-500/35 border-none [&>svg]:size-4.5!",
         profit_up: "px-2.5 py-0.5 text-11 text-green border-success-background/45 bg-success-background/10 [&>svg]:size-4",
         profit_down: "px-2.5 py-0.5 text-11 text-red border-red/15 bg-red/8 [&>svg]:size-4",
+        online: "px-2 py-0.5 text-xss! font-bold rounded-lg bg-primary border-primary text-white",
+        offline: "px-2 py-0.5 text-xss! font-bold rounded-lg bg-error-background border-error-background text-white",
       },
     },
     defaultVariants: {
