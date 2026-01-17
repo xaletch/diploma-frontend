@@ -1,5 +1,5 @@
 import { useState } from "react";
-import type { LocationCreateType } from "../schema/location.schema";
+import type { LocationType } from "../schema/location.schema";
 import { useCreateLocationMutation, type LocationCredentials } from "@/entities/location";
 import { toast } from "sonner";
 import { useNavigate } from "@tanstack/react-router";
@@ -7,7 +7,7 @@ import { timezoneCredSchema } from "@/shared/schemas/timezone.schema";
 
 interface CreateLocationReturnProps {
   isLoading: boolean;
-  onSubmit: (data: LocationCreateType) => Promise<void>;
+  onSubmit: (data: LocationType) => Promise<void>;
 }
 
 export const useCreateLocation = (): CreateLocationReturnProps => {
@@ -16,7 +16,7 @@ export const useCreateLocation = (): CreateLocationReturnProps => {
 
   const navigate = useNavigate();
 
-  const onSubmit = async (data: LocationCreateType) => {
+  const onSubmit = async (data: LocationType): Promise<void> => {
     setIsLoading(true);
     try {
       const { timezone, timezone_offset } = timezoneCredSchema.parse(data.timezone);

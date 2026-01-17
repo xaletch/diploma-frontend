@@ -38,9 +38,9 @@ export const serviceAPI = API.injectEndpoints(({
       }),
       invalidatesTags: ["LOCATIONS"],
     }),
-    updateLocation: build.mutation<UpdateLocationRequest, ILocationResponse>({
-      query: (body) => ({
-        url: `/${apiVersion}/location`,
+    editLocation: build.mutation<ILocationResponse, UpdateLocationRequest>({
+      query: ({ location_id, body }) => ({
+        url: `/${apiVersion}/location/${location_id}`,
         method: "PATCH",
         body,
       }),
@@ -67,6 +67,6 @@ export const {
   useGetLocationUserQuery,
   useLazyGetLocationUserQuery,
   useCreateLocationMutation,
-  useUpdateLocationMutation,
+  useEditLocationMutation,
   useOnlineLocationMutation,
 } = serviceAPI;

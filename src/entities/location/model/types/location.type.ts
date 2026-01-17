@@ -8,9 +8,11 @@ export interface ILocationAddress {
   city: string | null;
   region: string | null;
   country: string | null;
+  post_code: string | null;
+  map: IMap;
 }
 
-export type IMap = {
+export interface IMap {
   lat: string;
   lng: string;
 }
@@ -64,7 +66,7 @@ export interface ILocationDetail extends ILocation {
 
 export interface LocationCredentials extends AddressCredentials {
   name: string;
-  description?: string;
+  description?: string | null;
   phone: string;
 
   comfort?: string[];
