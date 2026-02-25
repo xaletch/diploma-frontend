@@ -1,8 +1,9 @@
 import type { IServices } from "@/entities/services";
 import { Avatar } from "@/entities/user";
+import { markClasses } from "@/shared/constants";
 import { PaletteIcon } from "@/shared/icons";
 import { Button, Table, TableBody, TableCell, TableCellActions, TableHead, TableHeader, TableNotFound, TableRow, TableSeparator } from "@/shared/ui"
-import { minuteFormat } from "@/shared/utils";
+import { cn, minuteFormat } from "@/shared/utils";
 import { Link, useNavigate } from "@tanstack/react-router";
 import { ChevronRightIcon } from "lucide-react";
 import React from "react";
@@ -13,6 +14,8 @@ interface ServicesTableProps {
 
 export const ServicesTable = ({ services }: ServicesTableProps) => {
   const navigate = useNavigate();
+
+console.log(services)
   return (
     <div className="mt-8">
       <Table>
@@ -40,7 +43,7 @@ export const ServicesTable = ({ services }: ServicesTableProps) => {
                       isIcon
                       icon={<PaletteIcon width={22} height={22} />}
                     >
-                      <div className="absolute bottom-0 right-0 w-2 h-2 rounded-full bg-green-600" />
+                      <div className={cn("absolute bottom-0 right-0 w-2 h-2 rounded-full",  markClasses[service.mark ?? "red"])} />
                     </Avatar>
                     <div>
                       <p>{service.name}</p>

@@ -22,9 +22,9 @@ const InputForm = React.forwardRef<HTMLInputElement, InputFormProps>(
           type={type}
           {...register}
           {...props}
-          className={cn(inputVariants({ variant, inputSize, className }), (error || isError) ? "border-error-color-icon focus:border-error-color-icon" : "")}
+          className={cn(inputVariants({ variant, inputSize, className }), (error || isError) ? "border-error-color-icon focus:border-error-color-icon" : "", labelInput ? "pr-20" : "")}
         />
-        {labelInput && <div className="absolute bg-primary h-14 w-16 font-bold text-white right-0 bottom-0 flex items-center justify-center rounded-r-xl">{labelInput}</div>}
+        {labelInput && <div className="absolute bg-primary/90 h-14 w-16 font-bold text-white right-0 bottom-0 flex items-center justify-center rounded-r-xl">{labelInput}</div>}
       </FieldWrapper>
     );
   },

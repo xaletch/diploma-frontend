@@ -1,4 +1,4 @@
-import { Button, Card, Form, FormWrapperAction, InputForm, RadioGroup, RadioGroupItem, TextareaForm } from "@/shared/ui"
+import { Button, Card, Form, FormWrapperAction, InputForm, RadioGroupForm, RadioGroupItem } from "@/shared/ui"
 import { CardContent, CardHeader, CardTitle } from "@/shared/ui/card/ui/card"
 import { serviceSchema } from "../../model/schema/service.schema"
 import { useCreateService } from "../../model/hooks/service-create.hook";
@@ -12,8 +12,12 @@ export const ServicesCreateForm = () => {
 
   return (
     <div className="mt-8 relative">
-      <Form className="max-w-140 mx-auto space-y-8" onSubmit={(data) => onSubmit(data)} schema={serviceSchema}>
-        {({ register, formState } ) => (
+      <Form 
+        className="max-w-140 mx-auto space-y-8"
+        onSubmit={(data) => onSubmit(data)} 
+        schema={serviceSchema}
+      >
+        {({ register, formState, control } ) => (
           <>
             <Card>
               <CardContent className="space-y-5">
@@ -39,17 +43,17 @@ export const ServicesCreateForm = () => {
                   placeholder={"Публичное название"}
                   required
                 />
-                <TextareaForm
+                {/* <TextareaForm
                   name={"description"}
                   id={"description"}
                   register={register("description")}
                   error={formState.errors["description"]}
-                  placeholder={"Описание"}
-                  label={"Описание"}
-                />
+                  placeholder={"Заметка"}
+                  label={"Заметка"}
+                /> */}
 
                 <div>
-                  <RadioGroup defaultValue="mark" className="flex items-center gap-2.5">
+                  <RadioGroupForm name="mark" control={control} radioClassName={"flex items-center gap-2.5"}>
                     <RadioGroupItem className="bg-red-500 w-7 h-7 border-none data-checked:bg-red-500!" value={"red"} id={"red"} />
                     <RadioGroupItem className="bg-orange-500 w-7 h-7 border-none data-checked:bg-orange-500!" value={"orange"} id={"orange"} />
                     <RadioGroupItem className="bg-green-500 w-7 h-7 border-none data-checked:bg-green-500!" value={"green"} id={"red"} />
@@ -57,7 +61,7 @@ export const ServicesCreateForm = () => {
                     <RadioGroupItem className="bg-purple-500 w-7 h-7 border-none data-checked:bg-purple-500!" value={"purple"} id={"purple"} />
                     <RadioGroupItem className="bg-teal-500 w-7 h-7 border-none data-checked:bg-teal-500!" value={"teal"} id={"teal"} />
                     <RadioGroupItem className="bg-pink-500 w-7 h-7 border-none data-checked:bg-pink-500!" value={"pink"} id={"pink"} />
-                  </RadioGroup>
+                  </RadioGroupForm>
                 </div>
               </CardContent>
             </Card>
@@ -72,10 +76,11 @@ export const ServicesCreateForm = () => {
                   id={"duration"}
                   type={"text"}
                   inputSize={"size_56"}
-                  register={register("duration")}
+                  register={register("duration", { valueAsNumber: true })}
                   label={"Длительность"}
                   error={formState.errors["duration"]}
-                  placeholder={"Длительность (мин)"}
+                  placeholder={"Длительность"}
+                  labelInput={"Мин"}
                   required
                 />
                 {/* <div className="grid grid-cols-2 gap-5">
@@ -125,7 +130,7 @@ export const ServicesCreateForm = () => {
                   type={"text"}
                   inputMode={"numeric"}
                   inputSize={"size_56"}
-                  register={register("price")}
+                  register={register("price", { valueAsNumber: true })}
                   label={"Базовая цена"}
                   error={formState.errors["price"]}
                   placeholder={"Базовая цена"}
@@ -138,13 +143,12 @@ export const ServicesCreateForm = () => {
                   type={"text"}
                   inputSize={"size_56"}
                   inputMode={"numeric"}
-                  register={register("cost_price")}
+                  register={register("cost_price", { setValueAs: (v) => v === "" ? undefined : Number(v) })}
                   label={"Себестоимость услуги"}
                   error={formState.errors["cost_price"]}
                   placeholder={"Себестоимость услуги"}
-                  message={undefined}
+                  labelInput={account?.company?.currency}
                 />
-                <></>
               </CardContent>
             </Card>
 

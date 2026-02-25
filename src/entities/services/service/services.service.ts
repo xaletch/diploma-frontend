@@ -12,6 +12,18 @@ const ServicesApi = API.injectEndpoints({
         url: `${API_VERSION}/services`,
         method: "GET",
       }),
+      providesTags: result => {
+        if (result) {
+          return [
+            ...result.map(({ id }) => ({ type: "SERVICES" as const, id })),
+            { type: "SERVICES", id: "LIST" },
+          ];
+        } else {
+          return [
+            { type: "SERVICES", id: "LIST" },
+          ];
+        }
+      }
     }),
 
     /**
@@ -33,6 +45,7 @@ const ServicesApi = API.injectEndpoints({
         method: "POST",
         body,
       }),
+      invalidatesTags: ["SERVICES"],
     }),
 
     /**
@@ -44,6 +57,7 @@ const ServicesApi = API.injectEndpoints({
         method: "PATCH",
         body,
       }),
+      invalidatesTags: ["SERVICES"],
     }),
 
     /**
@@ -55,6 +69,7 @@ const ServicesApi = API.injectEndpoints({
         method: "PUT",
         body,
       }),
+      invalidatesTags: ["SERVICES"],
     }),
 
     /**
@@ -66,6 +81,7 @@ const ServicesApi = API.injectEndpoints({
         method: "PUT",
         body,
       }),
+      invalidatesTags: ["SERVICES"],
     }),
 
     /**
@@ -76,6 +92,7 @@ const ServicesApi = API.injectEndpoints({
         url: `${API_VERSION}/service/${service_id}`,
         method: "DELETE",
       }),
+      invalidatesTags: ["SERVICES"],
     }),
   }),
 });

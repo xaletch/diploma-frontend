@@ -8,8 +8,6 @@ import { Link } from "@tanstack/react-router"
 export const Services = () => {
   const { data, isLoading, isSuccess } = useGetServicesQuery();
 
-  console.log(data);
-
   return (
     <>
       <PageHeader>

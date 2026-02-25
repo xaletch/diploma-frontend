@@ -169,34 +169,34 @@ const AppLayoutBusinessLocationsLocationLocation_idEditIndexRoute =
   } as any)
 
 export interface FileRoutesByFullPath {
+  '/': typeof AppLayoutIndexRoute
   '/network': typeof NetworkLayoutRouteWithChildren
   '/$notFound': typeof AppLayoutNotFoundRoute
   '/login': typeof AuthLayoutLoginLazyRoute
   '/register': typeof AuthLayoutRegisterLazyRoute
-  '/': typeof AppLayoutIndexRoute
-  '/customers': typeof AppLayoutCustomersIndexRoute
-  '/employees': typeof AppLayoutEmployeesIndexRoute
-  '/notifications': typeof AppLayoutNotificationsIndexRoute
-  '/schedule': typeof AppLayoutScheduleIndexRoute
-  '/settings': typeof AppLayoutSettingsIndexRoute
-  '/network/client': typeof NetworkLayoutClientIndexRoute
-  '/network/server': typeof NetworkLayoutServerIndexRoute
-  '/business/locations': typeof AppLayoutBusinessLocationsIndexRoute
-  '/business/services': typeof AppLayoutBusinessServicesIndexRoute
-  '/company/create': typeof AppLayoutCompanyCreateIndexRoute
-  '/business/locations/create': typeof AppLayoutBusinessLocationsCreateIndexRoute
-  '/business/services/$service_id': typeof AppLayoutBusinessServicesService_idIndexRoute
-  '/business/services/create': typeof AppLayoutBusinessServicesCreateIndexRoute
-  '/business/locations/$location_id': typeof AppLayoutBusinessLocationsLocationLocation_idIndexRoute
-  '/business/services/$service_id/edit': typeof AppLayoutBusinessServicesService_idEditIndexRoute
-  '/business/locations/$location_id/edit': typeof AppLayoutBusinessLocationsLocationLocation_idEditIndexRoute
+  '/customers/': typeof AppLayoutCustomersIndexRoute
+  '/employees/': typeof AppLayoutEmployeesIndexRoute
+  '/notifications/': typeof AppLayoutNotificationsIndexRoute
+  '/schedule/': typeof AppLayoutScheduleIndexRoute
+  '/settings/': typeof AppLayoutSettingsIndexRoute
+  '/network/client/': typeof NetworkLayoutClientIndexRoute
+  '/network/server/': typeof NetworkLayoutServerIndexRoute
+  '/business/locations/': typeof AppLayoutBusinessLocationsIndexRoute
+  '/business/services/': typeof AppLayoutBusinessServicesIndexRoute
+  '/company/create/': typeof AppLayoutCompanyCreateIndexRoute
+  '/business/locations/create/': typeof AppLayoutBusinessLocationsCreateIndexRoute
+  '/business/services/$service_id/': typeof AppLayoutBusinessServicesService_idIndexRoute
+  '/business/services/create/': typeof AppLayoutBusinessServicesCreateIndexRoute
+  '/business/locations/$location_id/': typeof AppLayoutBusinessLocationsLocationLocation_idIndexRoute
+  '/business/services/$service_id/edit/': typeof AppLayoutBusinessServicesService_idEditIndexRoute
+  '/business/locations/$location_id/edit/': typeof AppLayoutBusinessLocationsLocationLocation_idEditIndexRoute
 }
 export interface FileRoutesByTo {
+  '/': typeof AppLayoutIndexRoute
   '/network': typeof NetworkLayoutRouteWithChildren
   '/$notFound': typeof AppLayoutNotFoundRoute
   '/login': typeof AuthLayoutLoginLazyRoute
   '/register': typeof AuthLayoutRegisterLazyRoute
-  '/': typeof AppLayoutIndexRoute
   '/customers': typeof AppLayoutCustomersIndexRoute
   '/employees': typeof AppLayoutEmployeesIndexRoute
   '/notifications': typeof AppLayoutNotificationsIndexRoute
@@ -243,34 +243,34 @@ export interface FileRoutesById {
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
+    | '/'
     | '/network'
     | '/$notFound'
     | '/login'
     | '/register'
-    | '/'
-    | '/customers'
-    | '/employees'
-    | '/notifications'
-    | '/schedule'
-    | '/settings'
-    | '/network/client'
-    | '/network/server'
-    | '/business/locations'
-    | '/business/services'
-    | '/company/create'
-    | '/business/locations/create'
-    | '/business/services/$service_id'
-    | '/business/services/create'
-    | '/business/locations/$location_id'
-    | '/business/services/$service_id/edit'
-    | '/business/locations/$location_id/edit'
+    | '/customers/'
+    | '/employees/'
+    | '/notifications/'
+    | '/schedule/'
+    | '/settings/'
+    | '/network/client/'
+    | '/network/server/'
+    | '/business/locations/'
+    | '/business/services/'
+    | '/company/create/'
+    | '/business/locations/create/'
+    | '/business/services/$service_id/'
+    | '/business/services/create/'
+    | '/business/locations/$location_id/'
+    | '/business/services/$service_id/edit/'
+    | '/business/locations/$location_id/edit/'
   fileRoutesByTo: FileRoutesByTo
   to:
+    | '/'
     | '/network'
     | '/$notFound'
     | '/login'
     | '/register'
-    | '/'
     | '/customers'
     | '/employees'
     | '/notifications'
@@ -332,14 +332,14 @@ declare module '@tanstack/react-router' {
     '/_auth/_layout': {
       id: '/_auth/_layout'
       path: ''
-      fullPath: ''
+      fullPath: '/'
       preLoaderRoute: typeof AuthLayoutRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_app/_layout': {
       id: '/_app/_layout'
       path: ''
-      fullPath: ''
+      fullPath: '/'
       preLoaderRoute: typeof AppLayoutRouteImport
       parentRoute: typeof rootRouteImport
     }
@@ -374,112 +374,112 @@ declare module '@tanstack/react-router' {
     '/network/_layout/server/': {
       id: '/network/_layout/server/'
       path: '/server'
-      fullPath: '/network/server'
+      fullPath: '/network/server/'
       preLoaderRoute: typeof NetworkLayoutServerIndexRouteImport
       parentRoute: typeof NetworkLayoutRoute
     }
     '/network/_layout/client/': {
       id: '/network/_layout/client/'
       path: '/client'
-      fullPath: '/network/client'
+      fullPath: '/network/client/'
       preLoaderRoute: typeof NetworkLayoutClientIndexRouteImport
       parentRoute: typeof NetworkLayoutRoute
     }
     '/_app/_layout/settings/': {
       id: '/_app/_layout/settings/'
       path: '/settings'
-      fullPath: '/settings'
+      fullPath: '/settings/'
       preLoaderRoute: typeof AppLayoutSettingsIndexRouteImport
       parentRoute: typeof AppLayoutRoute
     }
     '/_app/_layout/schedule/': {
       id: '/_app/_layout/schedule/'
       path: '/schedule'
-      fullPath: '/schedule'
+      fullPath: '/schedule/'
       preLoaderRoute: typeof AppLayoutScheduleIndexRouteImport
       parentRoute: typeof AppLayoutRoute
     }
     '/_app/_layout/notifications/': {
       id: '/_app/_layout/notifications/'
       path: '/notifications'
-      fullPath: '/notifications'
+      fullPath: '/notifications/'
       preLoaderRoute: typeof AppLayoutNotificationsIndexRouteImport
       parentRoute: typeof AppLayoutRoute
     }
     '/_app/_layout/employees/': {
       id: '/_app/_layout/employees/'
       path: '/employees'
-      fullPath: '/employees'
+      fullPath: '/employees/'
       preLoaderRoute: typeof AppLayoutEmployeesIndexRouteImport
       parentRoute: typeof AppLayoutRoute
     }
     '/_app/_layout/customers/': {
       id: '/_app/_layout/customers/'
       path: '/customers'
-      fullPath: '/customers'
+      fullPath: '/customers/'
       preLoaderRoute: typeof AppLayoutCustomersIndexRouteImport
       parentRoute: typeof AppLayoutRoute
     }
     '/_app/_layout/company/create/': {
       id: '/_app/_layout/company/create/'
       path: '/company/create'
-      fullPath: '/company/create'
+      fullPath: '/company/create/'
       preLoaderRoute: typeof AppLayoutCompanyCreateIndexRouteImport
       parentRoute: typeof AppLayoutRoute
     }
     '/_app/_layout/business/services/': {
       id: '/_app/_layout/business/services/'
       path: '/business/services'
-      fullPath: '/business/services'
+      fullPath: '/business/services/'
       preLoaderRoute: typeof AppLayoutBusinessServicesIndexRouteImport
       parentRoute: typeof AppLayoutRoute
     }
     '/_app/_layout/business/locations/': {
       id: '/_app/_layout/business/locations/'
       path: '/business/locations'
-      fullPath: '/business/locations'
+      fullPath: '/business/locations/'
       preLoaderRoute: typeof AppLayoutBusinessLocationsIndexRouteImport
       parentRoute: typeof AppLayoutRoute
     }
     '/_app/_layout/business/services/create/': {
       id: '/_app/_layout/business/services/create/'
       path: '/business/services/create'
-      fullPath: '/business/services/create'
+      fullPath: '/business/services/create/'
       preLoaderRoute: typeof AppLayoutBusinessServicesCreateIndexRouteImport
       parentRoute: typeof AppLayoutRoute
     }
     '/_app/_layout/business/services/$service_id/': {
       id: '/_app/_layout/business/services/$service_id/'
       path: '/business/services/$service_id'
-      fullPath: '/business/services/$service_id'
+      fullPath: '/business/services/$service_id/'
       preLoaderRoute: typeof AppLayoutBusinessServicesService_idIndexRouteImport
       parentRoute: typeof AppLayoutRoute
     }
     '/_app/_layout/business/locations/create/': {
       id: '/_app/_layout/business/locations/create/'
       path: '/business/locations/create'
-      fullPath: '/business/locations/create'
+      fullPath: '/business/locations/create/'
       preLoaderRoute: typeof AppLayoutBusinessLocationsCreateIndexRouteImport
       parentRoute: typeof AppLayoutRoute
     }
     '/_app/_layout/business/services/$service_id/edit/': {
       id: '/_app/_layout/business/services/$service_id/edit/'
       path: '/business/services/$service_id/edit'
-      fullPath: '/business/services/$service_id/edit'
+      fullPath: '/business/services/$service_id/edit/'
       preLoaderRoute: typeof AppLayoutBusinessServicesService_idEditIndexRouteImport
       parentRoute: typeof AppLayoutRoute
     }
     '/_app/_layout/business/locations/_location/$location_id/': {
       id: '/_app/_layout/business/locations/_location/$location_id/'
       path: '/business/locations/$location_id'
-      fullPath: '/business/locations/$location_id'
+      fullPath: '/business/locations/$location_id/'
       preLoaderRoute: typeof AppLayoutBusinessLocationsLocationLocation_idIndexRouteImport
       parentRoute: typeof AppLayoutRoute
     }
     '/_app/_layout/business/locations/_location/$location_id/edit/': {
       id: '/_app/_layout/business/locations/_location/$location_id/edit/'
       path: '/business/locations/$location_id/edit'
-      fullPath: '/business/locations/$location_id/edit'
+      fullPath: '/business/locations/$location_id/edit/'
       preLoaderRoute: typeof AppLayoutBusinessLocationsLocationLocation_idEditIndexRouteImport
       parentRoute: typeof AppLayoutRoute
     }

@@ -16,7 +16,10 @@ export const LocationServices = ({ services }: LocationServicesProps) => {
         </CardHeader>
         <CardContent className="space-y-5 pt-0">
           {services.length > 0 ?
-            services.map((service, idx) => <div key={idx}>{service.name}</div>) : 
+            <div className="flex gap-2">
+              {services.map((service, idx) => <div key={idx}>{service.name}{idx < services.length - 1 ? "," : ""}</div>)}
+            </div>
+            : 
             <CardDescription>—</CardDescription>
           }
         </CardContent>
