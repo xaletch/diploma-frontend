@@ -1,13 +1,19 @@
-import { Button, Card, Form, FormWrapperAction, InputForm, TextareaForm } from "@/shared/ui"
+import { Button, Card, Form, FormWrapperAction, InputForm, RadioGroup, RadioGroupItem, TextareaForm } from "@/shared/ui"
 import { CardContent, CardHeader, CardTitle } from "@/shared/ui/card/ui/card"
 import { serviceSchema } from "../../model/schema/service.schema"
+import { useCreateService } from "../../model/hooks/service-create.hook";
+import { useAccount } from "@/entities/account";
+import { useSelector } from "react-redux";
 
 export const ServicesCreateForm = () => {
-  // const { onSubmit, isLoading } = useCreateLocation();
+  const { onSubmit, isLoading } = useCreateService();
+
+  const { account } = useSelector(useAccount);
+
   return (
     <div className="mt-8 relative">
-      <Form className="max-w-140 mx-auto space-y-8" onSubmit={(data) => console.log(data)} schema={serviceSchema}>
-        {({ register, formState, control } ) => (
+      <Form className="max-w-140 mx-auto space-y-8" onSubmit={(data) => onSubmit(data)} schema={serviceSchema}>
+        {({ register, formState } ) => (
           <>
             <Card>
               <CardContent className="space-y-5">
@@ -22,6 +28,17 @@ export const ServicesCreateForm = () => {
                   placeholder={"Название"}
                   required
                 />
+                <InputForm
+                  name={"public_name"}
+                  id={"public_name"}
+                  type={"text"}
+                  inputSize={"size_56"}
+                  register={register("public_name")}
+                  label={"Публичное название"}
+                  error={formState.errors["public_name"]}
+                  placeholder={"Публичное название"}
+                  required
+                />
                 <TextareaForm
                   name={"description"}
                   id={"description"}
@@ -30,26 +47,18 @@ export const ServicesCreateForm = () => {
                   placeholder={"Описание"}
                   label={"Описание"}
                 />
-                {/* <Controller
-                  name={"phone"}
-                  control={control}
-                  render={({ field, formState }) => (
-                    <PatternFormat
-                      id={"phone"}
-                      name={"phone"}
-                      format={"+7 (###) ### ##-##"}
-                      mask={"_"}
-                      onChange={(v) => field.onChange(v)}
-                      value={field.value}
-                      customInput={Input}
-                      inputSize={"size_56"}
-                      error={formState.errors["phone"]}
-                      placeholder={"Номер телефона"}
-                      label={"Номер телефона"}
-                      required
-                    />
-                  )}
-                /> */}
+
+                <div>
+                  <RadioGroup defaultValue="mark" className="flex items-center gap-2.5">
+                    <RadioGroupItem className="bg-red-500 w-7 h-7 border-none data-checked:bg-red-500!" value={"red"} id={"red"} />
+                    <RadioGroupItem className="bg-orange-500 w-7 h-7 border-none data-checked:bg-orange-500!" value={"orange"} id={"orange"} />
+                    <RadioGroupItem className="bg-green-500 w-7 h-7 border-none data-checked:bg-green-500!" value={"green"} id={"red"} />
+                    <RadioGroupItem className="bg-blue-500 w-7 h-7 border-none data-checked:bg-blue-500!" value={"blue"} id={"blue"} />
+                    <RadioGroupItem className="bg-purple-500 w-7 h-7 border-none data-checked:bg-purple-500!" value={"purple"} id={"purple"} />
+                    <RadioGroupItem className="bg-teal-500 w-7 h-7 border-none data-checked:bg-teal-500!" value={"teal"} id={"teal"} />
+                    <RadioGroupItem className="bg-pink-500 w-7 h-7 border-none data-checked:bg-pink-500!" value={"pink"} id={"pink"} />
+                  </RadioGroup>
+                </div>
               </CardContent>
             </Card>
 
@@ -69,7 +78,7 @@ export const ServicesCreateForm = () => {
                   placeholder={"Длительность (мин)"}
                   required
                 />
-                <div className="grid grid-cols-2 gap-5">
+                {/* <div className="grid grid-cols-2 gap-5">
                   <InputForm
                     name={"time_start"}
                     id={"time_start"}
@@ -94,13 +103,13 @@ export const ServicesCreateForm = () => {
                     placeholder={"Завершение услуги (18:00)"}
                     required
                   />
-                </div>
+                </div> */}
                 
                 {/* ALERT */}
-                <div className="w-full p-4 rounded-2xl bg-warn-background/20 border-2 border-dashed border-warn-background/80">
+                {/* <div className="w-full p-4 rounded-2xl bg-warn-background/20 border-2 border-dashed border-warn-background/80">
                   <p className="text-sm font-bold">Подсказка</p>
                   <p className="text-xs leading-4.5 mt-0.5">Начало и конец оказания услуги — это временные рамки, в пределах которых услуга доступна клиентам.</p>
-                </div>
+                </div> */}
               
               </CardContent>
             </Card>
@@ -121,6 +130,7 @@ export const ServicesCreateForm = () => {
                   error={formState.errors["price"]}
                   placeholder={"Базовая цена"}
                   required
+                  labelInput={account?.company?.currency}
                 />
                 <InputForm
                   name={"cost_price"}
@@ -143,8 +153,8 @@ export const ServicesCreateForm = () => {
                 type={"submit"}
                 className={"w-full md:max-w-50 font-bold"}
                 animation={"toggle_sm"}
-                disabled={false}
-                isLoading={false}
+                disabled={isLoading}
+                isLoading={isLoading}
               >Сохранить
               </Button>
             </FormWrapperAction>

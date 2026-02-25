@@ -16,8 +16,6 @@ export const CompanySelectService = () => {
     }
   }, [company, navigate]);
 
-  console.log(data);
-
   return (
     <div className={"max-w-220 mx-auto w-full pt-10 lg:pt-20 pb-28 px-5"}>
       <h1 className="text-32 leading-8 font-extrabold">В какой индустрии работает ваш бизнес?</h1>

@@ -12,6 +12,7 @@ export { default as BookIcon } from "./Book";
 export { default as BookmarksIcon } from "./Bookmarks";
 export { default as CalendarIcon } from "./Calendar";
 export { default as CaseIcon } from "./Case";
+export { default as CheckIcon } from "./Check";
 export { default as ChecksIcon } from "./Checks";
 export { default as ChevronRightIcon } from "./ChevronRight";
 export { default as ChevronIcon } from "./Chevron";

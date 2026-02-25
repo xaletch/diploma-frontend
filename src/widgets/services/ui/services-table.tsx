@@ -1,6 +1,8 @@
 import type { IServices } from "@/entities/services";
 import { Avatar } from "@/entities/user";
+import { PaletteIcon } from "@/shared/icons";
 import { Button, Table, TableBody, TableCell, TableCellActions, TableHead, TableHeader, TableNotFound, TableRow, TableSeparator } from "@/shared/ui"
+import { minuteFormat } from "@/shared/utils";
 import { Link, useNavigate } from "@tanstack/react-router";
 import { ChevronRightIcon } from "lucide-react";
 import React from "react";
@@ -29,14 +31,24 @@ export const ServicesTable = ({ services }: ServicesTableProps) => {
               <React.Fragment key={index}>
                 <TableRow onClick={() => navigate({ to: `/business/services/${service.id}` })}>
                   <TableCell>
-                    <Avatar size={"large"} avatar_url={""} name={""} id={service.id} />
+                    <Avatar 
+                      size={"large"} 
+                      avatar_url={service.avatar} 
+                      name={service.name} 
+                      id={service.id}
+                      className={"bg-black/15!"}
+                      isIcon
+                      icon={<PaletteIcon width={22} height={22} />}
+                    >
+                      <div className="absolute bottom-0 right-0 w-2 h-2 rounded-full bg-green-600" />
+                    </Avatar>
                     <div>
                       <p>{service.name}</p>
                       <p className="text-11 leading-3 opacity-50 mt-px font-normal">{service.category.length ? service.category : "Без категории"}</p>
                     </div>
                   </TableCell>
                   <TableCell>{service.price} ₽</TableCell>
-                  <TableCell>{service.duration}</TableCell>
+                  <TableCell>{minuteFormat(service.duration)}</TableCell>
                   <TableCellActions>
                     <Link to={`${service.id}`}>
                       <Button variant={"white"} size={"icon_40"} animation={"toggle_sm"}>

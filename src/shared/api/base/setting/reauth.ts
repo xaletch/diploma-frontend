@@ -48,7 +48,7 @@ export const reauthQuery: typeof baseQuery = async (args, api, opt) => {
           setCookie("access_token", token, { days: 7 });
 
           res = await baseQuery(args, api, opt);
-          console.log(`refresh.data && "access_token" in refresh.data ${refresh.data && "access_token" in refresh.data}`);
+          // console.log(`refresh.data && "access_token" in refresh.data ${refresh.data && "access_token" in refresh.data}`);
         } else {
           api.dispatch(logout());
         }

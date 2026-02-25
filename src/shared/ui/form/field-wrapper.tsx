@@ -17,7 +17,7 @@ export const FieldWrapper = (props: FieldWrapperProps) => {
 
   return (
     <div>
-      <Label className="text-xs">
+      <Label className="text-xs relative">
         {label} {required ? <span className="text-red">*</span> : undefined}
         <div className="mt-0.5">{children}</div>
       </Label>

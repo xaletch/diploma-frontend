@@ -30,7 +30,6 @@ export const useHealth = (): UseHealthReturnProps => {
   useEffect(() => {
     if (success) return;
 
-    console.log("USE EFFECT");
     check();
     const interval = setInterval(() => check(), 5000);
 

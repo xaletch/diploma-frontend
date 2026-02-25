@@ -13,8 +13,8 @@ export const serviceSchema = z.object({
   type: z.enum(["online", "offline"]).default("online"),
 
   // TIME
-  time_start: z.string().min(1, "Укажите время начала"),
-  time_end: z.string().min(1, "Укажите время окончания"),
+  // time_start: z.string().min(1, "Укажите время начала"),
+  // time_end: z.string().min(1, "Укажите время окончания"),
 
   // PRICE
   price: z.string().min(1, "Укажите цену за услугу"),

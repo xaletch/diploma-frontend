@@ -55,6 +55,7 @@ export interface IServices {
   public_name: string;
   duration: number;
   category: string;
+  avatar: string;
 
   /**
     PRICE И PRICE В PRICES - ОДНИ И ТЕ ЖЕ ДАННЫЕ

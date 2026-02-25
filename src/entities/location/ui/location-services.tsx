@@ -9,7 +9,7 @@ interface LocationServicesProps {
 
 export const LocationServices = ({ services }: LocationServicesProps) => {
   return (
-    <Link to={services.length > 0 ? "#" : "/business/services/create"}>
+    <Link to={services.length > 0 ? `/business/services` : `/business/services/create`}>
       <Card>
         <CardHeader className="flex-row justify-between">
           <CardTitle className="mb-0">Услуги</CardTitle>

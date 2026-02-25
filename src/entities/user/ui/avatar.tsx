@@ -3,7 +3,7 @@ import { getAvatarColor } from "../model/utils/get-color.util";
 import { cva, type VariantProps } from "class-variance-authority";
 
 const avatarVariants = cva(
-  "flex items-center gap-0.5 text-lg justify-center overflow-hidden bg-primary-foreground/35",
+  "flex items-center gap-0.5 text-lg justify-center bg-primary-foreground/35 relative",
   {
     variants: {
       size: {
@@ -19,15 +19,25 @@ const avatarVariants = cva(
   }
 );
 
-type AvatarProps = VariantProps<typeof avatarVariants> & React.ComponentProps<"div"> & {
+type AvatarUnion = {
+  isIcon?: true;
+  icon: React.ReactNode;
+} | {
+  isIcon?: false;
+  icon?: undefined;
+}
+
+type AvatarProps = 
+VariantProps<typeof avatarVariants> & React.ComponentProps<"div"> & 
+AvatarUnion & {
   id: string;
   avatar_url?: string | null;
   name: string;
   opacity?: number;
+  children?: React.ReactNode;
 }
 
-export const Avatar = ({ id, avatar_url, size, name, className, opacity, ...props }: AvatarProps) => {
-  console.log(getAvatarColor(id, opacity))
+export const Avatar = ({ id, avatar_url, size, name, className, opacity, children, isIcon=false, icon, ...props }: AvatarProps) => {
   return (
     <div
       data-ui="avatar"
@@ -38,8 +48,11 @@ export const Avatar = ({ id, avatar_url, size, name, className, opacity, ...prop
       {avatar_url ? (
         <img className="object-cover w-full h-full" src={avatar_url} alt={name} />
       ) : (
+        isIcon ? <>{icon}</> :
         <span className="uppercase font-medium leading-5 select-none">{name}</span>
       )}
+      {}
+      {children}
     </div>
   )
 }

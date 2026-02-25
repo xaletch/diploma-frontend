@@ -1,38 +1,37 @@
 import { API } from "@/shared/api";
-import { API_VERSION } from "@/shared/constants";
 import type { LocationCredentials, ILocationResponse, ILocationDetail, ILocationUser, ILocationUserQuery, UpdateLocationRequest, ChangeLocationStatusRequest } from "../model/types/location.type";
 
 export const serviceAPI = API.injectEndpoints(({
   endpoints: (build) => ({
     getLocations: build.query<ILocationResponse[], void>({
       query: () => ({
-        url: `/${API_VERSION}/locations`,
+        url: `/v1/locations`,
         method: "GET",
       }),
       providesTags: ["LOCATIONS"]
     }),
     getLocation: build.query<ILocationDetail, string>({
       query: (locationId) => ({
-        url: `/${API_VERSION}/location/${locationId}`,
+        url: `/v1/location/${locationId}`,
         method: "GET",
       }),
       providesTags: ["LOCATIONS"]
     }),
     getLocationUsers: build.query<ILocationUser[], string>({
       query: (locationId) => ({
-        url: `/${API_VERSION}/locations/${locationId}/users`,
+        url: `/v1/locations/${locationId}/users`,
         method: "GET",
       }),
     }),
     getLocationUser: build.query<ILocationUser, ILocationUserQuery>({
       query: ({ location_id, user_id }) => ({
-        url: `/${API_VERSION}/location/${location_id}/user/${user_id}`,
+        url: `/v1/location/${location_id}/user/${user_id}`,
         method: "GET",
       }),
     }),
     createLocation: build.mutation<ILocationResponse, LocationCredentials>({
       query: (body) => ({
-        url: `/${API_VERSION}/location`,
+        url: `/v1/location`,
         method: "POST",
         body,
       }),
@@ -40,7 +39,7 @@ export const serviceAPI = API.injectEndpoints(({
     }),
     editLocation: build.mutation<ILocationResponse, UpdateLocationRequest>({
       query: ({ location_id, body }) => ({
-        url: `/${API_VERSION}/location/${location_id}`,
+        url: `/v1/location/${location_id}`,
         method: "PATCH",
         body,
       }),
@@ -48,7 +47,7 @@ export const serviceAPI = API.injectEndpoints(({
     }),
     onlineLocation: build.mutation<void, ChangeLocationStatusRequest>({
       query: ({ locationId, active }) => ({
-        url: `/${API_VERSION}/location/${locationId}/status`,
+        url: `/v1/location/${locationId}/status`,
         method: "POST",
         body: { active },
       }),

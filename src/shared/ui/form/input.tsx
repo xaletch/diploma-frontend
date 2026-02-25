@@ -10,10 +10,11 @@ FieldWrapperPassThroughProps & VariantProps<typeof inputVariants> & {
   className?: string;
   register: Partial<UseFormRegisterReturn>;
   isError?: boolean;
+  labelInput?: string;
 }
 
 const InputForm = React.forwardRef<HTMLInputElement, InputFormProps>(
-  ({ className="", type, required, variant, inputSize, label, error, isError=false, register, message, ...props }, ref) => {
+  ({ className="", type, required, variant, inputSize, label, error, isError=false, register, message, labelInput="", ...props }, ref) => {
     return (
       <FieldWrapper label={label} error={error} required={required} message={message}>
         <input
@@ -23,6 +24,7 @@ const InputForm = React.forwardRef<HTMLInputElement, InputFormProps>(
           {...props}
           className={cn(inputVariants({ variant, inputSize, className }), (error || isError) ? "border-error-color-icon focus:border-error-color-icon" : "")}
         />
+        {labelInput && <div className="absolute bg-primary h-14 w-16 font-bold text-white right-0 bottom-0 flex items-center justify-center rounded-r-xl">{labelInput}</div>}
       </FieldWrapper>
     );
   },
