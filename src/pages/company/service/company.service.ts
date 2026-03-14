@@ -6,18 +6,29 @@ import type { CompanyCreateResponse, CompanyCredentials } from "../model/type/co
 
 export const companyApi = API.injectEndpoints({
   endpoints: (builder) => ({
+    /** 
+      ===== СПИСОК СПЕЦИАЛИЗАЦИЙ =====
+    **/
     getSpecialization: builder.query<ISpecialization[], void>({
       query: () => ({
         url: `/${API_VERSION}/company/specializations`,
         method: "GET",
       }),
     }),
+
+   /** 
+      ===== СПИСОК ИНДУСТРИЙ =====
+    **/
     getSpecializationIndustry: builder.query<IIndustry[], number>({
       query: (specialization_id) => ({
         url: `/${API_VERSION}/company/industry/${specialization_id}`,
         method: "GET",
       }),
     }),
+
+    /** 
+      ===== СОЗДАНИЕ КОМПАНИИ =====
+    **/
     companyCreate: builder.mutation<CompanyCreateResponse, CompanyCredentials>({
       query: (body) => ({
         url: `/${API_VERSION}/company`,

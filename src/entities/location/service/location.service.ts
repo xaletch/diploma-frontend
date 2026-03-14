@@ -3,6 +3,9 @@ import type { LocationCredentials, ILocationResponse, ILocationDetail, ILocation
 
 export const serviceAPI = API.injectEndpoints(({
   endpoints: (build) => ({
+    /** 
+      ===== СПИСОК ЛОКАЦИЙ =====
+    **/
     getLocations: build.query<ILocationResponse[], void>({
       query: () => ({
         url: `/v1/locations`,
@@ -10,6 +13,10 @@ export const serviceAPI = API.injectEndpoints(({
       }),
       providesTags: ["LOCATIONS"]
     }),
+
+    /** 
+      ===== ДЕТАЛИ ЛОКАЦИИ =====
+    **/
     getLocation: build.query<ILocationDetail, string>({
       query: (locationId) => ({
         url: `/v1/location/${locationId}`,
@@ -17,18 +24,30 @@ export const serviceAPI = API.injectEndpoints(({
       }),
       providesTags: ["LOCATIONS"]
     }),
+
+    /** 
+      ===== СПИСОК СОТРУДНИКОВ ЛОКАЦИИ =====
+    **/
     getLocationUsers: build.query<ILocationUser[], string>({
       query: (locationId) => ({
         url: `/v1/locations/${locationId}/users`,
         method: "GET",
       }),
     }),
+
+    /** 
+      ===== ИНФОРМАЦИЯ О СОТРУДНИКЕ =====
+    **/
     getLocationUser: build.query<ILocationUser, ILocationUserQuery>({
       query: ({ location_id, user_id }) => ({
         url: `/v1/location/${location_id}/user/${user_id}`,
         method: "GET",
       }),
     }),
+
+    /** 
+      ===== СОЗДАНИЕ ЛОКАЦИИ =====
+    **/
     createLocation: build.mutation<ILocationResponse, LocationCredentials>({
       query: (body) => ({
         url: `/v1/location`,
@@ -37,6 +56,10 @@ export const serviceAPI = API.injectEndpoints(({
       }),
       invalidatesTags: ["LOCATIONS"],
     }),
+
+    /** 
+      ===== РЕДАКТИРОВАНИЕ ЛОКАЦИИ =====
+    **/
     editLocation: build.mutation<ILocationResponse, UpdateLocationRequest>({
       query: ({ location_id, body }) => ({
         url: `/v1/location/${location_id}`,
@@ -45,6 +68,10 @@ export const serviceAPI = API.injectEndpoints(({
       }),
       invalidatesTags: ["LOCATIONS"],
     }),
+
+    /** 
+      ===== ИЗМЕНЕНИЕ СТАТУСА ЛОКАЦИИ (ONLINE | OFFLINE) =====
+    **/
     onlineLocation: build.mutation<void, ChangeLocationStatusRequest>({
       query: ({ locationId, active }) => ({
         url: `/v1/location/${locationId}/status`,
