@@ -1,3 +1,4 @@
+import { ServicesDetail } from '@/pages/services'
 import { createFileRoute } from '@tanstack/react-router'
 
 export const Route = createFileRoute(
@@ -7,5 +8,5 @@ export const Route = createFileRoute(
 })
 
 function RouteComponent() {
-  return <div>Hello "/_app/_layout/business/services/$service_id/"!</div>
+  return <ServicesDetail />
 }

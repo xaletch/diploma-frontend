@@ -61,3 +61,9 @@ export interface IEmployeeDeleteCredentials {
   employee_id: string;
   location_id: string;
 }
+
+export interface IEmployeesList {
+  id: string;
+  name: string;
+  avatar: string | null | undefined;
+}

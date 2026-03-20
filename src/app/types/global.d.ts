@@ -46,6 +46,7 @@ declare global {
   interface IDataList {
     id: string;
     name: string;
+    avatar: string | null;
   }
   
   /**

@@ -35,7 +35,7 @@ export interface ILocationResponse extends ILocation {
 export interface ILocationUsersList {
   id: string;
   name: string;
-  avatar: string | null;
+  avatar: string | null | undefined;
 }
 
 export interface ILocationUserQuery {

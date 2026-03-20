@@ -3,7 +3,7 @@ import { Avatar } from "@/entities/user";
 import { markClasses } from "@/shared/constants";
 import { PaletteIcon } from "@/shared/icons";
 import { Button, Table, TableBody, TableCell, TableCellActions, TableHead, TableHeader, TableNotFound, TableRow, TableSeparator } from "@/shared/ui"
-import { cn, minuteFormat } from "@/shared/utils";
+import { cn, formatPrice, minuteFormat } from "@/shared/utils";
 import { Link, useNavigate } from "@tanstack/react-router";
 import { ChevronRightIcon } from "lucide-react";
 import React from "react";
@@ -50,7 +50,7 @@ console.log(services)
                       <p className="text-11 leading-3 opacity-50 mt-px font-normal">{service.category.length ? service.category : "Без категории"}</p>
                     </div>
                   </TableCell>
-                  <TableCell>{service.price} ₽</TableCell>
+                  <TableCell>{formatPrice(service.price)} ₽</TableCell>
                   <TableCell>{minuteFormat(service.duration)}</TableCell>
                   <TableCellActions>
                     <Link to={`${service.id}`}>

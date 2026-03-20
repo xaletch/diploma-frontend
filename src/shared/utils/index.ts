@@ -10,3 +10,4 @@ export { sleep } from './sleeper/sleep';
 export { replaceAddress } from './replace/replace-address';
 export { minuteFormat } from './minute-format/minute-format';
 export { isApiError } from './api-error/api-error';
+export { formatPrice } from './price/formatter';

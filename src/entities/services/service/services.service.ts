@@ -1,5 +1,4 @@
 import { API } from "@/shared/api";
-import { API_VERSION } from "@/shared/constants";
 import type { IService, IServiceChangeResponse, IServiceCredentials, IServiceDeleteCredentials, IServiceDetailCredentials, IServiceEditCredentials, IServiceLocationsCredentials, IServices, IServiceUsersCredentials } from "../model/types/service.type";
 
 const ServicesApi = API.injectEndpoints({
@@ -9,7 +8,7 @@ const ServicesApi = API.injectEndpoints({
     **/
     getServices: build.query<IServices[], void>({
       query: () => ({
-        url: `${API_VERSION}/services`,
+        url: `v1/services`,
         method: "GET",
       }),
       providesTags: result => {
@@ -31,7 +30,7 @@ const ServicesApi = API.injectEndpoints({
     **/
     getDetailService: build.query<IService, IServiceDetailCredentials>({
       query: ({ service_id }) => ({
-        url: `${API_VERSION}/service/${service_id}`,
+        url: `v1/service/${service_id}`,
         method: "GET",
       }),
     }),
@@ -41,7 +40,7 @@ const ServicesApi = API.injectEndpoints({
     **/
     createService: build.mutation<IServiceChangeResponse, IServiceCredentials>({
       query: (body) => ({
-        url: `${API_VERSION}/service`,
+        url: `v1/service`,
         method: "POST",
         body,
       }),
@@ -53,7 +52,7 @@ const ServicesApi = API.injectEndpoints({
     **/
     editService: build.mutation<ApiSuccess, IServiceEditCredentials>({
       query: ({ service_id, body }) => ({
-        url: `${API_VERSION}/service/${service_id}`,
+        url: `v1/service/${service_id}`,
         method: "PATCH",
         body,
       }),
@@ -65,7 +64,7 @@ const ServicesApi = API.injectEndpoints({
     **/
     editUsersService: build.mutation<ApiSuccess, IServiceUsersCredentials>({
       query: ({ service_id, body }) => ({
-        url: `${API_VERSION}/service/users/${service_id}`,
+        url: `v1/service/users/${service_id}`,
         method: "PUT",
         body,
       }),
@@ -77,7 +76,7 @@ const ServicesApi = API.injectEndpoints({
     **/
     editLocationsService: build.mutation<ApiSuccess, IServiceLocationsCredentials>({
       query: ({ service_id, body }) => ({
-        url: `${API_VERSION}/service/locations/${service_id}`,
+        url: `v1/service/locations/${service_id}`,
         method: "PUT",
         body,
       }),
@@ -89,7 +88,7 @@ const ServicesApi = API.injectEndpoints({
     **/
     deleteService: build.mutation<ApiSuccess, IServiceDeleteCredentials>({
       query: ({ service_id }) => ({
-        url: `${API_VERSION}/service/${service_id}`,
+        url: `v1/service/${service_id}`,
         method: "DELETE",
       }),
       invalidatesTags: ["SERVICES"],
