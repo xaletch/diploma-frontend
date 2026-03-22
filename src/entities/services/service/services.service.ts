@@ -1,5 +1,4 @@
 import { API } from "@/shared/api";
-import { API_VERSION } from "@/shared/constants";
 import type { IService, IServiceChangeResponse, IServiceCredentials, IServiceDeleteCredentials, IServiceDetailCredentials, IServiceEditCredentials, IServiceLocationsCredentials, IServices, IServiceUsersCredentials } from "../model/types/service.type";
 
 const ServicesApi = API.injectEndpoints({
@@ -9,7 +8,7 @@ const ServicesApi = API.injectEndpoints({
     **/
     getServices: build.query<IServices[], void>({
       query: () => ({
-        url: `${API_VERSION}/services`,
+        url: `v1/services`,
         method: "GET",
       }),
       providesTags: result => {
@@ -31,9 +30,10 @@ const ServicesApi = API.injectEndpoints({
     **/
     getDetailService: build.query<IService, IServiceDetailCredentials>({
       query: ({ service_id }) => ({
-        url: `${API_VERSION}/service/${service_id}`,
+        url: `v1/service/${service_id}`,
         method: "GET",
       }),
+      providesTags: ["SERVICE"]
     }),
 
     /**
@@ -41,7 +41,7 @@ const ServicesApi = API.injectEndpoints({
     **/
     createService: build.mutation<IServiceChangeResponse, IServiceCredentials>({
       query: (body) => ({
-        url: `${API_VERSION}/service`,
+        url: `v1/service`,
         method: "POST",
         body,
       }),
@@ -53,35 +53,117 @@ const ServicesApi = API.injectEndpoints({
     **/
     editService: build.mutation<ApiSuccess, IServiceEditCredentials>({
       query: ({ service_id, body }) => ({
-        url: `${API_VERSION}/service/${service_id}`,
+        url: `v1/service/${service_id}`,
         method: "PATCH",
         body,
       }),
       invalidatesTags: ["SERVICES"],
+
+      async onQueryStarted({ service_id, body }, { dispatch, queryFulfilled }) {
+        const result = dispatch(ServicesApi.util.updateQueryData(
+          "getDetailService",
+          { service_id },
+          (d) => { Object.assign(d, body) }
+        ));
+
+        try {
+          await queryFulfilled;
+        } catch {
+          result.undo();
+        }
+      },
     }),
 
     /**
-      ====== РЕДАКТИРОВАТЬ ПОЛЬЗОВАТЕЛЕЙ УСЛУГИ (ДОБАВИТЬ/УДАЛИТЬ СОТРУДНИКА) =====
+      ====== ДОБАВЛЕНИЕ СОТРУДНИКА К УСЛУГЕ =====
     **/
-    editUsersService: build.mutation<ApiSuccess, IServiceUsersCredentials>({
-      query: ({ service_id, body }) => ({
-        url: `${API_VERSION}/service/users/${service_id}`,
-        method: "PUT",
-        body,
+    addUserToService: build.mutation<ApiSuccess, IServiceUsersCredentials>({
+      query: ({ service_id, user_id }) => ({
+        url: `/v1/service/users/${service_id}/${user_id}`,
+        method: "POST",
       }),
-      invalidatesTags: ["SERVICES"],
+      async onQueryStarted({ service_id, user }, { dispatch, queryFulfilled }) {
+        const result = dispatch(ServicesApi.util.updateQueryData(
+          "getDetailService",
+          { service_id },
+          (d) => { d.users.push({ ...user, name: `${user.first_name} ${user.last_name}` })},
+        ));
+
+        try {
+          await queryFulfilled;
+        } catch {
+          result.undo();
+        }
+      },
+    }),
+    
+    /**
+      ====== УДАЛЕНИЕ СОТРУДНИКА ИЗ УСЛУГИ =====
+    **/
+    removeUserForService: build.mutation<ApiSuccess, IServiceUsersCredentials>({
+      query: ({ service_id, user_id }) => ({
+        url: `/v1/service/users/${service_id}/${user_id}`,
+        method: "DELETE",
+      }),
+      async onQueryStarted({ service_id, user }, { dispatch, queryFulfilled }) {
+        const result = dispatch(ServicesApi.util.updateQueryData(
+          "getDetailService",
+          { service_id },
+          (d) => { d.users = d.users.filter(u => u.id !== user.id)},
+        ));
+
+        try {
+          await queryFulfilled;
+        } catch {
+          result.undo();
+        }
+      },
     }),
 
     /**
-      ===== РЕДАКТИРОВАТЬ ЛОКАЦИИ УСЛУГИ (ДОБАВИТЬ/УДАЛИТЬ ЛОКАЦИЮ) =====
+      ===== ДОБАВЛЕНИЕ ЛОКАЦИИ К УСЛУГЕ =====
     **/
-    editLocationsService: build.mutation<ApiSuccess, IServiceLocationsCredentials>({
-      query: ({ service_id, body }) => ({
-        url: `${API_VERSION}/service/locations/${service_id}`,
-        method: "PUT",
-        body,
+    addLocationToService: build.mutation<ApiSuccess, IServiceLocationsCredentials>({
+      query: ({ service_id, location_id }) => ({
+        url: `v1/service/locations/${service_id}/${location_id}`,
+        method: "POST",
       }),
-      invalidatesTags: ["SERVICES"],
+      async onQueryStarted({ service_id, location }, { dispatch, queryFulfilled }) {
+        const result = dispatch(ServicesApi.util.updateQueryData(
+          "getDetailService",
+          { service_id },
+          (d) => { d.locations.push({ ...location }) },
+        ));
+
+        try {
+          await queryFulfilled;
+        } catch {
+          result.undo();
+        }
+      },
+    }),
+
+    /**
+      ===== УДАЛЕНИЕ ЛОКАЦИИ ИЗ УСЛУГИ =====
+    **/
+    removeLocationForService: build.mutation<ApiSuccess, IServiceLocationsCredentials>({
+      query: ({ service_id, location_id }) => ({
+        url: `v1/service/locations/${service_id}/${location_id}`,
+        method: "DELETE",
+      }),
+      async onQueryStarted({ service_id, location }, { dispatch, queryFulfilled }) {
+        const result = dispatch(ServicesApi.util.updateQueryData(
+          "getDetailService",
+          { service_id },
+          (d) => { d.locations = d.locations.filter(l => l.id !== location.id) },
+        ));
+
+        try {
+          await queryFulfilled;
+        } catch {
+          result.undo();
+        }
+      },
     }),
 
     /**
@@ -89,10 +171,22 @@ const ServicesApi = API.injectEndpoints({
     **/
     deleteService: build.mutation<ApiSuccess, IServiceDeleteCredentials>({
       query: ({ service_id }) => ({
-        url: `${API_VERSION}/service/${service_id}`,
+        url: `v1/service/${service_id}`,
         method: "DELETE",
       }),
-      invalidatesTags: ["SERVICES"],
+      async onQueryStarted({ service_id }, { dispatch, queryFulfilled }) {
+        const result = dispatch(ServicesApi.util.updateQueryData(
+          "getServices",
+          undefined,
+          (d) => { d.splice(0, d.length, ...d.filter(s => s.id !== service_id)) }
+        ));
+
+        try {
+          await queryFulfilled;
+        } catch {
+          result.undo();
+        }
+      },
     }),
   }),
 });
@@ -104,7 +198,9 @@ export const {
   useLazyGetDetailServiceQuery,
   useCreateServiceMutation,
   useEditServiceMutation,
-  useEditUsersServiceMutation,
-  useEditLocationsServiceMutation,
+  useAddUserToServiceMutation,
+  useRemoveUserForServiceMutation,
+  useAddLocationToServiceMutation,
+  useRemoveLocationForServiceMutation,
   useDeleteServiceMutation,
 } = ServicesApi;

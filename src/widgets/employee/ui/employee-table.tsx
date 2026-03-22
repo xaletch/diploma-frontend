@@ -1,20 +1,24 @@
 import type { IEmployee } from "@/entities/employee";
 import { Avatar } from "@/entities/user"
-import { EMPLOYEE_STATUS } from "@/shared/constants";
+import { EMPLOYEE_STATUS, ROLE } from "@/shared/constants";
 import { ChevronRightIcon } from "@/shared/icons"
 import { Badge, Button, Table, TableBody, TableCell, TableCellActions, TableHead, TableHeader, TableNotFound, TableRow, TableSeparator } from "@/shared/ui"
+import { LazyBlur } from "@/widgets/loading";
 import { Link, useNavigate } from "@tanstack/react-router";
 import React from "react";
 
 interface EmployeeTableProps {
   employees?: IEmployee[];
   isLoading: boolean;
+  isFetching: boolean;
 }
 
-export const EmployeeTable = ({ employees }: EmployeeTableProps) => {
+export const EmployeeTable = ({ employees, isFetching }: EmployeeTableProps) => {
   const navigate = useNavigate();
+
   return (
     <div className="mt-8">
+      
       <Table>
         <TableHeader>
           <TableRow>
@@ -25,7 +29,8 @@ export const EmployeeTable = ({ employees }: EmployeeTableProps) => {
           </TableRow>
         </TableHeader>
 
-        <TableBody>
+        <TableBody className="relative">
+          {isFetching && <LazyBlur />}
           {employees?.length ? 
             employees.map((employee, index) => (
               <React.Fragment key={index}>
@@ -34,7 +39,7 @@ export const EmployeeTable = ({ employees }: EmployeeTableProps) => {
                     <Avatar size={"large"} avatar_url={employee.avatar} name={employee.name.slice(0, 1)} id={employee.id} />
                     <div>
                       <p>{employee.name}</p>
-                      {employee.position && <p className="text-11 leading-3 opacity-50 mt-px font-normal">{employee.position}</p>}
+                      <p className="text-11 leading-3 opacity-50 mt-px font-normal">{ROLE[employee.role.name]}{employee.position && `, ${employee.position}`}</p>
                     </div>
                   </TableCell>
                   <TableCell>{employee.phone}</TableCell>

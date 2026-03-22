@@ -3,8 +3,8 @@ import z from "zod";
 export const serviceSchema = z.object({
   name: z.string().min(1, "Укажите название"),
   public_name: z.string().min(1, "Укажите публичное название"),
-  mark: z.enum(["red", "orange", "green", "blue", "purple", "teal", "pink"]).optional().default("red"),
-  duration: z.number("Укажите продолжительность").min(1, "Укажите продолжительность"),
+  mark: z.enum(["red", "orange", "green", "blue", "purple", "teal", "pink"]).optional(),
+  duration: z.number("Укажите продолжительность").min(1, "Укажите продолжительность").transform((val) => (val ? Number(val) : undefined)),
 
   // 
   // category: z.string().optional().nullable(),
@@ -13,7 +13,7 @@ export const serviceSchema = z.object({
   type: z.enum(["online", "offline"]).default("online"),
 
   // PRICE
-  price: z.number("Укажите цену за услугу").min(1, "Укажите цену за услугу"),
+  price: z.number("Укажите цену за услугу").min(1, "Укажите цену за услугу").transform((val) => (val ? Number(val) : undefined)),
   cost_price: z.number().optional(),
   // unit_price: z.enum(["booking", "hour", "day", "week", "month"]).default("week"),
 

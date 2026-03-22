@@ -18,7 +18,7 @@ export const AppLayout = ({ children }: PropsWithChildren) => {
           {isCompany && <Sidebar />}
 
           <main className={`flex flex-col flex-1 ${isCompany ? "pl-59" : ""}`}>
-            <div className="p-8 pb-0 flex flex-col flex-1">
+            <div className="p-8 flex flex-col flex-1">
               {children}
             </div>
           </main>

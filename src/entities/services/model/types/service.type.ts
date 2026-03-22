@@ -1,3 +1,4 @@
+import type { IDirectoryEmployee, IDirectoryLocation } from "@/entities/directories";
 
 /**
   ServiceStatus - type
@@ -9,7 +10,7 @@ export interface IServiceCredentials {
   name: string;
   public_name: string;          // Например name: "Стрижка", public_name: "strizhka"
   mark?: MarkType;
-  duration: number;
+  duration?: number;
   type: ServiceStatusType;
   // days: DaysType[];
   // time_start: string;
@@ -18,7 +19,7 @@ export interface IServiceCredentials {
   category?: string;
 
   // ЦЕНЫ
-  price: number;
+  price?: number;
   // unit_price?: string;       // ДОБАВИТЬ В API
   cost_price?: number;
 
@@ -94,16 +95,14 @@ export interface IServiceDetailCredentials {
 
 export interface IServiceUsersCredentials {
   service_id: string;
-  body: {
-    user_ids: string[];
-  }
+  user_id: string;
+  user: IDirectoryEmployee;
 }
 
 export interface IServiceLocationsCredentials {
   service_id: string;
-  body: {
-    location_ids: string[];
-  }
+  location_id: string;
+  location: IDirectoryLocation;
 }
 
 export interface IServiceDeleteCredentials {

@@ -1,0 +1,5 @@
+export type AvatarGroupType = {
+  id: string;
+  name: string;
+  avatar: string | null;
+}

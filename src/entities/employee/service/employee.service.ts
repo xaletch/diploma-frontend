@@ -4,11 +4,11 @@ import type { IEmployee, IEmployeeBlockedCredentials, IEmployeeByEmail, IEmploye
 export const employeeAPI = API.injectEndpoints(({
   endpoints: (build) => ({
     /** 
-      ===== СПИСОК ВСЕХ СОТРУДНИКОВ =====
+      ===== СПИСОК ВСЕХ СОТРУДНИКОВ РАБОТЮЩИХ В ЛОКАЦИИ =====
     **/
-    getEmployee: build.query<IEmployee[], void>({
-      query: () => ({
-        url: `/v1/employee`,
+    getEmployee: build.query<IEmployee[], { location_id: string }>({
+      query: ({ location_id }) => ({
+        url: `/v1/employee/${location_id}`,
         method: "GET",
       }),
     }),

@@ -1,4 +1,4 @@
-import type { IRole } from "@/entities/account";
+import type { IRole, RoleType } from "@/entities/account";
 
 export interface IEmployee {
   id: string;
@@ -8,6 +8,7 @@ export interface IEmployee {
   avatar: string | null;
   status: EmployeeStatus;
   position: string | null;
+  role: RoleType;
 }
 
 export type EmployeeStatus = "active" | "inactive" | "invited";
@@ -60,4 +61,10 @@ export interface IEmployeeBlockedCredentials extends IEmployeeDeleteCredentials 
 export interface IEmployeeDeleteCredentials {
   employee_id: string;
   location_id: string;
+}
+
+export interface IEmployeesList {
+  id: string;
+  name: string;
+  avatar: string | null | undefined;
 }
