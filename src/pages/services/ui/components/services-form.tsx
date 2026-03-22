@@ -1,23 +1,43 @@
 import { Button, Card, Form, FormWrapperAction, InputForm, RadioGroupForm, RadioGroupItem } from "@/shared/ui"
 import { CardContent, CardHeader, CardTitle } from "@/shared/ui/card/ui/card"
-import { serviceSchema } from "../../model/schema/service.schema"
-import { useCreateService } from "../../model/hooks/service-create.hook";
+import { serviceSchema, type ServiceType } from "../../model/schema/service.schema"
 import { useAccount } from "@/entities/account";
 import { useSelector } from "react-redux";
+import type { IService } from "@/entities/services";
+import { minuteFormat } from "@/shared/utils";
 
-export const ServicesCreateForm = () => {
-  const { onSubmit, isLoading } = useCreateService();
+interface ServicesCreateFormProps {
+  onSubmit: (data: ServiceType) => Promise<void>;
+  isLoading: boolean;
+  data?: IService;
+}
 
+export const ServicesForm = ({ onSubmit, isLoading, data }: ServicesCreateFormProps) => {
   const { account } = useSelector(useAccount);
+
+  const defaultValues = {
+    name: data?.name ?? "",
+    public_name: data?.public_name ?? "",
+    mark: data?.mark ?? undefined,
+    duration: data?.duration ?? undefined,
+    type: "offline",
+    price: data?.price ?? undefined,
+    date_type: data?.discount?.date_type ?? "days",
+    cost_price: data?.prices.cost_price ?? undefined,
+  } satisfies ServiceType;
 
   return (
     <div className="mt-8 relative">
       <Form 
         className="max-w-140 mx-auto space-y-8"
         onSubmit={(data) => onSubmit(data)} 
+        options={{ defaultValues }}
         schema={serviceSchema}
       >
-        {({ register, formState, control } ) => (
+        {({ register, formState, control, watch } ) => 
+        {
+          const duration = watch("duration");
+          return (
           <>
             <Card>
               <CardContent className="space-y-5">
@@ -71,18 +91,21 @@ export const ServicesCreateForm = () => {
                 <CardTitle className="text-xl">Продолжительность <span className="text-red">*</span></CardTitle>
               </CardHeader>
               <CardContent className="pt-0 space-y-5">
-                <InputForm
-                  name={"duration"}
-                  id={"duration"}
-                  type={"text"}
-                  inputSize={"size_56"}
-                  register={register("duration", { valueAsNumber: true })}
-                  label={"Длительность"}
-                  error={formState.errors["duration"]}
-                  placeholder={"Длительность"}
-                  labelInput={"Мин"}
-                  required
-                />
+                <div>
+                  <InputForm
+                    name={"duration"}
+                    id={"duration"}
+                    type={"text"}
+                    inputSize={"size_56"}
+                    register={register("duration", { valueAsNumber: true })}
+                    label={"Длительность"}
+                    error={formState.errors["duration"]}
+                    placeholder={"Длительность"}
+                    labelInput={"Мин"}
+                    required
+                  />
+                  {duration !== undefined && <span className="text-xs">{minuteFormat(duration)}</span>}
+                </div>
                 {/* <div className="grid grid-cols-2 gap-5">
                   <InputForm
                     name={"time_start"}
@@ -163,7 +186,7 @@ export const ServicesCreateForm = () => {
               </Button>
             </FormWrapperAction>
           </>
-        )}
+        )}}
       </Form>
     </div>
   )

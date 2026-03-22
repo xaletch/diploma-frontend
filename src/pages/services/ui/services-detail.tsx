@@ -11,7 +11,7 @@ export const ServicesDetail = () => {
   return (
     <>
       <PageHeader>
-        <PageHeaderTitle>Услуга {data?.name}</PageHeaderTitle>
+        <PageHeaderTitle>Услуга {data?.name && `- ${data.name}`}</PageHeaderTitle>
         <PageHeaderActions>
           <PageHeaderBackAction />
           <Link to={`/business/services/${data?.id}/edit`}>

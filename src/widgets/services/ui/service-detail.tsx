@@ -57,8 +57,8 @@ export const ServiceDetails = ({ service }: ServiceDetailProps) => {
         </div>
 
         <div className="flex flex-col col-span-2 space-y-6">
-          <AvatarGroup title={"Сотрудники"} to={"#"} data={service.users} />
-          <AvatarGroup title={"Локации"} to={"#"} data={service.locations} />
+          <AvatarGroup title={"Сотрудники"} to={"employees"} data={service.users} />
+          <AvatarGroup title={"Локации"} to={"locations"} data={service.locations} />
         </div>
         
       </div>
