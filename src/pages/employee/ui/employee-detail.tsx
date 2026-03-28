@@ -1,14 +1,17 @@
-import { useAccount } from "@/entities/account";
+import { accountSelector } from "@/entities/account";
+import { dialogSelector } from "@/entities/dialog";
 import { useGetEmployeeQuery } from "@/entities/employee";
 import { ArrowBackUpIcon, PencilEditIcon } from "@/shared/icons"
 import { Button, PageHeader, PageHeaderActions, PageHeaderTitle } from "@/shared/ui"
-import { EmployeeDetailLazy, EmployeeDetails, EmployeeNotFound } from "@/widgets/employee";
+import { EmployeeDetailLazy, EmployeeDetails, EmployeeNotFound, EmployeeDeleteDialog } from "@/widgets/employee";
 import { Link, useParams } from "@tanstack/react-router"
 import { useSelector } from "react-redux";
 
 export const EmployeeDetail = () => {
   const { employee_id } = useParams({ from: "/_app/_layout/employees/users/$employee_id/" });
-  const { location } = useSelector(useAccount);
+  const { location } = useSelector(accountSelector);
+  const { dialog } = useSelector(dialogSelector);
+
   const { data, isLoading, isError } = useGetEmployeeQuery({ location_id: location?.id, employee_id });
 
   return (
@@ -40,6 +43,9 @@ export const EmployeeDetail = () => {
       {isLoading && <EmployeeDetailLazy />}
       {isError && <EmployeeNotFound />}
       {data && <EmployeeDetails employee={data} locationId={location!.id} />}
+
+      {/* ===== DIALOGS ===== */}
+      {dialog.name === "delete_employee" && <EmployeeDeleteDialog employee={dialog.data} />}
     </>
   )
 }

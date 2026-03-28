@@ -12,7 +12,8 @@ export const Banned = ({ isBanned, employee_id, location_id }: BannedProps) => {
 
   const handleBlocked = () => {
     blocked({
-      employee_id, location_id,
+      employee_id,
+      location_id,
       body: {
         is_banned: !isBanned,
       },

@@ -1,4 +1,5 @@
 import { accountSlice } from "@/entities/account";
+import { dialogSlice } from "@/entities/dialog";
 import { navigationSlice } from "@/entities/navigation";
 import { companySlice } from "@/pages/company";
 import { API } from "@/shared/api";
@@ -12,6 +13,11 @@ export const store = configureStore({
     company: companySlice,
     account: accountSlice,
     navigation: navigationSlice,
+
+    /**
+      ===== DIALOG ===== 
+    **/
+   dialog: dialogSlice,
   },
 
   middleware(getDefaultMiddleware) {

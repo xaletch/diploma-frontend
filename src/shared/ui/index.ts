@@ -17,3 +17,4 @@ export { Textarea } from './textarea';
 export * from './skeleton';
 export * from './input/input';
 export * from './radio'
+export * from './dialog';

@@ -1,6 +1,6 @@
 import type { IEmployeeDetail } from "@/entities/employee"
 import { Avatar } from "@/entities/user";
-import { Banned } from "@/features/employee";
+import { Banned, EmployeeDeleteAction } from "@/features/employee";
 import { EMPLOYEE_STATUS, ROLE } from "@/shared/constants";
 import { Badge, Card } from "@/shared/ui";
 import { AvatarGroup } from "@/shared/ui/avatar";
@@ -105,11 +105,7 @@ export const EmployeeDetails = ({ employee, locationId }: EmployeeDetailsProps) 
             </Link>
             {/* <AvatarGroup title={"Локации"} to={"locations"} data={employee.locations} /> */}
             <AvatarGroup title={"Услуги"} to={"services"} data={employee.services} />
-            <Card>
-              <CardHeader>
-                <CardTitle className="text-red">Удалить</CardTitle>
-              </CardHeader>
-            </Card>
+            <EmployeeDeleteAction employee_id={employee.profile.id} />
           </div>
           
         </div>

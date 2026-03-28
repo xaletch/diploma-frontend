@@ -11,7 +11,13 @@ export const employeeAPI = API.injectEndpoints(({
         url: `/v1/employees/${location_id}`,
         method: "GET",
       }),
-      providesTags: ["EMPLOYEES"],
+      providesTags: (result) =>
+        result
+          ? [
+              ...result.map(({ id }) => ({ type: "EMPLOYEES" as const, id })),
+              { type: "EMPLOYEES", id: "LIST" },
+            ]
+          : [{ type: "EMPLOYEES", id: "LIST" }],
     }),
 
     /** 
@@ -108,7 +114,8 @@ export const employeeAPI = API.injectEndpoints(({
         } catch {
           result.undo();
         }
-      }
+      },
+      invalidatesTags: ["EMPLOYEES"],
     }),
     
     /** 
@@ -119,6 +126,22 @@ export const employeeAPI = API.injectEndpoints(({
         url: `/v1/employee/${employee_id}/${location_id}`,
         method: "DELETE",
       }),
+      async onQueryStarted({ location_id, employee_id }, { dispatch, queryFulfilled }) {
+        const result = dispatch(employeeAPI.util.updateQueryData(
+          "getEmployees",
+          { location_id },
+          (d) => { 
+            const idx = d.findIndex(e => e.id === employee_id);
+            if (idx !== -1) d.splice(idx, 1);
+          },
+        ));
+
+        try {
+          await queryFulfilled;
+        } catch {
+          result.undo();
+        }
+      },
     }),
 
     /**
