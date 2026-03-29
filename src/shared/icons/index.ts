@@ -7,6 +7,7 @@ export { default as ArrowBackIcon } from "./ArrowBack";
 export { default as ArrowCircleIcon } from "./ArrowCircle";
 export { default as ArrowForwardUpDoubleIcon } from "./ArrowForwardUpDouble";
 export { default as ArrowsDownUpIcon } from "./ArrowsDownUp";
+export { default as BanIcon } from "./Ban";
 export { default as BellIcon } from "./Bell";
 export { default as BookIcon } from "./Book";
 export { default as BookmarksIcon } from "./Bookmarks";

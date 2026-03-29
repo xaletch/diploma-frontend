@@ -10,7 +10,7 @@ export const TableLoading = ({ rows=3 }: TableLoadingProps) => {
 
       <TableHeader className="rounded-none">
         <TableRow className="hover:bg-transparent! px-5">
-          {Array.from({ length: rows }).map((_, idx) => <Skeleton key={idx} className="max-w-45 h-6 rounded-lg" />)}
+          {Array.from({ length: rows }).map((_, idx) => <Skeleton key={idx} className={`max-w-45 h-6 rounded-lg ${idx === rows - 1 ? "bg-transparent" : ""}`} />)}
         </TableRow>
       </TableHeader>
 

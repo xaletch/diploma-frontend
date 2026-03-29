@@ -11,18 +11,7 @@ const ServicesApi = API.injectEndpoints({
         url: `v1/services`,
         method: "GET",
       }),
-      providesTags: result => {
-        if (result) {
-          return [
-            ...result.map(({ id }) => ({ type: "SERVICES" as const, id })),
-            { type: "SERVICES", id: "LIST" },
-          ];
-        } else {
-          return [
-            { type: "SERVICES", id: "LIST" },
-          ];
-        }
-      }
+      providesTags: ["SERVICES"],
     }),
 
     /**

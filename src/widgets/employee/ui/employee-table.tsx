@@ -36,15 +36,18 @@ export const EmployeeTable = ({ employees, isFetching }: EmployeeTableProps) => 
               <React.Fragment key={index}>
                 <TableRow onClick={() => navigate({ to: `${employee.id}` })}>
                   <TableCell>
-                    <Avatar size={"large"} avatar_url={employee.avatar} name={employee.name.slice(0, 1)} id={employee.id} />
+                    <Avatar size={"large"} avatar_url={employee.avatar} name={employee.full_name.slice(0, 1)} id={employee.id} />
                     <div>
-                      <p>{employee.name}</p>
+                      <p>{employee.full_name}</p>
                       <p className="text-11 leading-3 opacity-50 mt-px font-normal">{ROLE[employee.role.name]}{employee.position && `, ${employee.position}`}</p>
                     </div>
                   </TableCell>
                   <TableCell>{employee.phone}</TableCell>
                   <TableCell>
-                    <Badge variant={employee.status}>{EMPLOYEE_STATUS[employee.status]}</Badge>
+                    {employee.is_banned ? 
+                      <Badge variant={"inactive"}>Заблокирован</Badge> :
+                      <Badge variant={employee.status}>{EMPLOYEE_STATUS[employee.status]}</Badge>
+                    }
                   </TableCell>
                   <TableCellActions>
                     <Link to={`${employee.id}`}>

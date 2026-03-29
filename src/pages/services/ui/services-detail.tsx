@@ -1,6 +1,6 @@
 import { useGetDetailServiceQuery } from "@/entities/services"
-import { PencilEditIcon } from "@/shared/icons"
-import { Button, PageHeader, PageHeaderActions, PageHeaderBackAction, PageHeaderTitle } from "@/shared/ui"
+import { ArrowBackUpIcon, PencilEditIcon } from "@/shared/icons"
+import { Button, PageHeader, PageHeaderActions, PageHeaderTitle } from "@/shared/ui"
 import { ServiceDetailLazy, ServiceDetails, ServiceNotFound } from "@/widgets/services"
 import { Link, useParams } from "@tanstack/react-router"
 
@@ -13,7 +13,15 @@ export const ServicesDetail = () => {
       <PageHeader>
         <PageHeaderTitle>Услуга {data?.name && `- ${data.name}`}</PageHeaderTitle>
         <PageHeaderActions>
-          <PageHeaderBackAction />
+          <Link to={"/business/services"}>
+            <Button
+              variant={"white"}
+              animation={"toggle"}
+              className={"px-5 text-sm font-bold"}
+              size={"size_44"}
+              iconLeft={<ArrowBackUpIcon width={24} height={24} />}
+            >Назад</Button>
+          </Link>
           <Link to={`/business/services/${data?.id}/edit`}>
             <Button 
               size={"size_44"} 

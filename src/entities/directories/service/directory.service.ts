@@ -1,6 +1,7 @@
 import { API } from "@/shared/api";
 import type { IDirectoryEmployee } from "../model/types/directory-employee.type";
 import type { IDirectoryLocation } from "../model/types/directory-location.type";
+import type { IDirectoryService } from "../model/types/directory-service.type";
 
 export const DirectoryAPI = API.injectEndpoints({
   endpoints: builder => ({
@@ -23,10 +24,21 @@ export const DirectoryAPI = API.injectEndpoints({
         method: "GET",
       }),
     }),
+
+    /**
+      ===== СПИСОК ВСЕХ УСЛУГ КОМПАНИИ =====
+    **/
+    services: builder.query<IDirectoryService[], void>({
+      query: () => ({
+        url: "/v1/directory/services",
+        method: "GET",
+      }),
+    }),
   }),
 });
 
 export const {
   useEmployeesQuery,
   useLocationsQuery,
+  useServicesQuery,
 } = DirectoryAPI;

@@ -51,7 +51,7 @@ export const Avatar = ({ id, avatar_url, size, name, className, opacity, childre
         <img className="object-cover w-full h-full" src={avatar_url} alt={name} />
       ) : (
         isIcon ? <>{icon}</> :
-        <span className="uppercase font-medium leading-5 select-none">{name}</span>
+        <span className="uppercase font-medium leading-5 select-none">{name.slice(0, 1)}</span>
       )}
       {}
       {children}

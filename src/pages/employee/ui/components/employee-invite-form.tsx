@@ -1,6 +1,5 @@
 import { Button, Card, Form, FormWrapperAction, InputForm, SelectForm } from "@/shared/ui"
 import { CardContent, CardContentLabel, CardContentLabelDescription, CardContentLabelTitle, CardHeader, CardTitle } from "@/shared/ui/card/ui/card"
-import { inviteCheckSchema, inviteSchema } from "../../model/schemas/invite.schema"
 import { useSelector } from "react-redux"
 import { useAccount } from "@/entities/account"
 import { useInvite } from "../../model/hooks/invite.hook"
@@ -8,6 +7,7 @@ import { Avatar } from "@/entities/user"
 import { Controller } from "react-hook-form"
 import { PatternFormat } from "react-number-format"
 import { ROLE } from "@/shared/constants"
+import { inviteCheckSchema, employeeSchema } from "../../model/schemas"
 
 export const EmployeeInviteForm = () => {
   const { location } = useSelector(useAccount);
@@ -17,7 +17,7 @@ export const EmployeeInviteForm = () => {
   return (
     <div className="mt-8 relative">
       <div className="max-w-140 mx-auto space-y-8 relative">
-        <Form id="check" className="space-y-8 relative" onSubmit={(data) => onCheck(data)} schema={inviteCheckSchema}>
+        <Form id="check" className="space-y-8 relative" onSubmit={(data) => onCheck(data, location!.id)} schema={inviteCheckSchema}>
           {({ register, formState }) => (
             <>
               <Card>
@@ -74,7 +74,7 @@ export const EmployeeInviteForm = () => {
 
               <CardContentLabel>
                 <CardContentLabelTitle>Роль</CardContentLabelTitle>
-                <CardContentLabelDescription className="capitalize">{ROLE[employee.role]}</CardContentLabelDescription>
+                <CardContentLabelDescription className="capitalize">{ROLE[employee.role.name]}</CardContentLabelDescription>
               </CardContentLabel>
 
             </CardContent>
@@ -82,7 +82,7 @@ export const EmployeeInviteForm = () => {
         )}
 
         {step === "create" && (
-          <Form id="create" className="space-y-8 relative" onSubmit={(data) => onInvite(data, location?.id ?? "")} schema={inviteSchema}>
+          <Form id="create" className="space-y-8 relative" onSubmit={(data) => onInvite(data, location?.id ?? "")} schema={employeeSchema}>
             {({ register, formState, control }) => (
               <>
                 <Card>
@@ -123,6 +123,7 @@ export const EmployeeInviteForm = () => {
                           onChange={(v) => field.onChange(v)}
                           value={field.value}
                           customInput={InputForm}
+                          required
                           register={register("phone")}
                           label={"Номер телефона"}
                           inputSize={"size_56"}
@@ -169,8 +170,22 @@ export const EmployeeInviteForm = () => {
 
         <FormWrapperAction>
           {step === "check" && <Button form="check" className="max-w-60" isLoading={isLoading.check} disabled={isLoading.check}>Далее</Button>}
-          {/* onClick={() => onInvite(data: employee, location?.id ?? "")} */}
-          {step === "invite" && <Button className="max-w-60" isLoading={isLoading.create} disabled={isLoading.create}>Добавить</Button>}
+          {step === "invite" && employee !== null && (
+            <Button
+              className="max-w-60"
+              onClick={() => onInvite(
+                {
+                  ...employee, 
+                  birthdate: null,
+                  note: null,
+                  role: employee.role.id.toString(),
+                },
+                location!.id,
+              )}
+              isLoading={isLoading.create}
+              disabled={isLoading.create}
+              >Добавить</Button>
+          )}
           {step === "create" && <Button form="create" className="max-w-60" isLoading={isLoading.create} disabled={isLoading.create}>Создать</Button>}
         </FormWrapperAction>
       </div>

@@ -1,9 +1,9 @@
 import { useState } from "react";
-import type { InviteCheckSchemaType, InviteSchemaType } from "../schemas/invite.schema";
-import { useEmployeeInviteMutation, useLazyGetEmployeeByEmailQuery, type IEmployeeByEmail, type IEmployeeInviteCredentials } from "@/entities/employee";
+import { useEmployeeInviteMutation, useLazyCheckEmployeeInLocationQuery, useLazyGetEmployeeByEmailQuery, type IEmployeeByEmail, type IEmployeeInviteCredentials } from "@/entities/employee";
 import { isApiError } from "@/shared/utils";
 import { useNavigate } from "@tanstack/react-router";
 import { toast } from "sonner";
+import type { EmployeeSchemaType, InviteCheckSchemaType } from "../schemas";
 
 type InviteStep = "check" | "invite" | "create";
 
@@ -24,8 +24,8 @@ interface UseInviteReturnProps {
   employee: IEmployeeByEmail | null;
   isLoading: InviteLoading;
   error: InviteError;
-  onCheck: (data: InviteCheckSchemaType) => Promise<void>;
-  onInvite: (data: InviteSchemaType, location_id: string) => Promise<void>;
+  onCheck: (data: InviteCheckSchemaType, location_id: string) => Promise<void>;
+  onInvite: (data: EmployeeSchemaType, location_id: string) => Promise<void>;
 }
 
 export const useInvite = (): UseInviteReturnProps => {
@@ -38,14 +38,17 @@ export const useInvite = (): UseInviteReturnProps => {
   const [email, setEmail] = useState("");
 
   const [checkEmployee] = useLazyGetEmployeeByEmailQuery();
+  const [checkEmployeeInLocation] = useLazyCheckEmployeeInLocationQuery();
   const [invite] = useEmployeeInviteMutation();
 
-  const onCheck = async (data: InviteCheckSchemaType): Promise<void> => {
+  const onCheck = async (data: InviteCheckSchemaType, location_id: string): Promise<void> => {
     setIsLoading({ check: true });
     setEmail(data.email);
     setError({ check: "" });
     try {
       const res = await checkEmployee({ email: data.email }).unwrap() as IEmployeeByEmail;
+      await checkEmployeeInLocation({ user_id: res.id, location_id }).unwrap();
+
       setStep("invite");
       setEmployee(res);
     }
@@ -56,13 +59,16 @@ export const useInvite = (): UseInviteReturnProps => {
       if (isApiError(error) && error.status === 409) {
         setError({ check: error.data.detail });
       }
+      if (isApiError(error) && error.status === 400) {
+        setError({ check: error.data.detail });
+      }
     }
     finally {
       setIsLoading({ check: false });
     }
   }
 
-  const onInvite = async (data: InviteSchemaType, location_id: string): Promise<void> => {
+  const onInvite = async (data: EmployeeSchemaType, location_id: string): Promise<void> => {
     setIsLoading({ create: true });
     try {
       const req = {

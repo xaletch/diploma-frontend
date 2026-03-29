@@ -1,14 +1,35 @@
-import type { IRole, RoleType } from "@/entities/account";
+import type { RoleType, IUserProfile } from "@/entities/account";
+import type { IDirectoryService } from "@/entities/directories";
 
 export interface IEmployee {
   id: string;
   email: string;
-  name: string;
+  full_name: string;
   phone: string;
   avatar: string | null;
   status: EmployeeStatus;
   position: string | null;
   role: RoleType;
+  is_banned: boolean;
+}
+
+export interface IEmployeeProfile extends IUserProfile {
+  birthday: string | null;
+  first_name: string;
+  last_name: string;
+  full_name: string;
+  role: RoleType;
+}
+
+export interface IEmployeeDetail {
+  id: string;
+  note: string | null;
+  is_banned: boolean;
+  location_count: number;
+  service_count: number;
+  locations: IDataList[];
+  services: IDataList[];
+  profile: IEmployeeProfile;
 }
 
 export type EmployeeStatus = "active" | "inactive" | "invited";
@@ -22,14 +43,20 @@ export interface IEmployeeByEmail {
   id: string;
   email: string;
   phone: string;
-  role: IRole;
+  role: RoleType;
   first_name: string;
   last_name: string;
   avatar: string | null;
+  position: string;
 }
 
 export interface IEmployeeByEmailCredentials {
   email: string;
+}
+
+export interface ICheckEmployeeInLocationCredentials {
+  user_id: string;
+  location_id: string;
 }
 
 export interface IEmployeeInviteCredentials {
@@ -44,14 +71,25 @@ export interface IEmployeeInviteCredentials {
   note?: string;
 }
 
+export interface IEmployeeEditCredentials {
+  phone: string;
+  first_name: string;
+  last_name?: string;
+  role: number;
+  position: string;
+  birth_date?: string | null;
+  note?: string | null;
+}
+
 export interface IEmployeeInviteResponse {
-  detail: { action: string };
+  detail: IEmployee;
   message: string;
 }
 
 export interface IEmployeeUpdateCredentials {
-  body: IEmployeeInviteCredentials & { is_banned: boolean };
+  body: IEmployeeEditCredentials;
   employee_id: string;
+  location_id: string;
 }
 
 export interface IEmployeeBlockedCredentials extends IEmployeeDeleteCredentials {
@@ -67,4 +105,17 @@ export interface IEmployeesList {
   id: string;
   name: string;
   avatar: string | null | undefined;
+}
+
+export interface IServiceToUserCredentials {
+  service_id: string;
+  employee_id: string;
+  location_id: string;
+  service: IDirectoryService;
+}
+
+export interface IServiceFromUserCredentials {
+  service_id: string;
+  employee_id: string;
+  location_id: string;
 }

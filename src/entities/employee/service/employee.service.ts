@@ -1,14 +1,31 @@
 import { API } from "@/shared/api";
-import type { IEmployee, IEmployeeBlockedCredentials, IEmployeeByEmail, IEmployeeByEmailCredentials, IEmployeeDeleteCredentials, IEmployeeInviteCredentials, IEmployeeInviteResponse, IEmployeeUpdateCredentials } from "../model/types/employee.type";
+import type { ICheckEmployeeInLocationCredentials, IEmployee, IEmployeeBlockedCredentials, IEmployeeByEmail, IEmployeeByEmailCredentials, IEmployeeDeleteCredentials, IEmployeeDetail, IEmployeeInviteCredentials, IEmployeeInviteResponse, IEmployeeUpdateCredentials, IServiceFromUserCredentials, IServiceToUserCredentials } from "../model/types/employee.type";
 
 export const employeeAPI = API.injectEndpoints(({
   endpoints: (build) => ({
     /** 
       ===== СПИСОК ВСЕХ СОТРУДНИКОВ РАБОТЮЩИХ В ЛОКАЦИИ =====
     **/
-    getEmployee: build.query<IEmployee[], { location_id: string }>({
+    getEmployees: build.query<IEmployee[], { location_id: string }>({
       query: ({ location_id }) => ({
-        url: `/v1/employee/${location_id}`,
+        url: `/v1/employees/${location_id}`,
+        method: "GET",
+      }),
+      providesTags: (result) =>
+        result
+          ? [
+              ...result.map(({ id }) => ({ type: "EMPLOYEES" as const, id })),
+              { type: "EMPLOYEES", id: "LIST" },
+            ]
+          : [{ type: "EMPLOYEES", id: "LIST" }],
+    }),
+
+    /** 
+      ===== ПОЛУЧИТЬ ИНФОРМАЦИЮ О СОТРУДНИКЕ =====
+    **/
+    getEmployee: build.query<IEmployeeDetail, { location_id?: string; employee_id: string }>({
+      query: ({ location_id, employee_id }) => ({
+        url: `/v1/employee/${location_id}/${employee_id}`,
         method: "GET",
       }),
     }),
@@ -24,6 +41,16 @@ export const employeeAPI = API.injectEndpoints(({
     }),
 
     /** 
+      ===== ПРОВЕРКА РАБОТАЕТ ЛИ СОТРУДНИК В УКАЗАННОЙ ЛОКАЦИИ =====
+    **/
+    checkEmployeeInLocation: build.query<ApiSuccess, ICheckEmployeeInLocationCredentials>({
+      query: ({ user_id, location_id }) => ({
+        url: `/v1/employee/check/${user_id}/${location_id}`,
+        method: "GET",
+      }),
+    }),
+
+    /** 
       ===== ДОБАВЛЕНИЕ СОТРУДНИКА В ЛОКАЦИЮ =====
     **/
     employeeInvite: build.mutation<IEmployeeInviteResponse, IEmployeeInviteCredentials>({
@@ -32,17 +59,38 @@ export const employeeAPI = API.injectEndpoints(({
         method: "POST",
         body,
       }),
+      invalidatesTags: ["EMPLOYEES"],
+      // async onQueryStarted({ location_id }, { dispatch, queryFulfilled }) {
+      //   try {
+      //     const { data } = await queryFulfilled;
+      //     dispatch(employeeAPI.util.updateQueryData(
+      //       "getEmployees",
+      //       { location_id },
+      //       (d) => { d.push(data.detail) },
+      //     ));
+      //   } catch { /* */ }
+      // },
     }),
 
     /** 
       ===== РЕДАКТИРОВАНИЕ СОТРУДНИКА =====
     **/
-    employeeEdit: build.mutation<void, IEmployeeUpdateCredentials>({
+    employeeEdit: build.mutation<IEmployeeDetail, IEmployeeUpdateCredentials>({
       query: ({ body, employee_id }) => ({
         url: `/v1/employee/${employee_id}`,
         method: "PATCH",
         body,
       }),
+      async onQueryStarted({ location_id }, { dispatch, queryFulfilled }) {
+        try {
+          const { data } = await queryFulfilled;
+          dispatch(employeeAPI.util.updateQueryData(
+            "getEmployee",
+            { employee_id: data.profile.id, location_id },
+            (d) => { Object.assign(d, data) },
+          ));
+        } catch { /* */ }
+      }
     }),
 
     /** 
@@ -54,27 +102,113 @@ export const employeeAPI = API.injectEndpoints(({
         method: "POST",
         body,
       }),
+      async onQueryStarted({ location_id, employee_id, body }, { dispatch, queryFulfilled }) {
+        const result = dispatch(employeeAPI.util.updateQueryData(
+          "getEmployee",
+          { location_id, employee_id },
+          (d) => { Object.assign(d, body) },
+        ));
+
+        try {
+          await queryFulfilled;
+        } catch {
+          result.undo();
+        }
+      },
+      invalidatesTags: ["EMPLOYEES"],
     }),
     
     /** 
-      ===== УДАЛЕНИЕ СОТРУДНИКА =====
+      ===== УДАЛЕНИЕ СОТРУДНИКА ИЗ ЛОКАЦИИ =====
     **/
     employeeDelete: build.mutation<void, IEmployeeDeleteCredentials>({
       query: ({ employee_id, location_id }) => ({
         url: `/v1/employee/${employee_id}/${location_id}`,
         method: "DELETE",
       }),
+      async onQueryStarted({ location_id, employee_id }, { dispatch, queryFulfilled }) {
+        const result = dispatch(employeeAPI.util.updateQueryData(
+          "getEmployees",
+          { location_id },
+          (d) => { 
+            const idx = d.findIndex(e => e.id === employee_id);
+            if (idx !== -1) d.splice(idx, 1);
+          },
+        ));
+
+        try {
+          await queryFulfilled;
+        } catch {
+          result.undo();
+        }
+      },
+    }),
+
+    /**
+      ====== ДОБАВЛЕНИЕ УСЛУГИ ДЛЯ СОТРУДНИКА =====
+    **/
+    addServiceToUser: build.mutation<ApiSuccess, IServiceToUserCredentials>({
+      query: ({ employee_id, service_id }) => ({
+        url: `/v1/employee/services/${employee_id}/${service_id}`,
+        method: "POST",
+      }),
+      async onQueryStarted({ location_id, employee_id, service }, { dispatch, queryFulfilled }) {
+        const result = dispatch(employeeAPI.util.updateQueryData(
+          "getEmployee",
+          { location_id, employee_id },
+          (d) => { d.services.push({
+            ...service,
+            name: service.name,
+            id: service.id,
+            avatar: null,
+          })},
+        ));
+
+        try {
+          await queryFulfilled;
+        } catch {
+          result.undo();
+        }
+      },
+    }),
+    
+    /**
+      ====== УДАЛЕНИЕ УСЛУГИ ДЛЯ СОТРУДНИКА =====
+    **/
+    removeServiceFromUser: build.mutation<ApiSuccess, IServiceFromUserCredentials>({
+      query: ({ employee_id, service_id }) => ({
+        url: `/v1/employee/services/${employee_id}/${service_id}`,
+        method: "DELETE",
+      }),
+      async onQueryStarted({ location_id, employee_id, service_id }, { dispatch, queryFulfilled }) {
+        const result = dispatch(employeeAPI.util.updateQueryData(
+          "getEmployee",
+          { location_id, employee_id },
+          (d) => { d.services = d.services.filter(s => s.id !== service_id)},
+        ));
+
+        try {
+          await queryFulfilled;
+        } catch {
+          result.undo();
+        }
+      },
     }),
   }),
 }));
 
 export const { 
+  useGetEmployeesQuery,
   useGetEmployeeQuery,
   useLazyGetEmployeeQuery,
   useGetEmployeeByEmailQuery,
   useLazyGetEmployeeByEmailQuery,
+  useCheckEmployeeInLocationQuery,
+  useLazyCheckEmployeeInLocationQuery,
   useEmployeeInviteMutation,
   useEmployeeEditMutation,
   useEmployeeBlockedMutation,
   useEmployeeDeleteMutation,
+  useAddServiceToUserMutation,
+  useRemoveServiceFromUserMutation,
 } = employeeAPI;

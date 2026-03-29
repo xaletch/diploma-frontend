@@ -76,7 +76,7 @@ export const ServicesForm = ({ onSubmit, isLoading, data }: ServicesCreateFormPr
                   <RadioGroupForm name="mark" control={control} radioClassName={"flex items-center gap-2.5"}>
                     <RadioGroupItem className="bg-red-500 w-7 h-7 border-none data-checked:bg-red-500!" value={"red"} id={"red"} />
                     <RadioGroupItem className="bg-orange-500 w-7 h-7 border-none data-checked:bg-orange-500!" value={"orange"} id={"orange"} />
-                    <RadioGroupItem className="bg-green-500 w-7 h-7 border-none data-checked:bg-green-500!" value={"green"} id={"red"} />
+                    <RadioGroupItem className="bg-green-500 w-7 h-7 border-none data-checked:bg-green-500!" value={"green"} id={"green"} />
                     <RadioGroupItem className="bg-blue-500 w-7 h-7 border-none data-checked:bg-blue-500!" value={"blue"} id={"blue"} />
                     <RadioGroupItem className="bg-purple-500 w-7 h-7 border-none data-checked:bg-purple-500!" value={"purple"} id={"purple"} />
                     <RadioGroupItem className="bg-teal-500 w-7 h-7 border-none data-checked:bg-teal-500!" value={"teal"} id={"teal"} />
