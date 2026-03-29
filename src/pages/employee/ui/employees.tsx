@@ -1,4 +1,4 @@
-import { useAccount } from "@/entities/account"
+import { accountSelector } from "@/entities/account"
 import { useGetEmployeesQuery } from "@/entities/employee"
 import { AddIcon } from "@/shared/icons"
 import { Button, PageHeader, PageHeaderActions, PageHeaderBackAction, PageHeaderTitle } from "@/shared/ui"
@@ -8,7 +8,7 @@ import { Link } from "@tanstack/react-router"
 import { useSelector } from "react-redux"
 
 export const Employees = () => {
-  const { location } = useSelector(useAccount);
+  const { location } = useSelector(accountSelector);
   const { isLoading, data, isSuccess, isFetching } = useGetEmployeesQuery({ location_id: location?.id ?? "" });
 
   return (

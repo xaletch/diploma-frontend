@@ -1,6 +1,6 @@
 import { useDialog } from "@/entities/dialog"
 import { EmployeeDeleteApply } from "@/features/employee";
-import { Dialog, DialogClose, DialogContent, DialogFooter, DialogHeader, DialogTitle } from "@/shared/ui"
+import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/shared/ui"
 
 interface EmployeeDeleteDialogProps {
   employee: {
@@ -15,6 +15,7 @@ export const EmployeeDeleteDialog = ({ employee }: EmployeeDeleteDialogProps) =>
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Удаление сотрудника</DialogTitle>
+          <DialogDescription>Сотрудник будет удален только из текущей локации.</DialogDescription>
         </DialogHeader>
 
         <DialogFooter>
