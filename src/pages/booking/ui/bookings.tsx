@@ -19,6 +19,7 @@ export const Bookings = () => {
       </PageHeader>
 
       {isLoading && <TableLoading rows={6} />}
+      {isError && <>error message</>}
       {data && <BookingTable bookings={data}  isLoading={isLoading} isFetching={isFetching} />}
     </>
   )
