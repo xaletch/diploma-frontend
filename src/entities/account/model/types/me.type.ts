@@ -20,7 +20,7 @@ export interface IMe {
   phone: string;
   first_name: string;
   last_name: string;
-  name: string;
+  full_name: string;
   avatar: string | null;
   role: IRole;
   role_id: { id: number; };

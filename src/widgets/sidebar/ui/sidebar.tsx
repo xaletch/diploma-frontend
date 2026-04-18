@@ -37,7 +37,7 @@ export const Sidebar = () => {
               avatar_url={account.avatar}
               first_name={account.first_name}
               last_name={account.last_name}
-              name={account.name}
+              full_name={account.full_name}
               role={account.role}
             />
     

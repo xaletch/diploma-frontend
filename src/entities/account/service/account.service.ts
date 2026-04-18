@@ -1,6 +1,6 @@
 import { API } from "@/shared/api";
-import { API_VERSION } from "@/shared/constants";
 import type { IMe } from "../model/types/me.type";
+import type { IPermission } from "../model/types/permission.type";
 
 export const AccountApi = API.injectEndpoints({
   endpoints: build => ({
@@ -9,11 +9,26 @@ export const AccountApi = API.injectEndpoints({
     **/
     me: build.query<IMe, void>({
       query: () => ({
-        url: `/${API_VERSION}/me`,
+        url: `/v1/me`,
+        method: "GET",
+      }),
+    }),
+
+    /**
+      ===== УРОВНИ ДОСТУПА =====
+    **/
+    permissions: build.query<IPermission[], void>({
+      query: () => ({
+        url: `/v1/me/permission`,
         method: "GET",
       }),
     }),
   }),
 });
 
-export const { useMeQuery, useLazyMeQuery } = AccountApi;
+export const {
+  useMeQuery,
+  useLazyMeQuery,
+  usePermissionsQuery,
+  useLazyPermissionsQuery,
+} = AccountApi;

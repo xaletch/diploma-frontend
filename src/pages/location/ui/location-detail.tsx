@@ -1,4 +1,5 @@
 import { useGetLocationQuery } from "@/entities/location"
+import { Can } from "@/features/auth"
 import { PencilEditIcon } from "@/shared/icons"
 import { Button, PageHeader, PageHeaderActions, PageHeaderBackAction, PageHeaderTitle } from "@/shared/ui"
 import { LocationDetailLazy, LocationDetails, LocationNotFound } from "@/widgets/location"
@@ -14,15 +15,17 @@ export const LocationDetail = () => {
         <PageHeaderTitle>Локация {data?.name}</PageHeaderTitle>
         <PageHeaderActions>
           <PageHeaderBackAction />
-          <Link to={`/business/locations/${data?.id}/edit`}>
-            <Button 
-              size={"size_44"} 
-              animation={"toggle"}
-              className={"text-sm font-bold"}
-              iconLeft={<PencilEditIcon width={21} height={21}/>}
-              disabled={isLoading || isError}
-            >Редактировать</Button>
-          </Link>
+          <Can permission={"location:update"}>
+            <Link to={`/business/locations/${data?.id}/edit`}>
+              <Button 
+                size={"size_44"} 
+                animation={"toggle"}
+                className={"text-sm font-bold"}
+                iconLeft={<PencilEditIcon width={21} height={21}/>}
+                disabled={isLoading || isError}
+              >Редактировать</Button>
+            </Link>
+          </Can>
         </PageHeaderActions>
       </PageHeader>
 

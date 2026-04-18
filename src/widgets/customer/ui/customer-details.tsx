@@ -1,5 +1,6 @@
 import type { ICustomer } from "@/entities/customers";
 import { Avatar } from "@/entities/user";
+import { Copyable } from "@/features/copyable";
 import { AddFillIcon, ShoppingCartIcon } from "@/shared/icons";
 import { Button, Card } from "@/shared/ui";
 import { CardContent, CardContentLabel, CardContentLabelDescription, CardContentLabelTitle, CardDescription, CardHeader, CardTitle } from "@/shared/ui/card/ui/card";
@@ -44,7 +45,9 @@ export const CustomerDetails = ({ customer }: CustomerDetailsProps) => {
 
                 <CardContentLabel>
                   <CardContentLabelTitle>Номер телефона</CardContentLabelTitle>
-                  <CardContentLabelDescription>{customer.profile.phone ?? "-"}</CardContentLabelDescription>
+                  <CardContentLabelDescription>
+                    <Copyable text={customer.profile.phone}/>
+                  </CardContentLabelDescription>
                 </CardContentLabel>
 
                 <CardContentLabel>

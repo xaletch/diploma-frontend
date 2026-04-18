@@ -1,6 +1,7 @@
 import { accountSelector } from "@/entities/account";
 import { dialogSelector } from "@/entities/dialog";
 import { useGetEmployeeQuery } from "@/entities/employee";
+import { Can } from "@/features/auth";
 import { ArrowBackUpIcon, PencilEditIcon } from "@/shared/icons"
 import { Button, PageHeader, PageHeaderActions, PageHeaderTitle } from "@/shared/ui"
 import { EmployeeDetailLazy, EmployeeDetails, EmployeeNotFound, EmployeeDeleteDialog } from "@/widgets/employee";
@@ -28,15 +29,17 @@ export const EmployeeDetail = () => {
               iconLeft={<ArrowBackUpIcon width={24} height={24} />}
             >Назад</Button>
           </Link>
-          <Link to={`edit`}>
-            <Button
-              size={"size_44"}
-              animation={"toggle"}
-              className={"text-sm font-bold"}
-              iconLeft={<PencilEditIcon width={21} height={21}/>}
-              disabled={isLoading || isError}
-            >Редактировать</Button>
-          </Link>
+          <Can permission={"employee:update"}>
+            <Link to={`edit`}>
+              <Button
+                size={"size_44"}
+                animation={"toggle"}
+                className={"text-sm font-bold"}
+                iconLeft={<PencilEditIcon width={21} height={21}/>}
+                disabled={isLoading || isError}
+              >Редактировать</Button>
+            </Link>
+          </Can>
         </PageHeaderActions>
       </PageHeader>
 

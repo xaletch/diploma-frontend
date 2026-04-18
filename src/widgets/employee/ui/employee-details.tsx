@@ -1,5 +1,7 @@
 import type { IEmployeeDetail } from "@/entities/employee"
 import { Avatar } from "@/entities/user";
+import { Can } from "@/features/auth";
+import { Copyable } from "@/features/copyable";
 import { Banned, EmployeeDeleteAction } from "@/features/employee";
 import { EMPLOYEE_STATUS, ROLE } from "@/shared/constants";
 import { Badge, Card } from "@/shared/ui";
@@ -15,13 +17,15 @@ interface EmployeeDetailsProps {
 export const EmployeeDetails = ({ employee, locationId }: EmployeeDetailsProps) => {
   return (
     <div className="mt-2.5">
-      <div className="flex justify-end">
-        <Banned
-          isBanned={employee.is_banned}
-          employee_id={employee.profile.id}
-          location_id={locationId}
-        />
-      </div>
+      <Can permission={"employee:update"}>
+        <div className="flex justify-end">
+          <Banned
+            isBanned={employee.is_banned}
+            employee_id={employee.profile.id}
+            location_id={locationId}
+          />
+        </div>
+      </Can>
       <div className="mt-8">
         <div className="grid grid-cols-5 gap-8 w-full">
           <div className="col-span-3 space-y-8">
@@ -53,12 +57,16 @@ export const EmployeeDetails = ({ employee, locationId }: EmployeeDetailsProps) 
               <CardContent className="space-y-5 pt-0">
                 <CardContentLabel>
                   <CardContentLabelTitle>Email</CardContentLabelTitle>
-                  <CardContentLabelDescription>{employee.profile.email ?? "-"}</CardContentLabelDescription>
+                  <CardContentLabelDescription>
+                    <Copyable text={employee.profile.email}/>
+                  </CardContentLabelDescription>
                 </CardContentLabel>
 
                 <CardContentLabel>
                   <CardContentLabelTitle>Номер телефона</CardContentLabelTitle>
-                  <CardContentLabelDescription>{employee.profile.phone ?? "-"}</CardContentLabelDescription>
+                  <CardContentLabelDescription>
+                    <Copyable text={employee.profile.phone}/>
+                  </CardContentLabelDescription>
                 </CardContentLabel>
 
                 <CardContentLabel>
@@ -95,17 +103,23 @@ export const EmployeeDetails = ({ employee, locationId }: EmployeeDetailsProps) 
           </div>
 
           <div className="flex flex-col col-span-2 space-y-6">
-            <Link to={`/employees/schedule/${employee.profile.id}`}>
-              <Card>
-                <CardHeader>
-                  <CardTitle>Расписание</CardTitle>
-                  <CardDescription>Проверьте график работы и внесите необходимые изменения.</CardDescription>
-                </CardHeader>
-              </Card>
-            </Link>
+            <Can permission="employee:schedule">
+              <Link to={`/employees/schedule/${employee.profile.id}`}>
+                <Card>
+                  <CardHeader>
+                    <CardTitle>Расписание</CardTitle>
+                    <CardDescription>Проверьте график работы и внесите необходимые изменения.</CardDescription>
+                  </CardHeader>
+                </Card>
+              </Link>
+            </Can>
             {/* <AvatarGroup title={"Локации"} to={"locations"} data={employee.locations} /> */}
-            <AvatarGroup title={"Услуги"} to={"services"} data={employee.services} />
-            <EmployeeDeleteAction employee_id={employee.profile.id} />
+            <Can permission="directory:services">
+              <AvatarGroup title={"Услуги"} to={"services"} data={employee.services} />
+            </Can>
+            <Can permission="employee:delete">
+              <EmployeeDeleteAction employee_id={employee.profile.id} />
+            </Can>
           </div>
           
         </div>

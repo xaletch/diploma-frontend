@@ -1,5 +1,6 @@
 import type { ILocationResponse } from "@/entities/location"
 import { Avatar } from "@/entities/user"
+import { Can } from "@/features/auth";
 import { LocationOnlineToggle } from "@/features/location";
 import { ChevronRightIcon } from "@/shared/icons"
 import { Badge, Button, Table, TableBody, TableCell, TableCellActions, TableHead, TableHeader, TableNotFound, TableRow, TableSeparator } from "@/shared/ui"
@@ -43,7 +44,9 @@ export const LocationTable = ({ locations }: LocationTableProps) => {
                     <Badge variant={loc.is_active ? "online" : "offline"}>{loc.is_active ? "Онлайн" : "Офлайн"}</Badge>
                   </TableCell>
                   <TableCellActions>
-                    <LocationOnlineToggle isOnline={loc.is_active} locationId={loc.id} />
+                    <Can permission="location:delete">
+                      <LocationOnlineToggle isOnline={loc.is_active} locationId={loc.id} />
+                    </Can>
                     <Link to={`${loc.id}`}>
                       <Button variant={"white"} size={"icon_40"} animation={"toggle_sm"}>
                         <ChevronRightIcon width={17} height={17} />

@@ -1,0 +1,59 @@
+export interface IPermission {
+  name: string;
+}
+
+export type PermissionName =
+  | "service:create"
+  | "service:update"
+  | "service:delete"
+  | "service-users:update"
+  | "service-locations:update"
+  | "service-category:create"
+  | "service-category:update"
+  | "service-category:delete"
+ 
+  | "schedule:create"
+  | "schedule:all"
+  | "schedule:first"
+  | "schedule:update"
+  | "schedule:delete"
+ 
+
+  | "location:create"
+  | "locations:read"
+  | "location:read"
+  | "location:update"
+  | "location:users"
+  | "location:user"
+  | "location:delete"
+ 
+
+  | "employee:invite"
+  | "employee/register"
+  | "employee:update"
+  | "employee:delete"
+  | "employees:read"
+ 
+
+  | "user-find:email"
+  | "user-check:location"
+ 
+
+  | "company-customer:create"
+  | "company-customers:read"
+  | "company-customer:read"
+  | "company-customer-bookings:read"
+  | "company:create"
+ 
+
+  | "booking:create"
+  | "bookings:read"
+  | "booking-detail:read"
+  | "booking:update"
+  | "booking:status"
+  | "booking:delete"
+ 
+
+  | "directory:employees"
+  | "directory:locations"
+  | "directory:services"

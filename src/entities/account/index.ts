@@ -12,4 +12,4 @@ export { useAccount, accountSelector } from './model/selector/account.selector';
 export * from './model/types/me.type';
 export * from './model/types/role.type';
 export * from './model/types/profile.type';
-
+export * from './model/types/permission.type';

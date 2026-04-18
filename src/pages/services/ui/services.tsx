@@ -1,4 +1,5 @@
 import { useGetServicesQuery } from "@/entities/services"
+import { Can } from "@/features/auth"
 import { AddIcon } from "@/shared/icons"
 import { Button, PageHeader, PageHeaderActions, PageHeaderBackAction, PageHeaderTitle } from "@/shared/ui"
 import { TableLoading } from "@/widgets/loading"
@@ -14,14 +15,16 @@ export const Services = () => {
         <PageHeaderTitle>Услуги</PageHeaderTitle>
         <PageHeaderActions>
           <PageHeaderBackAction />
-          <Link to={"/business/services/create"}>
-            <Button 
-              size={"size_44"} 
-              animation={"toggle"}
-              className={"text-sm font-bold"}
-              iconLeft={<AddIcon width={21} height={21}/>}
-            >Добавить</Button>
-          </Link>
+          <Can permission={"service:create"}>
+            <Link to={"/business/services/create"}>
+              <Button 
+                size={"size_44"} 
+                animation={"toggle"}
+                className={"text-sm font-bold"}
+                iconLeft={<AddIcon width={21} height={21}/>}
+              >Добавить</Button>
+            </Link>
+          </Can>
         </PageHeaderActions>
       </PageHeader>
 

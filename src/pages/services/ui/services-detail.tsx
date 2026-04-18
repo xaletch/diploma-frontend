@@ -1,4 +1,5 @@
 import { useGetDetailServiceQuery } from "@/entities/services"
+import { Can } from "@/features/auth"
 import { ArrowBackUpIcon, PencilEditIcon } from "@/shared/icons"
 import { Button, PageHeader, PageHeaderActions, PageHeaderTitle } from "@/shared/ui"
 import { ServiceDetailLazy, ServiceDetails, ServiceNotFound } from "@/widgets/services"
@@ -22,15 +23,17 @@ export const ServicesDetail = () => {
               iconLeft={<ArrowBackUpIcon width={24} height={24} />}
             >Назад</Button>
           </Link>
-          <Link to={`/business/services/${data?.id}/edit`}>
-            <Button 
-              size={"size_44"} 
-              animation={"toggle"}
-              className={"text-sm font-bold"}
-              iconLeft={<PencilEditIcon width={21} height={21}/>}
-              disabled={isLoading || isError}
-            >Редактировать</Button>
-          </Link>
+          <Can permission={"service:update"}>
+            <Link to={`/business/services/${data?.id}/edit`}>
+              <Button 
+                size={"size_44"} 
+                animation={"toggle"}
+                className={"text-sm font-bold"}
+                iconLeft={<PencilEditIcon width={21} height={21}/>}
+                disabled={isLoading || isError}
+              >Редактировать</Button>
+            </Link>
+          </Can>
         </PageHeaderActions>
       </PageHeader>
 

@@ -1,5 +1,5 @@
 import type { AppDispatch } from "@/app/providers/redux/config";
-import { setAccount, setLocation, useLazyMeQuery } from "@/entities/account";
+import { setAccount, setLocation, setPermission, useLazyMeQuery, useLazyPermissionsQuery } from "@/entities/account";
 import { useNavigate } from "@tanstack/react-router";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useDispatch } from "react-redux";
@@ -25,6 +25,7 @@ export const useInitialize = (): InitializeReturnProps => {
   const navigate = useNavigate();
 
   const [account] = useLazyMeQuery();
+  const [permissions] = useLazyPermissionsQuery();
 
   const shouldInitialize = useMemo(() => {
     return !state.isInitialized && state.isLoading;
@@ -34,8 +35,16 @@ export const useInitialize = (): InitializeReturnProps => {
     try {
       setState(p => ({ ...p, isLoading: true, progress: 0 }));
 
-      const me = await account().unwrap();
+      // const me = await account().unwrap();
+      // const permission = await permissions().unwrap();
+
+      const [me, permission] = await Promise.all([
+        account().unwrap(),
+        permissions().unwrap(),
+      ]);
+
       dispatch(setAccount(me));
+      dispatch(setPermission(permission));
       
       if (me.company === null) {
         navigate({ to: "/company/create" });
