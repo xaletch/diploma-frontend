@@ -3,7 +3,7 @@ import { useClipboard } from "../model/hook/clipboard.hook";
 import { ArrowCircleIcon, CopyIcon } from "@/shared/icons";
 
 interface CopyableProps {
-  text?: string;
+  text?: string | null;
 }
 
 export const Copyable = ({ text }: CopyableProps) => {

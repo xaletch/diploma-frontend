@@ -38,7 +38,7 @@ export const BookingTable = ({ bookings, isFetching }: BookingTableProps) => {
           {bookings?.length ? 
             bookings.map((booking, index) => (
               <React.Fragment key={index}>
-                <TableRow onClick={() => navigate({ to: `#` })}>
+                <TableRow onClick={() => navigate({ to: `${booking.id}` })}>
                   <TableCell>
                     <div>
                       <p className="font-semibold">{formatDate(booking.date)}</p>

@@ -7,6 +7,7 @@ export interface IBookingCustomer {
   last_name: string | null;
   phone: string;
   email: string | null;
+  avatar: string | null;
   birthday: string | null;
 }
 

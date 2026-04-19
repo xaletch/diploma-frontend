@@ -30,4 +30,5 @@ export const bookingApi = API.injectEndpoints({
 export const {
   useGetBookingsQuery,
   useGetBookingQuery,
+  
 } = bookingApi;
