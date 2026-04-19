@@ -30,6 +30,7 @@ import { Route as AppLayoutCustomersCustomer_idIndexRouteImport } from './app/ro
 import { Route as AppLayoutCompanyCreateIndexRouteImport } from './app/routes/_app/_layout/company/create/index'
 import { Route as AppLayoutBusinessServicesIndexRouteImport } from './app/routes/_app/_layout/business/services/index'
 import { Route as AppLayoutBusinessLocationsIndexRouteImport } from './app/routes/_app/_layout/business/locations/index'
+import { Route as AppLayoutBookingsBooking_idIndexRouteImport } from './app/routes/_app/_layout/bookings/$booking_id/index'
 import { Route as AppLayoutEmployeesScheduleEmployee_idRouteImport } from './app/routes/_app/_layout/employees/schedule/$employee_id'
 import { Route as AppLayoutEmployeesUsersCreateIndexRouteImport } from './app/routes/_app/_layout/employees/users/create/index'
 import { Route as AppLayoutEmployeesUsersEmployee_idIndexRouteImport } from './app/routes/_app/_layout/employees/users/$employee_id/index'
@@ -175,6 +176,12 @@ const AppLayoutBusinessLocationsIndexRoute =
     path: '/business/locations/',
     getParentRoute: () => AppLayoutRoute,
   } as any)
+const AppLayoutBookingsBooking_idIndexRoute =
+  AppLayoutBookingsBooking_idIndexRouteImport.update({
+    id: '/bookings/$booking_id/',
+    path: '/bookings/$booking_id/',
+    getParentRoute: () => AppLayoutRoute,
+  } as any)
 const AppLayoutEmployeesScheduleEmployee_idRoute =
   AppLayoutEmployeesScheduleEmployee_idRouteImport.update({
     id: '/employees/schedule/$employee_id',
@@ -270,6 +277,7 @@ export interface FileRoutesByFullPath {
   '/network/client/': typeof NetworkLayoutClientIndexRoute
   '/network/server/': typeof NetworkLayoutServerIndexRoute
   '/employees/schedule/$employee_id': typeof AppLayoutEmployeesScheduleEmployee_idRoute
+  '/bookings/$booking_id/': typeof AppLayoutBookingsBooking_idIndexRoute
   '/business/locations/': typeof AppLayoutBusinessLocationsIndexRoute
   '/business/services/': typeof AppLayoutBusinessServicesIndexRoute
   '/company/create/': typeof AppLayoutCompanyCreateIndexRoute
@@ -305,6 +313,7 @@ export interface FileRoutesByTo {
   '/network/client': typeof NetworkLayoutClientIndexRoute
   '/network/server': typeof NetworkLayoutServerIndexRoute
   '/employees/schedule/$employee_id': typeof AppLayoutEmployeesScheduleEmployee_idRoute
+  '/bookings/$booking_id': typeof AppLayoutBookingsBooking_idIndexRoute
   '/business/locations': typeof AppLayoutBusinessLocationsIndexRoute
   '/business/services': typeof AppLayoutBusinessServicesIndexRoute
   '/company/create': typeof AppLayoutCompanyCreateIndexRoute
@@ -343,6 +352,7 @@ export interface FileRoutesById {
   '/network/_layout/client/': typeof NetworkLayoutClientIndexRoute
   '/network/_layout/server/': typeof NetworkLayoutServerIndexRoute
   '/_app/_layout/employees/schedule/$employee_id': typeof AppLayoutEmployeesScheduleEmployee_idRoute
+  '/_app/_layout/bookings/$booking_id/': typeof AppLayoutBookingsBooking_idIndexRoute
   '/_app/_layout/business/locations/': typeof AppLayoutBusinessLocationsIndexRoute
   '/_app/_layout/business/services/': typeof AppLayoutBusinessServicesIndexRoute
   '/_app/_layout/company/create/': typeof AppLayoutCompanyCreateIndexRoute
@@ -380,6 +390,7 @@ export interface FileRouteTypes {
     | '/network/client/'
     | '/network/server/'
     | '/employees/schedule/$employee_id'
+    | '/bookings/$booking_id/'
     | '/business/locations/'
     | '/business/services/'
     | '/company/create/'
@@ -415,6 +426,7 @@ export interface FileRouteTypes {
     | '/network/client'
     | '/network/server'
     | '/employees/schedule/$employee_id'
+    | '/bookings/$booking_id'
     | '/business/locations'
     | '/business/services'
     | '/company/create'
@@ -452,6 +464,7 @@ export interface FileRouteTypes {
     | '/network/_layout/client/'
     | '/network/_layout/server/'
     | '/_app/_layout/employees/schedule/$employee_id'
+    | '/_app/_layout/bookings/$booking_id/'
     | '/_app/_layout/business/locations/'
     | '/_app/_layout/business/services/'
     | '/_app/_layout/company/create/'
@@ -634,6 +647,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppLayoutBusinessLocationsIndexRouteImport
       parentRoute: typeof AppLayoutRoute
     }
+    '/_app/_layout/bookings/$booking_id/': {
+      id: '/_app/_layout/bookings/$booking_id/'
+      path: '/bookings/$booking_id'
+      fullPath: '/bookings/$booking_id/'
+      preLoaderRoute: typeof AppLayoutBookingsBooking_idIndexRouteImport
+      parentRoute: typeof AppLayoutRoute
+    }
     '/_app/_layout/employees/schedule/$employee_id': {
       id: '/_app/_layout/employees/schedule/$employee_id'
       path: '/employees/schedule/$employee_id'
@@ -738,6 +758,7 @@ interface AppLayoutRouteChildren {
   AppLayoutScheduleIndexRoute: typeof AppLayoutScheduleIndexRoute
   AppLayoutSettingsIndexRoute: typeof AppLayoutSettingsIndexRoute
   AppLayoutEmployeesScheduleEmployee_idRoute: typeof AppLayoutEmployeesScheduleEmployee_idRoute
+  AppLayoutBookingsBooking_idIndexRoute: typeof AppLayoutBookingsBooking_idIndexRoute
   AppLayoutBusinessLocationsIndexRoute: typeof AppLayoutBusinessLocationsIndexRoute
   AppLayoutBusinessServicesIndexRoute: typeof AppLayoutBusinessServicesIndexRoute
   AppLayoutCompanyCreateIndexRoute: typeof AppLayoutCompanyCreateIndexRoute
@@ -769,6 +790,7 @@ const AppLayoutRouteChildren: AppLayoutRouteChildren = {
   AppLayoutSettingsIndexRoute: AppLayoutSettingsIndexRoute,
   AppLayoutEmployeesScheduleEmployee_idRoute:
     AppLayoutEmployeesScheduleEmployee_idRoute,
+  AppLayoutBookingsBooking_idIndexRoute: AppLayoutBookingsBooking_idIndexRoute,
   AppLayoutBusinessLocationsIndexRoute: AppLayoutBusinessLocationsIndexRoute,
   AppLayoutBusinessServicesIndexRoute: AppLayoutBusinessServicesIndexRoute,
   AppLayoutCompanyCreateIndexRoute: AppLayoutCompanyCreateIndexRoute,

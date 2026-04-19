@@ -3,11 +3,12 @@ import { getAvatarColor } from "../model/utils/get-color.util";
 import { cva, type VariantProps } from "class-variance-authority";
 
 const avatarVariants = cva(
-  "flex items-center gap-0.5 text-lg justify-center bg-primary-foreground/35 relative",
+  "flex items-center gap-0.5 text-lg justify-center bg-primary-foreground/35 relative overflow-hidden",
   {
     variants: {
       size: {
         default: "min-w-10 w-10 h-10 rounded-10",
+        xs: "min-w-5 w-5 h-5 rounded-md text-xs",
         tiny: "min-w-6 w-6 h-6 rounded-md text-sm",
         small: "min-w-8 w-8 h-8 rounded-8",
         md: "min-w-10 w-10 h-10 rounded-lg",

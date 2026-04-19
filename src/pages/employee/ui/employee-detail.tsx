@@ -2,8 +2,8 @@ import { accountSelector } from "@/entities/account";
 import { dialogSelector } from "@/entities/dialog";
 import { useGetEmployeeQuery } from "@/entities/employee";
 import { Can } from "@/features/auth";
-import { ArrowBackUpIcon, PencilEditIcon } from "@/shared/icons"
-import { Button, PageHeader, PageHeaderActions, PageHeaderTitle } from "@/shared/ui"
+import { PencilEditIcon } from "@/shared/icons"
+import { Button, PageHeader, PageHeaderActions, PageHeaderBackAction, PageHeaderTitle } from "@/shared/ui"
 import { EmployeeDetailLazy, EmployeeDetails, EmployeeNotFound, EmployeeDeleteDialog } from "@/widgets/employee";
 import { Link, useParams } from "@tanstack/react-router"
 import { useSelector } from "react-redux";
@@ -20,15 +20,7 @@ export const EmployeeDetail = () => {
       <PageHeader>
         <PageHeaderTitle>Сотрудник</PageHeaderTitle>
         <PageHeaderActions>
-          <Link to={"/employees/users"}>
-            <Button
-              variant={"white"}
-              animation={"toggle"}
-              className={"px-5 text-sm font-bold"}
-              size={"size_44"}
-              iconLeft={<ArrowBackUpIcon width={24} height={24} />}
-            >Назад</Button>
-          </Link>
+          <PageHeaderBackAction />
           <Can permission={"employee:update"}>
             <Link to={`edit`}>
               <Button
