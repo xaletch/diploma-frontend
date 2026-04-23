@@ -2,6 +2,7 @@ import { API } from "@/shared/api";
 import type { IDirectoryEmployee } from "../model/types/directory-employee.type";
 import type { IDirectoryLocation } from "../model/types/directory-location.type";
 import type { IDirectoryService } from "../model/types/directory-service.type";
+import type { IDirectoryCustomer } from "../model/types/directory-customer.type";
 
 export const DirectoryAPI = API.injectEndpoints({
   endpoints: builder => ({
@@ -11,6 +12,26 @@ export const DirectoryAPI = API.injectEndpoints({
     employees: builder.query<IDirectoryEmployee[], void>({
       query: () => ({
         url: "/v1/directory/employees",
+        method: "GET",
+      }),
+    }),
+
+    /**
+      ===== СПИСОК ВСЕХ СОТРУДНИКОВ РАБОТАЮЩИХ В ЛОКАЦИИ =====
+    **/
+    locationEmployees: builder.query<IDirectoryEmployee[], { location_id: string }>({
+      query: ({ location_id }) => ({
+        url: `/v1/directory/employees/${location_id}`,
+        method: "GET",
+      }),
+    }),
+
+    /**
+      ===== СПИСОК ВСЕХ КЛИЕНТОВ КОМПАНИИ =====
+    **/
+    companyCustomers: builder.query<IDirectoryCustomer[], void>({
+      query: () => ({
+        url: `/v1/directory/customers`,
         method: "GET",
       }),
     }),
@@ -34,11 +55,24 @@ export const DirectoryAPI = API.injectEndpoints({
         method: "GET",
       }),
     }),
+
+    /**
+      ===== СПИСОК ВСЕХ УСЛУГ ЛОКАЦИИ =====
+    **/
+    locationServices: builder.query<IDirectoryService[], { location_id: string }>({
+      query: ({ location_id }) => ({
+        url: `/v1/directory/services/${location_id}`,
+        method: "GET",
+      }),
+    }),
   }),
 });
 
 export const {
   useEmployeesQuery,
+  useLocationEmployeesQuery,
+  useCompanyCustomersQuery,
   useLocationsQuery,
   useServicesQuery,
+  useLocationServicesQuery,
 } = DirectoryAPI;

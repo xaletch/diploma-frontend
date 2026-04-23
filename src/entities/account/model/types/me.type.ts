@@ -12,6 +12,7 @@ export interface MeLocations {
   id: string;
   name: string;
   avatar: string;
+  full_address: string;
 }
 
 export interface IMe {

@@ -57,3 +57,6 @@ export type PermissionName =
   | "directory:employees"
   | "directory:locations"
   | "directory:services"
+  | "directory:location-employees"
+  | "directory:location-services"
+  | "directory:customers"

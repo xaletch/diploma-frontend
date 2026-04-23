@@ -124,6 +124,7 @@
   /* rounded */
   --radius-18: 18px;
   --radius-xl: 15px;
+  --radius-8: 8px;
   --radius-13: 13px;
   --radius-12: 12px;
   --radius-10: 10px;
@@ -152,4 +153,16 @@
   max-width: 1440px;
   margin-inline: auto;
   padding-inline: 1.25rem;
+}
+
+.scrollbar-hidden::-webkit-scrollbar {
+  display: none;
+}
+
+.scrollbar-hidden {
+  scrollbar-width: none;
+}
+
+.scrollbar-hidden {
+  -ms-overflow-style: none;
 }

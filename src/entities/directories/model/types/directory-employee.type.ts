@@ -5,6 +5,7 @@ export interface IDirectoryEmployee {
   email: string;
   first_name: string;
   last_name: string;
+  full_name: string;
   role: RoleType;
   position: string;
   avatar: string;

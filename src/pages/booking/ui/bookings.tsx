@@ -1,8 +1,11 @@
 import { accountSelector } from "@/entities/account";
 import { useGetBookingsQuery } from "@/entities/booking"
-import { PageHeader, PageHeaderActions, PageHeaderBackAction, PageHeaderTitle } from "@/shared/ui"
+import { Can } from "@/features/auth";
+import { AddIcon } from "@/shared/icons";
+import { Button, PageHeader, PageHeaderActions, PageHeaderBackAction, PageHeaderTitle } from "@/shared/ui"
 import { BookingTable } from "@/widgets/booking";
 import { TableLoading } from "@/widgets/loading";
+import { Link } from "@tanstack/react-router";
 import { useSelector } from "react-redux";
 
 export const Bookings = () => {
@@ -15,6 +18,16 @@ export const Bookings = () => {
         <PageHeaderTitle>Записи</PageHeaderTitle>
         <PageHeaderActions>
           <PageHeaderBackAction />
+          <Can permission={"booking:create"}>
+            <Link to={"/bookings/create"}>
+              <Button 
+                size={"size_44"}
+                animation={"toggle"}
+                className={"text-sm font-bold"}
+                iconLeft={<AddIcon width={21} height={21}/>}
+              >Новое бронирование</Button>
+            </Link>
+          </Can>
         </PageHeaderActions>
       </PageHeader>
 

@@ -1,4 +1,5 @@
 import { accountSlice } from "@/entities/account";
+import { bookingSlice } from "@/entities/booking";
 import { dialogSlice } from "@/entities/dialog";
 import { navigationSlice } from "@/entities/navigation";
 import { companySlice } from "@/pages/company";
@@ -13,6 +14,11 @@ export const store = configureStore({
     company: companySlice,
     account: accountSlice,
     navigation: navigationSlice,
+
+    /**
+      ===== BOOKINGS =====
+    **/
+    booking: bookingSlice,
 
     /**
       ===== DIALOG ===== 

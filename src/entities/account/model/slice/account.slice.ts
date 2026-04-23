@@ -51,6 +51,7 @@ export const accountSlice = createSlice({
       state.account = null;
       state.location = null;
       state.permissions = null;
+      localStorage.removeItem("location");
     },
   },
 });

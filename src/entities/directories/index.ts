@@ -5,3 +5,4 @@ export * from './service/directory.service';
 export type { IDirectoryEmployee } from './model/types/directory-employee.type';
 export type { IDirectoryLocation } from './model/types/directory-location.type';
 export type { IDirectoryService } from './model/types/directory-service.type';
+export type { IDirectoryCustomer } from './model/types/directory-customer.type';
