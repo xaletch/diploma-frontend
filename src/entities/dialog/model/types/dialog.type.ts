@@ -12,7 +12,12 @@ export type DialogNames =
   |
 
   /** ===== РАСПИСАНИЕ ===== **/
-  "schedule";
+  "schedule"
+
+  |
+
+  /** ===== СОЗДАНИЕ БРОНИРОВАНИЯ ===== **/
+  "booking_service_create"
 
 /**
   ===== DIALOG DATA =====
@@ -39,6 +44,9 @@ export type DialogDataMap = {
     intervals: IScheduleIntervals[];
     day_info?: DayInfo;
   };
+
+  /** ===== СОЗДАНИЕ БРОНИРОВАНИЯ ===== **/
+  booking_service_create: undefined;
 }
 
 /**
@@ -47,6 +55,7 @@ export type DialogDataMap = {
 export type DialogUnion = 
   | { name?: undefined, data?: undefined }
   | { name: "delete_employee", data: DialogDataMap["delete_employee"] }
-  | { name: "schedule", data: DialogDataMap["schedule"] };
+  | { name: "schedule", data: DialogDataMap["schedule"] }
+  | { name: "booking_service_create", data: DialogDataMap["booking_service_create"] }
 
 export type DialogData<T extends DialogNames> = DialogDataMap[T];

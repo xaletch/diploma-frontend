@@ -1,18 +1,24 @@
 import { setBookingCreate } from "@/entities/booking";
-import { useCompanyCustomersQuery } from "@/entities/directories";
+import { useCompanyCustomersQuery, type IDirectoryCustomer } from "@/entities/directories";
 import { Avatar } from "@/entities/user";
 import { useAppDispatch } from "@/shared/hooks";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/shared/ui/select/ui/select-custom";
 
-// interface BookingSelectCustomerProps {}
+interface BookingSelectCustomerProps {
+  customer: IDirectoryCustomer | undefined;
+}
 
-export const BookingSelectCustomer = () => {
+export const BookingSelectCustomer = ({ customer }: BookingSelectCustomerProps) => {
 
   const { data, isLoading } = useCompanyCustomersQuery();
   const dispatch = useAppDispatch();
+
   return (
-    <Select>
-      <SelectTrigger>
+    <Select value={{
+      value: customer?.full_name ?? "",
+      label: customer?.full_name ?? ""
+    }}>
+      <SelectTrigger className="h-16">
         <SelectValue placeholder="Клиент не выбран" />
       </SelectTrigger>
       <SelectContent className="p-0">
@@ -27,13 +33,13 @@ export const BookingSelectCustomer = () => {
                 label: customer.first_name,
                 avatar: { id: customer.id, name: customer.first_name, avatar_url: customer.avatar }
               }}
-              handleSelect={() => dispatch(setBookingCreate({ customer }))}
+              onChange={() => dispatch(setBookingCreate({ customer }))}
               className="flex items-center gap-2 rounded-none"
             >
               <Avatar size={"small"} id={customer.id} avatar_url={customer.avatar} name={customer.first_name} />
               <div>
                 <div className="text-md leading-5">{customer.full_name}</div>
-                <div className="text-10 leading-3">{customer.phone}</div>
+                <div className="text-11 leading-3">{customer.phone}</div>
               </div>
             </SelectItem>
           ))

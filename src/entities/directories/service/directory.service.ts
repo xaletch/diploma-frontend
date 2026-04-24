@@ -1,7 +1,7 @@
 import { API } from "@/shared/api";
-import type { IDirectoryEmployee } from "../model/types/directory-employee.type";
+import type { IDirectoryEmployee, IDirectoryLocationEmployee } from "../model/types/directory-employee.type";
 import type { IDirectoryLocation } from "../model/types/directory-location.type";
-import type { IDirectoryService } from "../model/types/directory-service.type";
+import type { IDirectoryLocationService, IDirectoryService } from "../model/types/directory-service.type";
 import type { IDirectoryCustomer } from "../model/types/directory-customer.type";
 
 export const DirectoryAPI = API.injectEndpoints({
@@ -19,7 +19,7 @@ export const DirectoryAPI = API.injectEndpoints({
     /**
       ===== СПИСОК ВСЕХ СОТРУДНИКОВ РАБОТАЮЩИХ В ЛОКАЦИИ =====
     **/
-    locationEmployees: builder.query<IDirectoryEmployee[], { location_id: string }>({
+    locationEmployees: builder.query<IDirectoryLocationEmployee[], { location_id: string }>({
       query: ({ location_id }) => ({
         url: `/v1/directory/employees/${location_id}`,
         method: "GET",
@@ -59,7 +59,7 @@ export const DirectoryAPI = API.injectEndpoints({
     /**
       ===== СПИСОК ВСЕХ УСЛУГ ЛОКАЦИИ =====
     **/
-    locationServices: builder.query<IDirectoryService[], { location_id: string }>({
+    locationServices: builder.query<IDirectoryLocationService[], { location_id: string }>({
       query: ({ location_id }) => ({
         url: `/v1/directory/services/${location_id}`,
         method: "GET",

@@ -1,16 +1,21 @@
 import { accountSelector } from "@/entities/account"
-import { bookingSelector } from "@/entities/booking";
+import { bookingSelector, BookingSelectServiceCard } from "@/entities/booking";
 import { Avatar } from "@/entities/user";
 import { BookingSelectCustomer } from "@/features/booking";
 import { Copyable } from "@/features/copyable";
 import { AddIcon } from "@/shared/icons";
-import { Button, Card, CardContent, CardContentLabel, CardContentLabelDescription, CardContentLabelTitle, CardHeader, CardTitle, Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/shared/ui"
+import { Button, Card, CardContent, CardContentLabel, CardContentLabelDescription, CardContentLabelTitle, CardHeader, CardTitle, Dialog, DialogTrigger } from "@/shared/ui"
 import { formatPrice } from "@/shared/utils";
 import { useSelector } from "react-redux"
+import { BookingServiceSetting } from "./components/booking-service-setting";
+import { dialogSelector, useDialog } from "@/entities/dialog";
 
 export const BookingCreateForm = () => {
   const { location } = useSelector(accountSelector);
   const { booking_create } = useSelector(bookingSelector);
+  const { dialog } = useSelector(dialogSelector);
+
+  const { closeDialog, openDialog } = useDialog();
 
   return (
     <div className="mt-8 relative flex gap-8 h-full">
@@ -39,17 +44,20 @@ export const BookingCreateForm = () => {
                 <CardTitle>Услуга</CardTitle>
               </CardHeader>
               <CardContent>
-                <Dialog>
-                  <DialogTrigger asChild>
-                    <Button variant={"dashed"} size={"icon_42"} className="w-full rounded-lg text-sm" iconLeft={<AddIcon width={18} height={18}/>}>Выбрать услугу</Button>
-                  </DialogTrigger>
 
-                  <DialogContent>
-                    <DialogHeader>
-                      <DialogTitle>Добавление услуги</DialogTitle>
-                    </DialogHeader>
-                  </DialogContent>
+
+                {(booking_create?.service && booking_create.employee) ? (
+                  <BookingSelectServiceCard onClick={() => openDialog("booking_service_create", undefined)} service={booking_create.service} employee={booking_create.employee} />
+                ) : (
+                  <Button type={"button"} onClick={() => openDialog("booking_service_create", undefined)} variant={"dashed"} size={"icon_42"} className="w-full rounded-lg text-sm" iconLeft={<AddIcon width={18} height={18}/>}>Выбрать услугу</Button>
+                )}
+
+                <Dialog open={dialog.name === "booking_service_create"} onOpenChange={closeDialog}>
+                  <DialogTrigger asChild onClick={() => openDialog("booking_service_create", undefined)}>
+                  </DialogTrigger>
+                  <BookingServiceSetting location_id={location.id} service={booking_create?.service} employee={booking_create?.employee} />
                 </Dialog>
+
               </CardContent>
             </Card>
 
@@ -59,7 +67,7 @@ export const BookingCreateForm = () => {
               </CardHeader>
 
               <CardContent className="space-y-5">
-                <BookingSelectCustomer />
+                <BookingSelectCustomer customer={booking_create?.customer} />
 
                 {booking_create?.customer && (
                   <div className="space-y-5">
@@ -97,7 +105,7 @@ export const BookingCreateForm = () => {
         <CardContent className="flex-1 flex flex-col">
           <div className="flex items-center justify-between">
             <div className="font-medium opacity-60">Итого</div>
-            <div className="font-semibold">{formatPrice(0)} ₽</div>
+            <div className="font-semibold">{formatPrice(booking_create?.service?.prices.price ?? 0)} ₽</div>
           </div>
           <div className="flex-1"></div>
           <div>

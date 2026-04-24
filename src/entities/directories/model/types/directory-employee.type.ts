@@ -10,3 +10,7 @@ export interface IDirectoryEmployee {
   position: string;
   avatar: string;
 }
+
+export interface IDirectoryLocationEmployee extends IDirectoryEmployee {
+  services: Array<{ id: string }>;
+}

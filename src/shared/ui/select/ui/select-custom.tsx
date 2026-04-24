@@ -1,5 +1,5 @@
 import { cn } from '@/shared/utils';
-import { createContext, useContext, useEffect, useRef, useState, type ComponentProps } from 'react';
+import { createContext, useContext, useEffect, useRef, useState, useCallback, type ComponentProps, useMemo } from 'react';
 import { buttonVariants } from '../../button';
 import type { VariantProps } from 'class-variance-authority';
 import { Avatar } from '@/entities/user';
@@ -15,12 +15,37 @@ type SelectItemValue = {
   };
 }
 
+type GlobalSelectContextType = {
+  activeSelectId: string | null;
+  setActiveSelectId: (id: string | null) => void;
+};
+
+const GlobalSelectContext = createContext<GlobalSelectContextType>({
+  activeSelectId: null,
+  setActiveSelectId: () => {},
+});
+
+export function GlobalSelectProvider({ children }: { children: React.ReactNode }) {
+  const [activeSelectId, setActiveSelectId] = useState<string | null>(null);
+  
+  return (
+    <GlobalSelectContext.Provider value={{ activeSelectId, setActiveSelectId }}>
+      {children}
+    </GlobalSelectContext.Provider>
+  );
+}
+
+function useGlobalSelect() {
+  return useContext(GlobalSelectContext);
+}
+
 type SelectContextType = {
   value?: SelectItemValue;
   setValue: (v: SelectItemValue) => void;
   open: boolean;
   setOpen: (v: boolean) => void;
   ref: React.RefObject<HTMLDivElement | null>;
+  selectId: string;
 };
 
 const SelectContext = createContext<SelectContextType | null>(null);
@@ -41,18 +66,46 @@ function Select({ className, children, value, defaultValue, onValueChange, ...pr
   const [internalValue, setInternalValue] = useState<SelectItemValue | undefined>(defaultValue);
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
+  const selectId = useRef(Math.random().toString(36).substring(7)).current;
+  const { activeSelectId, setActiveSelectId } = useGlobalSelect();
+
+  const onValueChangeRef = useRef(onValueChange);
+  onValueChangeRef.current = onValueChange;
 
   const isControlled = value !== undefined;
   const currentValue = isControlled ? value : internalValue;
 
-  const setValue = (v: SelectItemValue) => {
+  const setValue = useCallback((v: SelectItemValue) => {
     if (!isControlled) setInternalValue(v);
-    onValueChange?.(v);
+    onValueChangeRef.current?.(v);
     setOpen(false);
-  };
+    setActiveSelectId(null);
+  }, [isControlled, setActiveSelectId]);
+
+  const handleOpenChange = useCallback((newOpen: boolean) => {
+    if (newOpen) {
+      setActiveSelectId(selectId);
+    }
+    setOpen(newOpen);
+  }, [selectId, setActiveSelectId]);
+
+  useEffect(() => {
+    if (activeSelectId && activeSelectId !== selectId && open) {
+      setOpen(false);
+    }
+  }, [activeSelectId, selectId, open]);
+
+  const contextValue = useMemo(() => ({
+    value: currentValue,
+    setValue,
+    open,
+    setOpen: handleOpenChange,
+    ref,
+    selectId,
+  }), [currentValue, setValue, open, handleOpenChange, selectId]);
 
   return (
-    <SelectContext.Provider value={{ value: currentValue, setValue, open, setOpen, ref }}>
+    <SelectContext.Provider value={contextValue}>
       <div
         ref={ref}
         data-ui={"select"}
@@ -65,7 +118,7 @@ function Select({ className, children, value, defaultValue, onValueChange, ...pr
 
 type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & VariantProps<typeof buttonVariants>;
 
-function SelectTrigger({ className, variant="select", size="icon_44",  children, ...props }: ButtonProps) {
+function SelectTrigger({ className, variant="select", size="icon_44", children, ...props }: ButtonProps) {
   const { open, setOpen } = useSelect();
 
   return (
@@ -97,11 +150,11 @@ function SelectValue({ placeholder, className, ...props }: SelectValueProps) {
   return (
     <div
       data-ui={"select-value"}
-      className={cn("flex items-center gap-2.5", !value ? "opacity-50" : "", className)}
+      className={cn("flex items-center gap-2.5", !value?.value.length ? "opacity-50" : "", className)}
       {...props}
     >
       {value?.avatar && <Avatar size={"small"} id={value.avatar.id} avatar_url={value.avatar.avatar_url} name={value.avatar.name} />}
-      {value?.value ?? placeholder}
+      {value?.value.length ? value.value : placeholder}
     </div>
   );
 }
@@ -119,20 +172,19 @@ function SelectContent({ className, children, ...props }: ComponentProps<"div">)
       }
     }
 
-    if (open) document.addEventListener('click', handleClick);
-    return () => document.removeEventListener('click', handleClick);
-  }, [open]);
+    if (open) {
+      document.addEventListener('click', handleClick);
+      return () => document.removeEventListener('click', handleClick);
+    }
+  }, [open, ref, setOpen]);
 
   useEffect(() => {
     if (!open || !ref.current) return;
 
     const rect = ref.current.getBoundingClientRect();
-
     const spaceBelow = window.innerHeight - rect.bottom;
     const spaceAbove = rect.top;
-
     const padding = 8;
-
     const shouldOpenTop = spaceBelow < 200 && spaceAbove > spaceBelow;
 
     setSide(shouldOpenTop ? 'top' : 'bottom');
@@ -142,6 +194,21 @@ function SelectContent({ className, children, ...props }: ComponentProps<"div">)
       : spaceBelow - padding;
 
     setMaxHeight(availableHeight-8);
+  }, [open, ref]);
+
+  useEffect(() => {
+    if (open && contentRef.current) {
+      const container = contentRef.current;
+      requestAnimationFrame(() => {
+        const selectedItem = container.querySelector('[data-selected="true"]');
+        if (selectedItem) {
+          const itemRect = selectedItem.getBoundingClientRect();
+          const containerRect = container.getBoundingClientRect();
+          const scrollTop = container.scrollTop + itemRect.top - containerRect.top - containerRect.height / 2 + itemRect.height / 2;
+          container.scrollTop = scrollTop;
+        }
+      });
+    }
   }, [open]);
 
   if (!open) return null;
@@ -152,8 +219,7 @@ function SelectContent({ className, children, ...props }: ComponentProps<"div">)
       data-ui={"select-content"}
       style={{ maxHeight }}
       className={cn(
-        "scrollbar-hidden bg-card backdrop-blur-xl p-3.5 text-foreground data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 relative z-50 max-h-(--radix-select-content-available-height) min-w-32 origin-(--radix-select-content-transform-origin) overflow-x-hidden overflow-y-auto rounded-2xl",
-        "data-[side=bottom]:translate-y-1 data-[side=left]:-translate-x-1 data-[side=right]:translate-x-1 data-[side=top]:-translate-y-1",
+        "scrollbar-hidden bg-card backdrop-blur-xl p-3.5 text-foreground relative z-50 min-w-32 overflow-x-hidden overflow-y-auto rounded-2xl",
         "absolute left-0 right-0 z-50 my-2",
         side === 'bottom' && "top-full",
         side === 'top' && "bottom-full",
@@ -168,32 +234,34 @@ function SelectContent({ className, children, ...props }: ComponentProps<"div">)
 
 type SelectItemProps = {
   value: SelectItemValue;
-  handleSelect?: () => void;
+  onChange?: (v?: string) => void;
 } & ComponentProps<"div">;
 
-function SelectItem({ value, handleSelect, className, children, ...props }: SelectItemProps) {
+const SelectItem = ({ value, onChange, className, children, ...props }: SelectItemProps) => {
   const { value: selected, setValue } = useSelect();
-
   const isSelected = selected?.value === value.value;
+
+  const handleClick = useCallback(() => {
+    setValue(value);
+    onChange?.(value.value);
+  }, [value, onChange, setValue]);
 
   return (
     <div
       data-ui={"select-item"}
+      data-selected={isSelected}
       className={cn(
-        "focus:backdrop-blur-3xl hover:backdrop-blur-3xl focus:text-foreground [&_svg:not([class*='text-'])]:text-muted-foreground relative flex w-full items-center gap-2 rounded-[14px] py-3.5 px-4 text-md outline-hidden select-none data-disabled:pointer-events-none data-disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 *:[span]:last:flex *:[span]:last:items-center *:[span]:last:gap-2 cursor-pointer", 
+        "hover:backdrop-blur-3xl relative flex w-full items-center gap-2 rounded-[14px] py-3.5 px-4 text-md outline-hidden select-none cursor-pointer", 
         isSelected ? "backdrop-blur-3xl" : "", 
         className
       )}
-      onClick={() => {
-        setValue(value);
-        handleSelect?.();
-      }}
+      onClick={handleClick}
       {...props}
     >
       {children}
     </div>
   );
-}
+};
 
 export {
   Select,
