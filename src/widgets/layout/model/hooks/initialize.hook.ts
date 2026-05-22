@@ -35,13 +35,8 @@ export const useInitialize = (): InitializeReturnProps => {
     try {
       setState(p => ({ ...p, isLoading: true, progress: 0 }));
 
-      // const me = await account().unwrap();
-      // const permission = await permissions().unwrap();
-
-      const [me, permission] = await Promise.all([
-        account().unwrap(),
-        permissions().unwrap(),
-      ]);
+      const me = await account().unwrap();
+      const permission = await permissions().unwrap();
 
       dispatch(setAccount(me));
       dispatch(setPermission(permission));

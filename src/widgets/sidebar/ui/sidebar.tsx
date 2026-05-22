@@ -20,7 +20,7 @@ export const Sidebar = () => {
               <span className="text-xss leading-3 text-white/70">{account.company?.industry.name}</span>
             </div>
     
-            <LocationDropdown avatar_url={location?.avatar} name={location?.name ?? ""} selectId={location?.id} locations={account.locations} />
+            {location && <LocationDropdown avatar_url={location.avatar} name={location.name} selectId={location.id} locations={account.locations} />}
 
             <SidebarAside />
           </div>

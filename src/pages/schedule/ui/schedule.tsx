@@ -64,6 +64,7 @@ export const Schedule = () => {
         dayInfoByKey={dayInfoByKey}
         isLoading={isLoading}
         isFetching={isFetching}
+        user_id={account!.id}
       />
       {dialog.name === "schedule" && <ScheduleDialog location_id={location_id} data={dialog.data} />}
     </>

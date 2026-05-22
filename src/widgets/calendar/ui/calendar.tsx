@@ -7,10 +7,11 @@ interface CalendarProps {
   dayInfoByKey: Map<string, DayInfo>;
   isLoading?: boolean;
   isFetching: boolean;
+  user_id: string;
 }
 
-export const Calendar = ({ schedules, dayInfoByKey, isLoading=false, isFetching }: CalendarProps) => {
-  const calendar = useCalendar(schedules);
+export const Calendar = ({ schedules, dayInfoByKey, isLoading=false, isFetching, user_id }: CalendarProps) => {
+  const calendar = useCalendar(user_id, schedules);
 
   return (
     <div className="mt-8">

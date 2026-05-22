@@ -63,7 +63,7 @@ export const EmployeeSchedule = () => {
       </PageHeader>
 
       {isError && <EmployeeNotFound />}
-      {!isError && <Calendar schedules={schedules} dayInfoByKey={dayInfoByKey} isLoading={isLoading || isFetching} isFetching={isFetching} />}
+      {!isError && <Calendar schedules={schedules} dayInfoByKey={dayInfoByKey} isLoading={isLoading || isFetching} isFetching={isFetching} user_id={employee_id} />}
       {dialog.name === "schedule" && <ScheduleDialog location_id={location_id} data={dialog.data} />}
     </>
   )
