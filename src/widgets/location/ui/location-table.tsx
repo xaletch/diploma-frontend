@@ -5,15 +5,16 @@ import { LocationOnlineToggle } from "@/features/location";
 import { ChevronRightIcon } from "@/shared/icons"
 import { Badge, Button, Table, TableBody, TableCell, TableCellActions, TableHead, TableHeader, TableNotFound, TableRow, TableSeparator } from "@/shared/ui"
 import { replaceAddress } from "@/shared/utils";
+import { LazyBlur } from "@/widgets/loading";
 import { Link, useNavigate } from "@tanstack/react-router";
 import React from "react";
 
 interface LocationTableProps {
   locations?: ILocationResponse[];
-  isLoading: boolean;
+  isFetching: boolean;
 }
 
-export const LocationTable = ({ locations }: LocationTableProps) => {
+export const LocationTable = ({ locations, isFetching }: LocationTableProps) => {
   const navigate = useNavigate();
   return (
     <div className="mt-8">
@@ -28,6 +29,7 @@ export const LocationTable = ({ locations }: LocationTableProps) => {
         </TableHeader>
 
         <TableBody>
+          {isFetching && <LazyBlur />}
           {locations?.length ? 
             locations.map((loc, index) => (
               <React.Fragment key={index}>

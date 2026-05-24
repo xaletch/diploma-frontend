@@ -8,7 +8,6 @@ export type ServiceStatusType = "online" | "offline";
 
 export interface IServiceCredentials {
   name: string;
-  public_name: string;          // Например name: "Стрижка", public_name: "strizhka"
   mark?: MarkType;
   duration?: number;
   type: ServiceStatusType;
@@ -16,7 +15,7 @@ export interface IServiceCredentials {
   // time_start: string;
   // time_end: string;
 
-  category?: string;
+  category?: string | null;
 
   // ЦЕНЫ
   price?: number;

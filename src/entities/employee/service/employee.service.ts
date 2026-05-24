@@ -1,5 +1,5 @@
 import { API } from "@/shared/api";
-import type { ICheckEmployeeInLocationCredentials, IEmployee, IEmployeeBlockedCredentials, IEmployeeByEmail, IEmployeeByEmailCredentials, IEmployeeDeleteCredentials, IEmployeeDetail, IEmployeeInviteCredentials, IEmployeeInviteResponse, IEmployeeUpdateCredentials, IServiceFromUserCredentials, IServiceToUserCredentials } from "../model/types/employee.type";
+import type { ICheckEmployeeInLocationCredentials, IEmployee, IEmployeeBlockedCredentials, IEmployeeByEmail, IEmployeeByEmailCredentials, IEmployeeDeleteCredentials, IEmployeeDetail, IEmployeeInviteCredentials, IEmployeeInviteResponse, IEmployeeUpdateCredentials, IServiceFromUserCredentials, IServiceToUserCredentials, UploadEmployeeAvatarCredentials } from "../model/types/employee.type";
 
 export const employeeAPI = API.injectEndpoints(({
   endpoints: (build) => ({
@@ -194,6 +194,41 @@ export const employeeAPI = API.injectEndpoints(({
         }
       },
     }),
+
+    /** 
+      ===== ЗАГРУЗКА ФОТО СОТРУДНИКА =====
+    **/
+    photoEmployee: build.mutation<{ avatar: string }, UploadEmployeeAvatarCredentials>({
+      query: ({ user_id, body }) => ({
+        url: `/v1/user/avatar/${user_id}`,
+        method: "POST",
+        body,
+      }),
+      
+      async onQueryStarted({ location_id, user_id }, { dispatch, queryFulfilled }) {
+        try {
+          const { data } = await queryFulfilled;
+          dispatch(
+            employeeAPI.util.updateQueryData(
+              "getEmployees",
+              { location_id },
+              (d) => {
+                const emp = d.find(e => e.id === user_id);
+                if (emp) emp.avatar = data.avatar;
+              }
+            )
+          );
+  
+          dispatch(
+            employeeAPI.util.updateQueryData(
+              "getEmployee",
+              { location_id, employee_id: user_id },
+              (d) => { d.profile.avatar = data.avatar }
+            ),
+          );
+        } catch { /* */ }
+      },
+    }),
   }),
 }));
 
@@ -211,4 +246,5 @@ export const {
   useEmployeeDeleteMutation,
   useAddServiceToUserMutation,
   useRemoveServiceFromUserMutation,
+  usePhotoEmployeeMutation,
 } = employeeAPI;

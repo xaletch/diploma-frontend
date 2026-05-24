@@ -20,3 +20,4 @@ export * from './radio'
 export * from './dialog';
 export * from './empty';
 export * from './calendar';
+export * from './file';

@@ -52,6 +52,7 @@ export const buttonVariants = cva(
         size_44: "h-11",
         size_48: "h-12",
         size_54: "h-13.5",
+        size_56: "h-14",
         size_60: "h-15 w-full text-base font-medium",
       },
       active: {

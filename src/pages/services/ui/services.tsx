@@ -9,6 +9,14 @@ import { Link } from "@tanstack/react-router"
 export const Services = () => {
   const { data, isLoading, isSuccess } = useGetServicesQuery();
 
+  const content = isLoading ? (
+    <TableLoading rows={4} />
+  ) : isSuccess && data.length > 0 ? (
+    <ServicesTable services={data} />
+  ) : (
+    <ServicesEmpty />
+  );
+
   return (
     <>
       <PageHeader>
@@ -28,12 +36,7 @@ export const Services = () => {
         </PageHeaderActions>
       </PageHeader>
 
-      {isLoading && <TableLoading rows={4} />}
-      {data && isSuccess && data.length ? (
-        <ServicesTable services={data} />
-      ): (
-        !isLoading && <ServicesEmpty />
-      )}
+      {content}
     </>
   )
 }

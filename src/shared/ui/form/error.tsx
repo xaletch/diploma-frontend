@@ -4,7 +4,7 @@ export type ErrorProps = {
   msg?: string | null;
 };
 
-export const Error = ({ msg }: ErrorProps) => {
+export const ErrorForm = ({ msg }: ErrorProps) => {
   if (!msg) return null;
 
   return (

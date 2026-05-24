@@ -61,6 +61,8 @@ export interface IBooking {
   customer: IBookingCustomer;
   employee: IBookingEmployee;
   service: IBookingService;
+  subtotal: number;
+  payment_method: PaymentMethodType;
 }
 
 export interface IBookingDetail extends IBooking {

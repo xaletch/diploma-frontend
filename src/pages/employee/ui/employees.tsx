@@ -12,6 +12,14 @@ export const Employees = () => {
   const { location } = useSelector(accountSelector);
   const { isLoading, data, isSuccess, isFetching } = useGetEmployeesQuery({ location_id: location?.id ?? "" });
 
+  const content = isLoading ? (
+    <TableLoading rows={4} />
+  ) : isSuccess && data.length > 0 ? (
+    <EmployeeTable employees={data} isFetching={isFetching} />
+  ) : (
+    <EmployeeEmpty />
+  );
+
   return (
     <>
       <PageHeader>
@@ -31,12 +39,7 @@ export const Employees = () => {
         </PageHeaderActions>
       </PageHeader>
       
-      {isLoading && <TableLoading rows={4} />}
-      {!isLoading && isSuccess && data.length ? (
-        <EmployeeTable employees={data} isLoading={isLoading} isFetching={isFetching} />
-      ) : (
-        !isLoading && <EmployeeEmpty />
-      )}
+      {content}
     </>
   )
 }

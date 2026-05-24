@@ -9,7 +9,6 @@ import React from "react";
 
 interface EmployeeTableProps {
   employees?: IEmployee[];
-  isLoading: boolean;
   isFetching: boolean;
 }
 

@@ -1,4 +1,4 @@
-import { Button, Card, Form, FormWrapperAction, InputForm, SelectForm } from "@/shared/ui"
+import { Button, Card, ErrorForm, Form, FormWrapperAction, ImagePicker, InputForm, SelectForm } from "@/shared/ui"
 import { CardContent, CardContentLabel, CardContentLabelDescription, CardContentLabelTitle, CardHeader, CardTitle } from "@/shared/ui/card/ui/card"
 import { useSelector } from "react-redux"
 import { useAccount } from "@/entities/account"
@@ -16,8 +16,8 @@ export const EmployeeInviteForm = () => {
 
   return (
     <div className="mt-8 relative">
-      <div className="max-w-140 mx-auto space-y-8 relative">
-        <Form id="check" className="space-y-8 relative" onSubmit={(data) => onCheck(data, location!.id)} schema={inviteCheckSchema}>
+      <div className="space-y-8 relative">
+        <Form id="check" className="space-y-8 relative max-w-140 mx-auto" onSubmit={(data) => onCheck(data, location!.id)} schema={inviteCheckSchema}>
           {({ register, formState }) => (
             <>
               <Card>
@@ -39,7 +39,6 @@ export const EmployeeInviteForm = () => {
                     className={"disabled:opacity-90"}
                   />
 
-
                   <div className="bg-card/60 px-4 py-4 w-full text-md h-14 rounded-xl flex flex-col justify-center">
                     <span className="text-11 leading-2 font-normal select-none">Локация</span>
                     <p className="font-medium opacity-80 text-md">{location?.name}</p>
@@ -53,116 +52,141 @@ export const EmployeeInviteForm = () => {
         </Form>
 
         {step === "invite" && employee !== null && (
-          <Card>
-              <CardHeader className="flex-row items-center gap-4 bg-card/60 rounded-t-3xl p-6">
-                <Avatar size={"lg"} id={employee.id} name={employee.first_name.slice(0, 1)} avatar_url={employee.avatar} />
-                <div className="space-y-0.5 flex-1">
-                  <CardTitle className="text-xl">{employee.first_name} {employee.last_name}</CardTitle>
-                </div>
-              </CardHeader>
-            <CardContent className="space-y-5">
+          <div className="max-w-140 mx-auto">
+            <Card>
+                <CardHeader className="flex-row items-center gap-4 bg-card/60 rounded-t-3xl p-6">
+                  <Avatar size={"lg"} id={employee.id} name={employee.first_name.slice(0, 1)} avatar_url={employee.avatar} />
+                  <div className="space-y-0.5 flex-1">
+                    <CardTitle className="text-xl">{employee.first_name} {employee.last_name}</CardTitle>
+                  </div>
+                </CardHeader>
+              <CardContent className="space-y-5">
 
-              <CardContentLabel>
-                <CardContentLabelTitle>Номер телефона</CardContentLabelTitle>
-                <CardContentLabelDescription>{employee.phone}</CardContentLabelDescription>
-              </CardContentLabel>
+                <CardContentLabel>
+                  <CardContentLabelTitle>Номер телефона</CardContentLabelTitle>
+                  <CardContentLabelDescription>{employee.phone}</CardContentLabelDescription>
+                </CardContentLabel>
 
-              <CardContentLabel>
-                <CardContentLabelTitle>Email</CardContentLabelTitle>
-                <CardContentLabelDescription>{employee.email}</CardContentLabelDescription>
-              </CardContentLabel>
+                <CardContentLabel>
+                  <CardContentLabelTitle>Email</CardContentLabelTitle>
+                  <CardContentLabelDescription>{employee.email}</CardContentLabelDescription>
+                </CardContentLabel>
 
-              <CardContentLabel>
-                <CardContentLabelTitle>Роль</CardContentLabelTitle>
-                <CardContentLabelDescription className="capitalize">{ROLE[employee.role.name]}</CardContentLabelDescription>
-              </CardContentLabel>
+                <CardContentLabel>
+                  <CardContentLabelTitle>Роль</CardContentLabelTitle>
+                  <CardContentLabelDescription className="capitalize">{ROLE[employee.role.name]}</CardContentLabelDescription>
+                </CardContentLabel>
 
-            </CardContent>
-          </Card>
+              </CardContent>
+            </Card>
+          </div>
         )}
 
         {step === "create" && (
-          <Form id="create" className="space-y-8 relative" onSubmit={(data) => onInvite(data, location?.id ?? "")} schema={employeeSchema}>
+          <Form
+            id="create"
+            className="flex items-start max-w-140 mx-auto gap-6"
+            onSubmit={(data) => onInvite(data, location?.id ?? "")}
+            schema={employeeSchema}
+          >
             {({ register, formState, control }) => (
               <>
-                <Card>
-                  <CardHeader className="pb-0">
-                    <CardTitle>Основная информация</CardTitle>
-                  </CardHeader>
-                  <CardContent className="space-y-6">
-                    <InputForm
-                      name={"first_name"}
-                      id={"first_name"}
-                      type={"text"}
-                      inputSize={"size_56"}
-                      register={register("first_name")}
-                      label={"Имя"}
-                      placeholder={"Имя"}
-                      error={formState.errors["first_name"]}
-                      required
-                    />
-                    <InputForm
-                      name={"last_name"}
-                      id={"last_name"}
-                      type={"text"}
-                      inputSize={"size_56"}
-                      register={register("last_name")}
-                      label={"Фамилия"}
-                      placeholder={"Фамилия"}
-                      error={formState.errors["last_name"]}
-                    />
-                    <Controller
-                      name={"phone"}
-                      control={control}
-                      render={({ field, formState }) => (
-                        <PatternFormat
-                          id={"phone"}
-                          name={"phone"}
-                          format={"+7 (###) ### ##-##"}
-                          mask={"_"}
-                          onChange={(v) => field.onChange(v)}
-                          value={field.value}
-                          customInput={InputForm}
-                          required
-                          register={register("phone")}
-                          label={"Номер телефона"}
-                          inputSize={"size_56"}
-                          error={formState.errors["phone"]}
-                          placeholder={"Телефон"}
-                        />
-                      )}
-                    />
-                    <InputForm
-                      name={"position"}
-                      id={"position"}
-                      type={"text"}
-                      inputSize={"size_56"}
-                      register={register("position")}
-                      label={"Должность"}
-                      placeholder={"Должность"}
-                      error={formState.errors["position"]}
-                      required
-                    />
-                  </CardContent>
+                <div className="w-full space-y-8">
+                  <Card>
+                    <CardHeader className="pb-0">
+                      <CardTitle>Основная информация</CardTitle>
+                    </CardHeader>
+                    <CardContent className="space-y-6">
+                      <InputForm
+                        name={"first_name"}
+                        id={"first_name"}
+                        type={"text"}
+                        inputSize={"size_56"}
+                        register={register("first_name")}
+                        label={"Имя"}
+                        placeholder={"Имя"}
+                        error={formState.errors["first_name"]}
+                        required
+                      />
+                      <InputForm
+                        name={"last_name"}
+                        id={"last_name"}
+                        type={"text"}
+                        inputSize={"size_56"}
+                        register={register("last_name")}
+                        label={"Фамилия"}
+                        placeholder={"Фамилия"}
+                        error={formState.errors["last_name"]}
+                      />
+                      <Controller
+                        name={"phone"}
+                        control={control}
+                        render={({ field, formState }) => (
+                          <PatternFormat
+                            id={"phone"}
+                            name={"phone"}
+                            format={"+7 (###) ### ##-##"}
+                            mask={"_"}
+                            onChange={(v) => field.onChange(v)}
+                            value={field.value}
+                            customInput={InputForm}
+                            required
+                            register={register("phone")}
+                            label={"Номер телефона"}
+                            inputSize={"size_56"}
+                            error={formState.errors["phone"]}
+                            placeholder={"Телефон"}
+                          />
+                        )}
+                      />
+                      <InputForm
+                        name={"position"}
+                        id={"position"}
+                        type={"text"}
+                        inputSize={"size_56"}
+                        register={register("position")}
+                        label={"Должность"}
+                        placeholder={"Должность"}
+                        error={formState.errors["position"]}
+                        required
+                      />
+                    </CardContent>
 
-                </Card>
+                  </Card>
 
-                <Card>
-                  <CardHeader className="pb-0">
-                    <CardTitle>Уроведь доступа</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <SelectForm
-                      name={"role"}
-                      control={control}
-                      options={[{ id: 1, value: "1", label: "Владелец" }, { id: 2, value: "2", label: "Сотрудник" }]}
-                      error={formState.errors["role"]}
-                      label={"Роль"}
-                      placeholder={"Роль"}
-                      required
-                    />
-                  </CardContent>
-                </Card>
+                  <Card>
+                    <CardHeader className="pb-0">
+                      <CardTitle>Уроведь доступа</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <SelectForm
+                        name={"role"}
+                        control={control}
+                        options={[{ id: 1, value: "1", label: "Владелец" }, { id: 2, value: "2", label: "Сотрудник" }]}
+                        error={formState.errors["role"]}
+                        label={"Роль"}
+                        placeholder={"Роль"}
+                        required
+                      />
+                    </CardContent>
+                  </Card>
+                </div>
+
+                <Controller
+                  control={control}
+                  name={"avatar"}
+                  render={({ field, fieldState }) => (
+                    <div className="sticky top-4 self-start h-fit">
+                      <ImagePicker
+                        value={field.value}
+                        onChange={field.onChange}
+                        sizeCls={"w-[120px] h-[120px]"}
+                        iconCls={"size-10"}
+                      />
+                      {fieldState.error && <ErrorForm msg={fieldState.error.message} />}
+                    </div>
+                  )}
+                />
               </>
             )}
           </Form>
@@ -179,6 +203,7 @@ export const EmployeeInviteForm = () => {
                   birthdate: null,
                   note: null,
                   role: employee.role.id.toString(),
+                  avatar: null,
                 },
                 location!.id,
               )}

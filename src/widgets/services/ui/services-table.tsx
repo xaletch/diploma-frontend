@@ -15,7 +15,6 @@ interface ServicesTableProps {
 export const ServicesTable = ({ services }: ServicesTableProps) => {
   const navigate = useNavigate();
 
-console.log(services)
   return (
     <div className="mt-8">
       <Table>

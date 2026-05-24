@@ -1,6 +1,7 @@
 // TYPES
 export * from './model/types/location.type';
 
+// SERVICE
 export * from './service/location.service';
 
 // UI

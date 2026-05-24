@@ -8,11 +8,11 @@ interface EmployeeEditWrapperProps {
 }
 
 export const EmployeeEditWrapper = ({ data, location_id }: EmployeeEditWrapperProps) => {
-  const { onSubmit, isLoading } = useEmployeeEdit(data.id, location_id);
+  const { onSubmit, isLoading } = useEmployeeEdit(data.id, data.profile.id, location_id);
 
   return (
     <div className="mt-8">
-      <div className="max-w-140 mx-auto space-y-8 relative">
+      <div className="relative">
         <EmployeeForm
           data={data}
           onSubmit={onSubmit}

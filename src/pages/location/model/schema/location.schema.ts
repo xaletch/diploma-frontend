@@ -1,4 +1,5 @@
 import { addressSchema } from "@/shared/schemas/address.schema";
+import { avatarSchema } from "@/shared/schemas/avatar.schema";
 import { timezoneSchema } from "@/shared/schemas/timezone.schema";
 import { RUS_PHONE } from "@/shared/utils";
 import z from "zod";
@@ -15,6 +16,7 @@ export const locationSchema = addressSchema.extend({
     }, "Неверный формат"),
 
   timezone: timezoneSchema,
+  avatar: avatarSchema,
 });
 
 export type LocationType = z.infer<typeof locationSchema>;

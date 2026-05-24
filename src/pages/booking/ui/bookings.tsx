@@ -12,6 +12,16 @@ export const Bookings = () => {
   const { location } = useSelector(accountSelector);
   const { data, isLoading, isError, isSuccess, isFetching } = useGetBookingsQuery({ location_id: location!.id });
   
+  const content = isLoading ? (
+    <TableLoading rows={6} />
+  ) : isError ? (
+    <>error message</>
+  ) : isSuccess && data.length > 0 ? (
+    <BookingTable bookings={data} isFetching={isFetching} />
+  ) : (
+    <BookingEmpty />
+  );
+
   return (
     <>
       <PageHeader>
@@ -31,14 +41,7 @@ export const Bookings = () => {
         </PageHeaderActions>
       </PageHeader>
 
-      {isLoading && <TableLoading rows={6} />}
-      {isError && <>error message</>}
-
-      {!isLoading && isSuccess && data.length ? (
-        <BookingTable bookings={data} isLoading={isLoading} isFetching={isFetching} />
-      ) : (
-        !isLoading && <BookingEmpty />
-      )}
+      {content}
     </>
   )
 }

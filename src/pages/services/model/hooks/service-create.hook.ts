@@ -14,7 +14,11 @@ export const useCreateService = (): UseCreateServiceReturnProps => {
 
   const onSubmit = async (data: ServiceType) => {
     try {
-      const res = await create(data);
+      const res = await create({
+        ...data,
+        category: data.category,
+        mark: data.mark ?? "red",
+      });
 
       if (res.error) {
         console.log("res.error", res.error);

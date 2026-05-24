@@ -73,12 +73,20 @@ export interface LocationCredentials extends AddressCredentials {
   category?: string[];
 }
 
-export interface UpdateLocationRequest {
+export interface UpdateLocationCredentials {
   location_id: string;
   body: LocationCredentials;
 }
 
-export interface ChangeLocationStatusRequest {
+export interface ChangeLocationStatusCredentials {
   locationId: string;
   active: boolean;
+}
+
+/*
+  ===== ЗАГРУЗКА КАРТИНКИ =====
+*/
+export interface UploadLocationAvatarCredentials {
+  location_id: string;
+  body: FormData;
 }

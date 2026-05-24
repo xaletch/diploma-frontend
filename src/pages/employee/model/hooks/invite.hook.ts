@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { useEmployeeInviteMutation, useLazyCheckEmployeeInLocationQuery, useLazyGetEmployeeByEmailQuery, type IEmployeeByEmail, type IEmployeeInviteCredentials } from "@/entities/employee";
-import { isApiError } from "@/shared/utils";
+import { useEmployeeInviteMutation, useLazyCheckEmployeeInLocationQuery, useLazyGetEmployeeByEmailQuery, usePhotoEmployeeMutation, type IEmployeeByEmail, type IEmployeeInviteCredentials } from "@/entities/employee";
+import { getErrorMessage, isApiError } from "@/shared/utils";
 import { useNavigate } from "@tanstack/react-router";
 import { toast } from "sonner";
 import type { EmployeeSchemaType, InviteCheckSchemaType } from "../schemas";
@@ -40,6 +40,8 @@ export const useInvite = (): UseInviteReturnProps => {
   const [checkEmployee] = useLazyGetEmployeeByEmailQuery();
   const [checkEmployeeInLocation] = useLazyCheckEmployeeInLocationQuery();
   const [invite] = useEmployeeInviteMutation();
+  const [uploadPhoto] = usePhotoEmployeeMutation();
+  
 
   const onCheck = async (data: InviteCheckSchemaType, location_id: string): Promise<void> => {
     setIsLoading({ check: true });
@@ -71,6 +73,7 @@ export const useInvite = (): UseInviteReturnProps => {
   const onInvite = async (data: EmployeeSchemaType, location_id: string): Promise<void> => {
     setIsLoading({ create: true });
     try {
+
       const req = {
         email,
         phone: data.phone,
@@ -82,11 +85,23 @@ export const useInvite = (): UseInviteReturnProps => {
       } satisfies IEmployeeInviteCredentials;
 
       const res = await invite(req).unwrap();
+
+      if (data.avatar) {
+        const formData = new FormData();
+        formData.append("file", data.avatar);
+        await uploadPhoto({
+          location_id: location_id,
+          user_id: res.detail.profile_id,
+          body: formData
+        }).unwrap();
+      }
+
       toast.success(res.message);
       navigate({ to: "/employees/users" });
     }
     catch (error) {
       console.log("error invite", error);
+      toast.error(getErrorMessage(error));
     }
     finally {
       setIsLoading({ create: false });
