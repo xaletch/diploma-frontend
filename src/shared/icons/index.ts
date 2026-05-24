@@ -33,6 +33,7 @@ export { default as ExitIcon } from "./Exit";
 export { default as EyeClosedIcon } from "./EyeClosed";
 export { default as EyeIcon } from "./Eye";
 export { default as FilePgfIcon } from "./FilePgf";
+export { default as FilePngIcon } from "./FilePng";
 export { default as FileIcon } from "./File";
 export { default as FolderPlusIcon } from "./FolderPlus";
 export { default as FolderIcon } from "./Folder";

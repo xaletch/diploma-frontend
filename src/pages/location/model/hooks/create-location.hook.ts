@@ -1,6 +1,6 @@
 import { useState } from "react";
 import type { LocationType } from "../schema/location.schema";
-import { useCreateLocationMutation, type LocationCredentials } from "@/entities/location";
+import { useCreateLocationMutation, usePhotoLocationMutation, type LocationCredentials } from "@/entities/location";
 import { toast } from "sonner";
 import { useNavigate } from "@tanstack/react-router";
 import { timezoneCredSchema } from "@/shared/schemas/timezone.schema";
@@ -12,7 +12,9 @@ interface CreateLocationReturnProps {
 
 export const useCreateLocation = (): CreateLocationReturnProps => {
   const [isLoading, setIsLoading] = useState(false);
+
   const [location] = useCreateLocationMutation();
+  const [uploadPhoto] = usePhotoLocationMutation();
 
   const navigate = useNavigate();
 
@@ -20,8 +22,10 @@ export const useCreateLocation = (): CreateLocationReturnProps => {
     setIsLoading(true);
     try {
       const { timezone, timezone_offset } = timezoneCredSchema.parse(data.timezone);
+      const { avatar, ...rest } = data;
+
       const payload = {
-        ...data,
+        ...rest,
         city: "Москва",
         region: "Московская область",
 
@@ -31,7 +35,14 @@ export const useCreateLocation = (): CreateLocationReturnProps => {
         lng: parseFloat(data.lng),
       } satisfies LocationCredentials;
 
-      await location(payload).unwrap();
+      const { id: location_id } = await location(payload).unwrap();
+
+      if (avatar) {
+        const formData = new FormData();
+        formData.append("file", avatar);
+        await uploadPhoto({ location_id, body: formData}).unwrap();
+      }
+
       navigate({ to: "/business/locations" });
     }
     catch (err) {

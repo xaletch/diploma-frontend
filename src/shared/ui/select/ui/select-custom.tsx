@@ -67,7 +67,7 @@ function Select({ className, children, value, defaultValue, onValueChange, ...pr
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
   const selectId = useRef(Math.random().toString(36).substring(7)).current;
-  const { activeSelectId, setActiveSelectId } = useGlobalSelect();
+  const { setActiveSelectId } = useGlobalSelect();
 
   const onValueChangeRef = useRef(onValueChange);
   onValueChangeRef.current = onValueChange;
@@ -90,10 +90,14 @@ function Select({ className, children, value, defaultValue, onValueChange, ...pr
   }, [selectId, setActiveSelectId]);
 
   useEffect(() => {
-    if (activeSelectId && activeSelectId !== selectId && open) {
-      setOpen(false);
+    function handlePointerDown(e: PointerEvent) {
+      if (open && !ref.current?.contains(e.target as Node)) {
+        handleOpenChange(false);
+      }
     }
-  }, [activeSelectId, selectId, open]);
+    document.addEventListener('pointerdown', handlePointerDown);
+    return () => document.removeEventListener('pointerdown', handlePointerDown);
+  }, [open, handleOpenChange]);
 
   const contextValue = useMemo(() => ({
     value: currentValue,
@@ -154,7 +158,7 @@ function SelectValue({ placeholder, className, ...props }: SelectValueProps) {
       {...props}
     >
       {value?.avatar && <Avatar size={"small"} id={value.avatar.id} avatar_url={value.avatar.avatar_url} name={value.avatar.name} />}
-      {value?.value.length ? value.value : placeholder}
+      {value?.label.length ? value.label : placeholder}
     </div>
   );
 }
@@ -166,34 +170,30 @@ function SelectContent({ className, children, ...props }: ComponentProps<"div">)
   const [maxHeight, setMaxHeight] = useState<number>(300);
 
   useEffect(() => {
-    function handleClick(e: MouseEvent) {
+    function handlePointerDown(e: PointerEvent) {
       if (!ref.current?.contains(e.target as Node)) {
         setOpen(false);
       }
     }
 
     if (open) {
-      document.addEventListener('click', handleClick);
-      return () => document.removeEventListener('click', handleClick);
+      // pointerdown вместо click — срабатывает до React onClick на SelectItem
+      // { capture: true } — перехватываем до всплытия
+      document.addEventListener('pointerdown', handlePointerDown, { capture: true });
+      return () => document.removeEventListener('pointerdown', handlePointerDown, { capture: true });
     }
   }, [open, ref, setOpen]);
 
   useEffect(() => {
     if (!open || !ref.current) return;
-
     const rect = ref.current.getBoundingClientRect();
     const spaceBelow = window.innerHeight - rect.bottom;
     const spaceAbove = rect.top;
     const padding = 8;
     const shouldOpenTop = spaceBelow < 200 && spaceAbove > spaceBelow;
-
     setSide(shouldOpenTop ? 'top' : 'bottom');
-
-    const availableHeight = shouldOpenTop
-      ? spaceAbove - padding
-      : spaceBelow - padding;
-
-    setMaxHeight(availableHeight-8);
+    const availableHeight = shouldOpenTop ? spaceAbove - padding : spaceBelow - padding;
+    setMaxHeight(availableHeight - 8);
   }, [open, ref]);
 
   useEffect(() => {
@@ -241,7 +241,8 @@ const SelectItem = ({ value, onChange, className, children, ...props }: SelectIt
   const { value: selected, setValue } = useSelect();
   const isSelected = selected?.value === value.value;
 
-  const handleClick = useCallback(() => {
+  const handlePointerDown = useCallback((e: React.PointerEvent) => {
+    e.stopPropagation();
     setValue(value);
     onChange?.();
   }, [value, onChange, setValue]);
@@ -255,7 +256,7 @@ const SelectItem = ({ value, onChange, className, children, ...props }: SelectIt
         isSelected ? "backdrop-blur-3xl" : "", 
         className
       )}
-      onClick={handleClick}
+      onPointerDown={handlePointerDown}
       {...props}
     >
       {children}

@@ -43,9 +43,10 @@ interface SelectFormProps<F extends FieldValues> extends FieldWrapperPassThrough
   control: Control<F>;
   isError?: boolean;
   placeholder?: string;
+  onValueChange?: (v: string) => void;
 }
 
-export const SelectForm = <F extends FieldValues>({ name, placeholder, options, control, label, error, required }: SelectFormProps<F>) => {
+export const SelectForm = <F extends FieldValues>({ name, placeholder, options, control, label, error, required, onValueChange }: SelectFormProps<F>) => {
   const renderSelect = useCallback(({ field }: any) => {
     const selectedOption = options.find(o => o.value === field.value);
     
@@ -55,6 +56,7 @@ export const SelectForm = <F extends FieldValues>({ name, placeholder, options, 
           value={selectedOption ? { value: selectedOption.value, label: selectedOption.label } : undefined}
           onValueChange={(v) => {
             field.onChange(v.value);
+            onValueChange?.(v.value);
           }}
         >
           <SelectTrigger>

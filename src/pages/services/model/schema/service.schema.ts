@@ -2,12 +2,11 @@ import z from "zod";
 
 export const serviceSchema = z.object({
   name: z.string().min(1, "Укажите название"),
-  public_name: z.string().min(1, "Укажите публичное название"),
   mark: z.enum(["red", "orange", "green", "blue", "purple", "teal", "pink"]).optional(),
   duration: z.number("Укажите продолжительность").min(1, "Укажите продолжительность").transform((val) => (val ? Number(val) : undefined)),
 
   // 
-  // category: z.string().optional().nullable(),
+  category: z.string().optional().nullable(),
 
   // 
   type: z.enum(["online", "offline"]).default("online"),

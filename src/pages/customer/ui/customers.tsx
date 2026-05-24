@@ -8,6 +8,14 @@ import { Link } from "@tanstack/react-router";
 export const Customers = () => {
   const { isLoading, data, isSuccess, isFetching } = useGetCustomersQuery();
 
+  const content = isLoading ? (
+    <TableLoading rows={3} />
+  ) : isSuccess && data.length > 0 ? (
+    <CustomerTable customers={data} isFetching={isFetching} />
+  ) : (
+    <CustomerEmpty />
+  );
+
   return (
     <>
       <PageHeader>
@@ -25,12 +33,7 @@ export const Customers = () => {
         </PageHeaderActions>
       </PageHeader>
       
-      {isLoading && <TableLoading rows={3} />}
-      {!isLoading && isSuccess && data.length ? (
-        <CustomerTable customers={data} isLoading={isLoading} isFetching={isFetching} />
-      ) : (
-        !isLoading && <CustomerEmpty />
-      )}
+      {content}
     </>
   )
 }

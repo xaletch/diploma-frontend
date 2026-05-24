@@ -3,8 +3,9 @@ import { CardContent, CardHeader, CardTitle } from "@/shared/ui/card/ui/card"
 import { serviceSchema, type ServiceType } from "../../model/schema/service.schema"
 import { useAccount } from "@/entities/account";
 import { useSelector } from "react-redux";
-import type { IService } from "@/entities/services";
+import { useGetServiceCategoryQuery, type IService } from "@/entities/services";
 import { minuteFormat } from "@/shared/utils";
+import { ServiceCategory } from "@/features/services";
 
 interface ServicesCreateFormProps {
   onSubmit: (data: ServiceType) => Promise<void>;
@@ -15,15 +16,18 @@ interface ServicesCreateFormProps {
 export const ServicesForm = ({ onSubmit, isLoading, data }: ServicesCreateFormProps) => {
   const { account } = useSelector(useAccount);
 
+
+  const { data: categories, isLoading: isLoadingCategory } = useGetServiceCategoryQuery();
+
   const defaultValues = {
     name: data?.name ?? "",
-    public_name: data?.public_name ?? "",
     mark: data?.mark ?? undefined,
     duration: data?.duration ?? undefined,
     type: "offline",
     price: data?.price ?? undefined,
     date_type: data?.discount?.date_type ?? "days",
     cost_price: data?.prices.cost_price ?? undefined,
+    category: data?.category ?? undefined,
   } satisfies ServiceType;
 
   return (
@@ -52,17 +56,15 @@ export const ServicesForm = ({ onSubmit, isLoading, data }: ServicesCreateFormPr
                   placeholder={"Название"}
                   required
                 />
-                <InputForm
-                  name={"public_name"}
-                  id={"public_name"}
-                  type={"text"}
-                  inputSize={"size_56"}
-                  register={register("public_name")}
-                  label={"Публичное название"}
-                  error={formState.errors["public_name"]}
-                  placeholder={"Публичное название"}
-                  required
+
+                <ServiceCategory
+                  name={"category"}
+                  control={control}
+                  categories={categories}
+                  isLoadingCategory={isLoadingCategory}
                 />
+
+
                 {/* <TextareaForm
                   name={"description"}
                   id={"description"}

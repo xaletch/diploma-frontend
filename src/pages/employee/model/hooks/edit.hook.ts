@@ -1,7 +1,8 @@
-import { useEmployeeEditMutation, type IEmployeeUpdateCredentials } from "@/entities/employee"
+import { useEmployeeEditMutation, usePhotoEmployeeMutation, type IEmployeeUpdateCredentials } from "@/entities/employee"
 import type { EmployeeSchemaType } from "../schemas";
 import { toast } from "sonner";
 import { useNavigate } from "@tanstack/react-router";
+import { useState } from "react";
 
 interface UseEmployeeEditReturnProps {
   onSubmit: (data: EmployeeSchemaType) => Promise<void>;
@@ -9,15 +10,20 @@ interface UseEmployeeEditReturnProps {
   isLoading: boolean;
 }
 
-export const useEmployeeEdit = (employeeId: string, locationId: string): UseEmployeeEditReturnProps => {
-  const [edit, { isLoading }] = useEmployeeEditMutation();
+export const useEmployeeEdit = (employeeId: string, employeeProfileId: string, locationId: string): UseEmployeeEditReturnProps => {
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
+  const [edit] = useEmployeeEditMutation();
+  const [uploadPhoto] = usePhotoEmployeeMutation();
+
   const onSubmit = async (data: EmployeeSchemaType): Promise<void> => {
+    setIsLoading(true);
     try {
+      const { avatar, ...rest } = data;
       const req = {
         body: {
-          ...data,
+          ...rest,
           role: Number(data.role),
         },
         employee_id: employeeId,
@@ -26,11 +32,24 @@ export const useEmployeeEdit = (employeeId: string, locationId: string): UseEmpl
 
       const res = await edit(req).unwrap();
 
+      if (avatar) {
+        const formData = new FormData();
+        formData.append("file", avatar);
+        await uploadPhoto({
+          location_id: locationId,
+          user_id: employeeProfileId,
+          body: formData
+        }).unwrap();
+      }
+
       navigate({ to: `/employees/users/${res.profile.id}` });
     }
     catch (error) {
       console.log("error edit", error);
       toast.error(JSON.stringify(error));
+    }
+    finally {
+      setIsLoading(false);
     }
   }
 

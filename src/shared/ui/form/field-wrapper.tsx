@@ -1,5 +1,5 @@
 import type { FieldError } from "react-hook-form";
-import { Label, Error, FormMessage } from "./";
+import { Label, ErrorForm, FormMessage } from "./";
 
 type FieldWrapperProps = {
   label?: string;
@@ -22,7 +22,7 @@ export const FieldWrapper = (props: FieldWrapperProps) => {
         <div className="mt-0.5">{children}</div>
       </Label>
       <FormMessage className="m-2 opacity-70">{message}</FormMessage>
-      <Error msg={error?.message}/>
+      <ErrorForm msg={error?.message}/>
     </div>
   )
 };

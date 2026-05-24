@@ -1,9 +1,10 @@
 import { useState } from "react";
 import type { LocationType } from "../schema/location.schema";
-import { useEditLocationMutation, type UpdateLocationRequest } from "@/entities/location";
+import { useEditLocationMutation, usePhotoLocationMutation, type UpdateLocationCredentials } from "@/entities/location";
 import { toast } from "sonner";
 import { useNavigate } from "@tanstack/react-router";
 import { timezoneCredSchema } from "@/shared/schemas/timezone.schema";
+import { omitNullValues } from "@/shared/lib";
 
 interface EditLocationReturnProps {
   isLoading: boolean;
@@ -12,7 +13,9 @@ interface EditLocationReturnProps {
 
 export const useEditLocation = (): EditLocationReturnProps => {
   const [isLoading, setIsLoading] = useState(false);
+
   const [location] = useEditLocationMutation();
+  const [uploadPhoto] = usePhotoLocationMutation();
 
   const navigate = useNavigate();
 
@@ -20,10 +23,12 @@ export const useEditLocation = (): EditLocationReturnProps => {
     setIsLoading(true);
     try {
       const { timezone, timezone_offset } = timezoneCredSchema.parse(data.timezone);
+      
+      const { avatar, ...rest } = data;
       const payload = {
         location_id: locationId,
-        body: {
-          ...data,
+        body: omitNullValues({
+          ...rest,
           city: "Москва",
           region: "Московская область",
 
@@ -31,10 +36,16 @@ export const useEditLocation = (): EditLocationReturnProps => {
           timezone_offset: timezone_offset,
           lat: parseFloat(data.lat),
           lng: parseFloat(data.lng),
-        }
-      } satisfies UpdateLocationRequest;
+        }),
+      } satisfies UpdateLocationCredentials;
 
       await location(payload).unwrap();
+      if (avatar) {
+        const formData = new FormData();
+        formData.append("file", avatar);
+        await uploadPhoto({ location_id: locationId, body: formData}).unwrap();
+      }
+
       navigate({ to: `/business/locations/${locationId}` });
     }
     catch (err) {

@@ -1,6 +1,6 @@
 import { cn } from "@/shared/utils";
 import { Link } from "@tanstack/react-router";
-import { createContext, useCallback, useContext, useState, type PropsWithChildren } from "react"
+import { createContext, useCallback, useContext, useEffect, useRef, useState, type PropsWithChildren } from "react"
 import { Button } from "../../button";
 import { createPortal } from "react-dom";
 
@@ -74,6 +74,7 @@ const HoverDropdown: HoverDropdownComponent = ({ children, className="" }: Hover
     <HoverDropdownCtx.Provider value={{ open, setOpen, close }}>
       <div 
         className={cn("relative", className)}
+        data-hover-dropdown
         onMouseEnter={openDropdown}
         onMouseLeave={close}
       >
@@ -97,10 +98,48 @@ function HoverDropdownTrigger ({ children }: PropsWithChildren) {
 
 function HoverDropdownContent ({ align="center", side="bottom", children, className }: HoverDropdownContentProps) {
   const ctx = useContext(HoverDropdownCtx);
+  const ref = useRef<HTMLDivElement>(null);
+  const [coords, setCoords] = useState<{ top: number; left: number } | null>(null);
+
+  useEffect(() => {
+    if (!ctx?.open) return;
+
+    const trigger = ref.current?.closest("[data-hover-dropdown]") as HTMLElement;
+    if (!trigger) return;
+
+    const rect = trigger.getBoundingClientRect();
+
+    const pos = { top: 0, left: 0 };
+    if (side === "top_right" || side === "center_right" || side === "bottom_right") {
+      pos.left = rect.right + 8;
+      pos.top = rect.top;
+    } else if (side === "bottom") {
+      pos.top = rect.bottom + 8;
+      pos.left = rect.left;
+    } else if (side === "top") {
+      pos.top = rect.top - 8;
+      pos.left = rect.left;
+    }
+
+    setCoords(pos);
+  }, [ctx?.open, side]);
+
   if (!ctx || !ctx.open) return null;
 
   return createPortal(
-    <div data-ui="dropdown-content" data-state={ctx.open ? "open" : "closed"} className={cn("absolute z-10 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=top]:slide-in-from-bottom-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2", alignVariant[align], alignVariant[align][side])}>
+    <div
+      ref={ref}
+      data-ui="dropdown-content"
+      data-state={ctx.open ? "open" : "closed"}
+      style={coords ? { top: coords.top, left: coords.left } : undefined}
+      className={cn(`
+        fixed z-10 animate-in fade-in-0 zoom-in-95 data-[state=open]:animate-in data-[state=closed]:animate-out
+        data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0
+        data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95
+        data-[side=bottom]:slide-in-from-top-2 data-[side=top]:slide-in-from-bottom-2
+        data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2
+      `, alignVariant[align], alignVariant[align][side]
+      )}>
       <div className={cn("bg-accent-foreground rounded-12 w-60 overflow-hidden p-2", className)}>{children}</div>
     </div>,
     document.body,

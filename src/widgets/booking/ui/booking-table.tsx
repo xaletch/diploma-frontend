@@ -10,7 +10,6 @@ import React from "react";
 
 interface BookingTableProps {
   bookings?: IBooking[];
-  isLoading: boolean;
   isFetching: boolean;
 }
 
@@ -56,16 +55,16 @@ export const BookingTable = ({ bookings, isFetching }: BookingTableProps) => {
                   </TableCell>
                   <TableCell className="flex-col items-start justify-center">
                     <div className="flex items-center gap-2.5">
-                      <Avatar size={"tiny"} avatar_url={""} name={booking.customer.first_name} id={booking.customer.id} />
+                      <Avatar size={"tiny"} avatar_url={booking.customer.avatar} name={booking.customer.first_name} id={booking.customer.id} />
                       <p>{booking.customer.full_name}</p>
                     </div>
                     <Link className="text-xss leading-3 text-primary" onClick={(e)=>e.stopPropagation()} to={"tel:8991392993994"}>{booking.customer.phone}</Link>
                   </TableCell>
                   <TableCell>
-                    <Avatar size={"tiny"} avatar_url={""} name={booking.employee.first_name} id={booking.employee.id} />
+                    <Avatar size={"tiny"} avatar_url={booking.employee.avatar} name={booking.employee.first_name} id={booking.employee.id} />
                     <p>{booking.employee.full_name}</p>
                   </TableCell>
-                  <TableCell>{formatPrice(booking.service.prices.price)} ₽</TableCell>
+                  <TableCell>{formatPrice(booking.subtotal ?? booking.service.prices.price)} ₽</TableCell>
                   <TableCell>
                     <Badge variant={"online"}>{BOOKING_STATUS[booking.status]}</Badge>
                   </TableCell>

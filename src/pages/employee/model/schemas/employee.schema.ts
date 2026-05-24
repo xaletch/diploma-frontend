@@ -1,3 +1,4 @@
+import { avatarSchema } from "@/shared/schemas/avatar.schema";
 import { RUS_PHONE } from "@/shared/utils";
 import z from "zod";
 
@@ -16,6 +17,8 @@ export const employeeSchema = z.object({
   /* ДОПОЛНИТЕЛЬНЫЕ ПАРАМЕТРЫ */
   birthdate: z.string().optional().nullable(),
   note: z.string().optional().nullable(),
+
+  avatar: avatarSchema,
 });
 
 export type EmployeeSchemaType = z.infer<typeof employeeSchema>;

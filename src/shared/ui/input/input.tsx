@@ -8,10 +8,11 @@ export type InputProps = React.InputHTMLAttributes<HTMLInputElement> &
 FieldWrapperPassThroughProps & VariantProps<typeof inputVariants> & {
   className?: string;
   isError?: boolean;
+  lcls?: string;
 }
 
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
-  ({ className="", type, variant, inputSize, error, label, isError=false, ...props }, ref) => {
+  ({ className="", type, variant, inputSize, error, label, isError=false, lcls, ...props }, ref) => {
     return (
       <div className="relative">
         <input
@@ -20,7 +21,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
           {...props}
           className={cn(inputVariants({ variant, inputSize, className }), (error || isError) ? "border-error-color-icon focus:border-error-color-icon" : "")}
         />
-         {label && <div className="absolute bg-primary/90 h-full w-16 font-bold text-white right-0 bottom-0 flex items-center justify-center rounded-r-xl">{label}</div>}
+         {label && <div className={cn("absolute bg-primary/90 h-full w-16 font-bold text-white right-0 bottom-0 flex items-center justify-center rounded-r-xl", lcls)}>{label}</div>}
       </div>
     );
   },

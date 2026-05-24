@@ -1,7 +1,7 @@
 import { API } from "@/shared/api";
-import type { LocationCredentials, ILocationResponse, ILocationDetail, ILocationUser, ILocationUserQuery, UpdateLocationRequest, ChangeLocationStatusRequest } from "../model/types/location.type";
+import type { LocationCredentials, ILocationResponse, ILocationDetail, ILocationUser, ILocationUserQuery, UpdateLocationCredentials, ChangeLocationStatusCredentials, UploadLocationAvatarCredentials } from "../model/types/location.type";
 
-export const serviceAPI = API.injectEndpoints(({
+export const locationAPI = API.injectEndpoints(({
   endpoints: (build) => ({
     /** 
       ===== СПИСОК ЛОКАЦИЙ =====
@@ -11,7 +11,6 @@ export const serviceAPI = API.injectEndpoints(({
         url: `/v1/locations`,
         method: "GET",
       }),
-      providesTags: ["LOCATIONS"]
     }),
 
     /** 
@@ -54,31 +53,128 @@ export const serviceAPI = API.injectEndpoints(({
         method: "POST",
         body,
       }),
-      invalidatesTags: ["LOCATIONS"],
+
+      async onQueryStarted(_arg, { dispatch, queryFulfilled }) {
+        try {
+          const { data: newLocation } = await queryFulfilled;
+
+          dispatch(
+            locationAPI.util.updateQueryData(
+              "getLocations",
+              undefined,
+              (d) => { d.unshift(newLocation) }
+            )
+          )
+        } catch { /* */ }
+      }
     }),
 
     /** 
       ===== РЕДАКТИРОВАНИЕ ЛОКАЦИИ =====
     **/
-    editLocation: build.mutation<ILocationResponse, UpdateLocationRequest>({
+    editLocation: build.mutation<ILocationResponse, UpdateLocationCredentials>({
       query: ({ location_id, body }) => ({
         url: `/v1/location/${location_id}`,
         method: "PATCH",
         body,
       }),
-      invalidatesTags: ["LOCATIONS"],
+
+      async onQueryStarted({ location_id }, { dispatch, queryFulfilled }) {
+        try {
+          const { data: updatedLocation } = await queryFulfilled;
+
+          dispatch(
+            locationAPI.util.updateQueryData(
+              "getLocations",
+              undefined,
+              (d) => {
+                const index = d.findIndex((l) => l.id === location_id);
+                if (index !== -1) d[index] = updatedLocation;
+              }
+            ),
+          );
+          dispatch(
+            locationAPI.util.updateQueryData(
+              "getLocation", location_id, (d) => {
+              Object.assign(d, updatedLocation);
+            }),
+          );
+        } catch { /* */ }
+      },
     }),
 
     /** 
       ===== ИЗМЕНЕНИЕ СТАТУСА ЛОКАЦИИ (ONLINE | OFFLINE) =====
     **/
-    onlineLocation: build.mutation<void, ChangeLocationStatusRequest>({
+    onlineLocation: build.mutation<void, ChangeLocationStatusCredentials>({
       query: ({ locationId, active }) => ({
         url: `/v1/location/${locationId}/status`,
         method: "POST",
         body: { active },
       }),
-      invalidatesTags: ["LOCATIONS"],
+      
+      async onQueryStarted({ locationId, active }, { dispatch, queryFulfilled }) {
+        const patchResult = dispatch(
+          locationAPI.util.updateQueryData(
+            "getLocations",
+            undefined,
+            (d) => {
+              const location = d.find((l) => l.id === locationId);
+              if (location) location.is_active = active;
+            }
+          ),
+        );
+
+        const patchDetail = dispatch(
+          locationAPI.util.updateQueryData(
+            "getLocation",
+            locationId,
+            (d) => { d.is_active = active }
+          ),
+        );
+
+        try {
+          await queryFulfilled;
+        } catch {
+          patchResult.undo();
+          patchDetail.undo();
+        }
+      },
+    }),
+
+    /** 
+      ===== ЗАГРУЗКА ФОТО ЛОКАЦИ =====
+    **/
+    photoLocation: build.mutation<{ avatar: string }, UploadLocationAvatarCredentials>({
+      query: ({ location_id, body }) => ({
+        url: `/v1/location/avatar/${location_id}`,
+        method: "POST",
+        body,
+      }),
+      
+      async onQueryStarted({ location_id }, { dispatch, queryFulfilled }) {
+        try {
+          const { data } = await queryFulfilled;
+          dispatch(
+            locationAPI.util.updateQueryData(
+              "getLocations",
+              undefined,
+              (d) => {
+                const loc = d.find(l => l.id === location_id);
+                if (loc) loc.avatar = data.avatar;
+              }
+            )
+          );
+
+          dispatch(
+            locationAPI.util.updateQueryData(
+              "getLocation",
+              location_id,
+              (d) => { d.avatar = data.avatar }
+            ),
+          );
+        } catch { /* */ }
+      },
     }),
   }),
 }));
@@ -95,4 +191,5 @@ export const {
   useCreateLocationMutation,
   useEditLocationMutation,
   useOnlineLocationMutation,
-} = serviceAPI;
+  usePhotoLocationMutation,
+} = locationAPI;

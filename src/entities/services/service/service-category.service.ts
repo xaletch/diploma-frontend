@@ -23,6 +23,18 @@ const ServiceCategoryApi = API.injectEndpoints({
         method: "POST",
         body,
       }),
+
+      async onQueryStarted(_, { dispatch, queryFulfilled }) {
+        try {
+          const { data } = await queryFulfilled;
+          dispatch(
+            ServiceCategoryApi.util.updateQueryData(
+              "getServiceCategory",
+              undefined,
+              (d) => { d.push(data) })
+          );
+        } catch { /* */ }
+      },
     }),
 
     /**
@@ -35,16 +47,47 @@ const ServiceCategoryApi = API.injectEndpoints({
         method: "PUT",
         body,
       }),
+
+      async onQueryStarted({ category_id }, { dispatch, queryFulfilled }) {
+        try {
+          const { data } = await queryFulfilled;
+          dispatch(
+            ServiceCategoryApi.util.updateQueryData(
+              "getServiceCategory",
+              undefined,
+              (d) => {
+                const idx = d.findIndex(c => c.id === category_id);
+                if (idx !== -1) d[idx] = data;
+              })
+          );
+        } catch { /* */ }}
     }),
 
     /**
-      ===== УДАЛЕНИЕ УСЛУГИ =====
+      ===== УДАЛЕНИЕ КАТЕГОРИИ =====
     **/
     deleteServiceCategory: build.mutation<IServiceCategory, IServiceCategoryDeleteCredentials>({
       query: ({ category_id }) => ({
         url: `${API_VERSION}/service/${category_id}`,
         method: "DELETE",
       }),
+
+      async onQueryStarted({ category_id }, { dispatch, queryFulfilled }) {
+        const patch = dispatch(
+          ServiceCategoryApi.util.updateQueryData(
+            "getServiceCategory",
+            undefined,
+            (d) => {
+              const idx = d.findIndex(c => c.id === category_id);
+              if (idx !== -1) d.splice(idx, 1);
+            })
+        );
+        try {
+          await queryFulfilled;
+        } catch {
+          patch.undo(); // ✅ откатываем если сервер вернул ошибку
+        }
+      },
     }),
   }),
 });

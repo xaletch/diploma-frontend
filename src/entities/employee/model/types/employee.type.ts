@@ -82,7 +82,7 @@ export interface IEmployeeEditCredentials {
 }
 
 export interface IEmployeeInviteResponse {
-  detail: IEmployee;
+  detail: { profile_id: string } & IEmployee;
   message: string;
 }
 
@@ -118,4 +118,13 @@ export interface IServiceFromUserCredentials {
   service_id: string;
   employee_id: string;
   location_id: string;
+}
+
+/*
+  ===== ЗАГРУЗКА КАРТИНКИ =====
+*/
+export interface UploadEmployeeAvatarCredentials {
+  location_id: string;
+  user_id: string;
+  body: FormData;
 }

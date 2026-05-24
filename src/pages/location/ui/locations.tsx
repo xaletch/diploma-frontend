@@ -7,7 +7,15 @@ import { LocationEmpty, LocationTable } from "@/widgets/location";
 import { Link } from "@tanstack/react-router";
 
 export const Locations = () => {
-  const { data: locations, isLoading, isSuccess } = useGetLocationsQuery();
+  const { data: locations, isLoading, isSuccess, isFetching } = useGetLocationsQuery();
+
+  const content = isLoading ? (
+    <TableLoading rows={4} />
+  ) : isSuccess && locations.length > 0 ? (
+    <LocationTable locations={locations} isFetching={isFetching} />
+  ) : (
+    <LocationEmpty />
+  );
 
   return (
     <>
@@ -28,12 +36,7 @@ export const Locations = () => {
         </PageHeaderActions>
       </PageHeader>
 
-      {isLoading && <TableLoading rows={4} />}
-      {!isLoading && isSuccess && locations.length ? (
-        <LocationTable locations={locations} isLoading={isLoading} />
-      ) : (
-        !isLoading && <LocationEmpty />
-      )}
+      {content}
     </>
   )
 }
