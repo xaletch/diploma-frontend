@@ -2,12 +2,11 @@ FROM node:24-alpine AS build
 
 ARG VITE_API_URL
 ENV VITE_API_URL=${VITE_API_URL}
-ARG NODE_ENV=production
 
 WORKDIR /app
 
-COPY package*.json ./
-RUN yarn install
+COPY package.json yarn.lock ./
+RUN yarn install --frozen-lockfile
 
 COPY . ./
 RUN yarn build
