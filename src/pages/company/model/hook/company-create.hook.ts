@@ -67,7 +67,6 @@ export const useCompanyCreate = (): CompanyCreateReturnProps => {
         // ...companyData, 
 
         // TEST
-        public_name: companyData.public_name,
         name: companyData.name,
         post_code: companyData.post_code,
         country: companyData.country,

@@ -3,7 +3,6 @@ import type { ISpecialization } from "../type/specialization.type";
 
 interface Company {
   name: string;
-  public_name: string;
   currency: CurrencyType;
   country: string;
   region?: string;

@@ -11,6 +11,7 @@ export type PermissionName =
   | "service-category:create"
   | "service-category:update"
   | "service-category:delete"
+  | "service:avatar"
  
   | "schedule:create"
   | "schedule:all"
@@ -44,6 +45,7 @@ export type PermissionName =
   | "company-customer:read"
   | "company-customer-bookings:read"
   | "company:create"
+  | "company-logo:upload"
  
 
   | "booking:create"
@@ -52,6 +54,7 @@ export type PermissionName =
   | "booking:update"
   | "booking:status"
   | "booking:delete"
+  | "booking:status"
  
 
   | "directory:employees"

@@ -1,0 +1,23 @@
+services:
+  nginx-crm:
+    build: ./nginx
+    restart: always
+    ports:
+      - "3000:80"
+    depends_on:
+      - crm
+    networks:
+      - crm-net
+
+  crm:
+    image: xaletch/diplome-app-crm:latest
+    platform: linux/amd64
+    restart: always
+    environment:
+      - VITE_API_URL=${VITE_API_URL}
+    networks:
+      - crm-net
+
+networks:
+  crm-net:
+    driver: bridge

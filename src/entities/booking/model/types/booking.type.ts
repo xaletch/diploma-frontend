@@ -63,6 +63,7 @@ export interface IBooking {
   service: IBookingService;
   subtotal: number;
   payment_method: PaymentMethodType;
+  tag: string;
 }
 
 export interface IBookingDetail extends IBooking {

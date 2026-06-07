@@ -3,7 +3,6 @@ import z from "zod";
 
 export const CompanySchema = z.object({
   name: z.string().min(1, "Укажите название"),
-  public_name: z.string().min(1, "Укажите публичное название"),
   currency: z.enum(["RUB", "USD", "EUR"], "Укажите валюту"),
   
   /** 
