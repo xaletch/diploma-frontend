@@ -21,15 +21,6 @@ export const CompanyCreateForm = ({ setCompany }: { setCompany: (data: CompanyTy
                   error={formState.errors["name"]}
                 />
               </div>
-              <InputForm
-                name="public_name"
-                id="public_name"
-                type="text"
-                register={register("public_name")}
-                error={formState.errors["public_name"]}
-                label="Публичное имя компании"
-                required
-              />
             </div>
 
             {/* АДРЕС */}

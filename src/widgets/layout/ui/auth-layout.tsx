@@ -14,7 +14,7 @@ export const AuthLayout = ({ children }: PropsWithChildren) => {
         <div className="sm:max-w-115 mx-auto w-full flex flex-col flex-1 justify-center">{children}</div>
       </div>
       <div>
-        <p className="text-xss text-center">© 2025 G CRM. Все права защищены.</p>
+        <p className="text-xss text-center">© 2025 CRM. Все права защищены.</p>
       </div>
     </div>
   )
