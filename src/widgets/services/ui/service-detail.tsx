@@ -19,7 +19,7 @@ export const ServiceDetails = ({ service }: ServiceDetailProps) => {
           <Card>
             <CardHeader className="flex-row items-center gap-4">
               <div className="relative">
-                <Avatar size={"xl"} id={service.id} name={service.name.slice(0, 1)} avatar_url={service.avatar} />
+                <Avatar size={"xl"} id={service.id} name={service.name} avatar_url={service.avatar} />
                 <div className={cn("absolute bottom-0.5 right-0.5 w-2.5 h-2.5 rounded-full",  markClasses[service.mark ?? "red"])} />
               </div>
               <div className="flex justify-between gap-4 flex-1">

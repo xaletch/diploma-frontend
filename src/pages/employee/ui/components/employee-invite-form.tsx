@@ -55,7 +55,7 @@ export const EmployeeInviteForm = () => {
           <div className="max-w-140 mx-auto">
             <Card>
                 <CardHeader className="flex-row items-center gap-4 bg-card/60 rounded-t-3xl p-6">
-                  <Avatar size={"lg"} id={employee.id} name={employee.first_name.slice(0, 1)} avatar_url={employee.avatar} />
+                  <Avatar size={"lg"} id={employee.id} name={employee.first_name} avatar_url={employee.avatar} />
                   <div className="space-y-0.5 flex-1">
                     <CardTitle className="text-xl">{employee.first_name} {employee.last_name}</CardTitle>
                   </div>

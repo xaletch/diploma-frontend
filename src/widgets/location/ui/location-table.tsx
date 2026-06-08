@@ -35,7 +35,7 @@ export const LocationTable = ({ locations, isFetching }: LocationTableProps) => 
               <React.Fragment key={index}>
                 <TableRow onClick={() => navigate({ to: `/business/locations/${loc.id}` })}>
                   <TableCell>
-                    <Avatar size={"large"} avatar_url={loc.avatar} name={loc.name.slice(0, 1)} id={loc.id} />
+                    <Avatar size={"large"} avatar_url={loc.avatar} name={loc.name} id={loc.id} />
                     <div>
                       <p>{loc.name}</p>
                       <p className="text-11 leading-3 opacity-50 mt-px font-normal">{replaceAddress(loc.address.full_address)}</p>

@@ -37,7 +37,7 @@ export const ServiceEmployeeSetting = ({ service_id, data, isLoading, employee }
                         disabled={isAdded || isRemoved}
                         onCheckedChange={(c) => c ? addUser({ service_id, user_id: user.id, user }) : removeUser({ service_id, user_id: user.id, user })}
                       />
-                      <Avatar key={idx} id={user.id} avatar_url={user.avatar} name={user.first_name.slice(0, 1)} size={"large"} className="rounded-full" />
+                      <Avatar key={idx} id={user.id} avatar_url={user.avatar} name={user.first_name} size={"large"} className="rounded-full" />
                       <div className="flex flex-col">
                         <div className="text-sm leading-4">{user.first_name} {user.last_name}</div>
                         <span className="text-11 mt-0.5 leading-3 opacity-50 font-normal">{ROLE[user.role.name]}</span>

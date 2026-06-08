@@ -18,7 +18,7 @@ export const LocationDetails = ({ location }: LocationDetailProps) => {
         <div className="col-span-3">
           <Card>
             <CardHeader className="flex-row items-center gap-4 bg-card/60 rounded-t-3xl">
-              <Avatar size={"xl"} id={location.id} name={location.name.slice(0, 1)} avatar_url={location.avatar} />
+              <Avatar size={"xl"} id={location.id} name={location.name} avatar_url={location.avatar} />
               <div className="space-y-0.5 flex-1">
                 <CardTitle>{location?.name}</CardTitle>
                 {location.address.full_address && <CardDescription className="opacity-50 text-xss">{replaceAddress(location.address.full_address)}</CardDescription>}

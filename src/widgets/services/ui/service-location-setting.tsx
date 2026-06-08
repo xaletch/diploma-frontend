@@ -35,7 +35,7 @@ export const ServiceLocationSetting = ({ service_id, data, isLoading, locations 
                         disabled={isAdded || isRemoved}
                         onCheckedChange={(c) => c ? addLocation({ service_id, location_id: location.id, location }) : removeLocation({ service_id, location_id: location.id, location })}
                       />
-                      <Avatar key={idx} id={location.id} avatar_url={location.avatar} name={location.name.slice(0, 1)} size={"large"} className="rounded-full" />
+                      <Avatar key={idx} id={location.id} avatar_url={location.avatar} name={location.name} size={"large"} className="rounded-full" />
                       <div className="flex flex-col">
                         <div className="text-sm leading-4">{location.name}</div>
                       </div>

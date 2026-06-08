@@ -33,7 +33,7 @@ export const CustomerTable = ({ customers, isFetching }: CustomerTableProps) => 
               <React.Fragment key={index}>
                 <TableRow onClick={() => navigate({ to: `${employee.id}` })}>
                   <TableCell>
-                    <Avatar size={"large"} avatar_url={employee.avatar} name={employee.full_name.slice(0, 1)} id={employee.id} />
+                    <Avatar size={"large"} avatar_url={employee.avatar} name={employee.full_name} id={employee.id} />
                     <div>
                       <p>{employee.full_name}</p>
                     </div>

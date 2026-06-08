@@ -1,13 +1,13 @@
 services:
-  nginx-crm:
-    build: ./nginx
-    restart: always
-    ports:
-      - "3000:80"
-    depends_on:
-      - crm
-    networks:
-      - crm-net
+  # nginx-crm:
+  #   build: ./nginx
+  #   restart: always
+  #   ports:
+  #     - "3000:80"
+  #   depends_on:
+  #     - crm
+  #   networks:
+  #     - crm-net
 
   crm:
     image: xaletch/diplome-app-crm:latest
@@ -16,8 +16,8 @@ services:
     environment:
       - VITE_API_URL=${VITE_API_URL}
     networks:
-      - crm-net
+      - shared
 
 networks:
-  crm-net:
-    driver: bridge
+  shared:
+    external: true

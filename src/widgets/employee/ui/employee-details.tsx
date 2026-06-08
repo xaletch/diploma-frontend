@@ -32,7 +32,7 @@ export const EmployeeDetails = ({ employee, locationId }: EmployeeDetailsProps) 
             <Card>
               <CardHeader className="flex-row items-center gap-4">
                 <div className="relative">
-                  <Avatar size={"xl"} id={employee.profile.id} name={employee.profile.first_name.slice(0, 1)} avatar_url={employee.profile.avatar} />
+                  <Avatar size={"xl"} id={employee.profile.id} name={employee.profile.first_name} avatar_url={employee.profile.avatar} />
                 </div>
                 <div className="flex justify-between gap-4 flex-1">
                   <div className="space-y-0.5 flex-1">

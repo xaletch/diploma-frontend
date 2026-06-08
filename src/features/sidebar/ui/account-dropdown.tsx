@@ -19,7 +19,7 @@ export const AccountDropdown = ({ id, avatar_url, first_name, last_name, full_na
       <HoverDropdownTrigger>
         <Button variant={"dropdown"} size={"none"} className='w-full whitespace-normal'>
           <div className="flex items-center gap-3 min-w-0 flex-1">
-            <Avatar id={id} avatar_url={avatar_url} name={`${first_name.slice(0, 1)}${last_name.slice(0, 1)}`} opacity={35} />
+            <Avatar id={id} avatar_url={avatar_url} name={`${first_name}${last_name}`} opacity={35} />
             <div className="flex flex-col flex-1 min-w-0">
               <p className="text-start text-sm font-semibold leading-3 capitalize line-clamp-2 break-all">{full_name}</p>
               <UserRole role={role}/>

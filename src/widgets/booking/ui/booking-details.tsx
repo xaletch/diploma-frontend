@@ -26,7 +26,7 @@ export const BookingDetails = ({ booking }: BookingDetailsProps) => {
             <div className="flex gap-2.5 items-center justify-between">
               <div className="flex gap-2.5 items-center">
                 <Link to={`/business/services/${booking.service.id}`} className="relative">
-                  <Avatar size={"md"} id={booking.service.id} name={booking.service.name.slice(0, 1)} avatar_url={null} />
+                  <Avatar size={"md"} id={booking.service.id} name={booking.service.name} avatar_url={null} />
                   <div className={cn("absolute -bottom-px -right-px w-2 h-2 rounded-full",  markClasses[booking.service.mark ?? "red"])} />
                 </Link>
                 <div>
@@ -54,7 +54,7 @@ export const BookingDetails = ({ booking }: BookingDetailsProps) => {
           <CardHeader className="p-0">
             <Link to={`/customers/${booking.customer.id}`} className="flex flex-row items-center gap-4 p-6 hover:bg-card rounded-t-3xl duration-200">
               <div className="relative">
-                <Avatar size={"xl"} id={booking.customer.id} name={booking.customer.first_name.slice(0, 1)} avatar_url={booking.customer.avatar} />
+                <Avatar size={"xl"} id={booking.customer.id} name={booking.customer.first_name} avatar_url={booking.customer.avatar} />
               </div>
               <div className="flex justify-between gap-4 flex-1">
                 <div className="space-y-0.5 flex-1">
