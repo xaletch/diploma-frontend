@@ -33,9 +33,10 @@ const chartConfig = {
 interface ChartProfitProps {
   data: IChart[] | undefined;
   isLoading: boolean;
+  isFetching: boolean;
 }
 
-export const ChartProfit = ({ data, isLoading }: ChartProfitProps) => {
+export const ChartProfit = ({ data, isLoading, isFetching }: ChartProfitProps) => {
   const isEmpty = !isLoading && !data?.length;
   // const chartData = !isLoading ? MOCK_DATA : (data ?? []);
 
@@ -52,6 +53,7 @@ export const ChartProfit = ({ data, isLoading }: ChartProfitProps) => {
         <CardTitle>Статистика</CardTitle>
       </CardHeader>
       <CardContent className="pb-0 relative">
+        {isFetching && <LazyBlur />}
         {isEmpty ? (
           <ChartEmpty />
         ) : (

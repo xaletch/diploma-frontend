@@ -1,13 +1,13 @@
-import { accountSelector } from "@/entities/account";
 import { DashboardCard, DashboardCardSkeleton, useGetSummaryQuery } from "@/entities/dashboard"
-import { useSelector } from "react-redux";
 import { isNegative } from "../model/utils/negative.util";
 
+interface DashboardStatisticsNumProps {
+  location_id: string | undefined;
+  currency: CurrencyType;
+}
 
-
-export const DashboardStatisticsNum = () => {
-  const { data: summary, isLoading } = useGetSummaryQuery({});
-  const { account } = useSelector(accountSelector);
+export const DashboardStatisticsNum = ({ currency }: DashboardStatisticsNumProps) => {
+  const { data: summary, isLoading, isFetching } = useGetSummaryQuery({ });
   
   if (isLoading) {
     return (
@@ -27,8 +27,9 @@ export const DashboardStatisticsNum = () => {
         isIncreased={!isNegative(summary?.revenue.growthPercent ?? 0)}
         percentage={summary?.revenue.growthPercent ?? 0}
         description={summary?.revenue.recommendation[0] ?? "Нет данных"}
-        currency={account?.company?.currency}
+        currency={currency}
         recommendation={summary?.revenue.recommendation[1]}
+        isFetching={isFetching}
       />
 
       <DashboardCard
@@ -38,6 +39,7 @@ export const DashboardStatisticsNum = () => {
         percentage={summary?.clients.growthPercent ?? 0}
         description={summary?.clients.recommendation[0] ?? "Нет данных"}
         recommendation={summary?.clients.recommendation[1]}
+        isFetching={isFetching}
       />
 
       <DashboardCard
@@ -47,6 +49,7 @@ export const DashboardStatisticsNum = () => {
         percentage={summary?.growthRate.percent ?? 0}
         description={summary?.growthRate.recommendation[0] ?? "Нет данных"}
         recommendation={summary?.growthRate.recommendation[1]}
+        isFetching={isFetching}
       />
 
     </div>

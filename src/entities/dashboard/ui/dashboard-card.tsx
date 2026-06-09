@@ -2,6 +2,7 @@ import { TrendingDownIcon } from "@/shared/icons";
 import { Badge, Card } from "@/shared/ui"
 import { CardContent } from "@/shared/ui/card/ui/card"
 import { formatCurrency } from "@/shared/utils";
+import { LazyBlur } from "@/widgets/loading";
 import { TrendingUpIcon } from "lucide-react"
 
 interface DashboardCardProps {
@@ -12,12 +13,14 @@ interface DashboardCardProps {
   description: string;
   currency?: CurrencyType;
   recommendation: string | undefined;
+  isFetching: boolean;
 }
 
-export const DashboardCard = ({ title, value, isIncreased, percentage, description, currency, recommendation }: DashboardCardProps) => {
+export const DashboardCard = ({ title, value, isIncreased, percentage, description, currency, recommendation, isFetching }: DashboardCardProps) => {
   const hasGrowthData = percentage !== 0;
   return (
-    <Card>
+    <Card className="relative">
+      {isFetching && <LazyBlur />}
       <CardContent>
         <div className="flex items-center justify-between">
           <p className="text-sm text-accent/60">{title}</p>
