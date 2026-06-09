@@ -1,4 +1,5 @@
 import { LocationIcon, PaletteIcon, SettingIcon } from "@/shared/icons"
+import SvgPerson from "@/shared/icons/Person"
 import { Link } from "@tanstack/react-router"
 
 const settings = [
@@ -16,6 +17,11 @@ const settings = [
     icon: <PaletteIcon />,
     name: "Услуги",
     href: "/business/services",
+  },
+  {
+    icon: <SvgPerson />,
+    name: "Профиль",
+    href: "/me",
   }
 ]
 

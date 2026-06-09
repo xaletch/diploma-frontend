@@ -19,6 +19,11 @@ export type DialogNames =
   /** ===== СОЗДАНИЕ БРОНИРОВАНИЯ ===== **/
   "booking_service_create"
 
+  |
+
+  /** ===== ПРОФИЛЬ ===== **/
+  "me_delete"
+
 /**
   ===== DIALOG DATA =====
 **/
@@ -47,6 +52,11 @@ export type DialogDataMap = {
 
   /** ===== СОЗДАНИЕ БРОНИРОВАНИЯ ===== **/
   booking_service_create: undefined;
+
+  /** ===== ПРОФИЛЬ ===== **/
+  me_delete: {
+    profile_id: string;
+  }
 }
 
 /**
@@ -57,5 +67,6 @@ export type DialogUnion =
   | { name: "delete_employee", data: DialogDataMap["delete_employee"] }
   | { name: "schedule", data: DialogDataMap["schedule"] }
   | { name: "booking_service_create", data: DialogDataMap["booking_service_create"] }
+  | { name: "me_delete", data: DialogDataMap["me_delete"] }
 
 export type DialogData<T extends DialogNames> = DialogDataMap[T];

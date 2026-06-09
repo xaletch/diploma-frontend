@@ -28,7 +28,7 @@ export const AccountDropdown = ({ id, avatar_url, first_name, last_name, full_na
         </Button>
       </HoverDropdownTrigger>
       <HoverDropdownContent align={"end"} side={"bottom_right"}>
-        <HoverDropdownItemLink href={"#"}>
+        <HoverDropdownItemLink href={"/me"}>
           <SvgPerson width={20} height={20}/>
           <span>Мой профиль</span>
         </HoverDropdownItemLink>

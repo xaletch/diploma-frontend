@@ -18,7 +18,7 @@ export const EmployeeDetail = () => {
   return (
     <>
       <PageHeader>
-        <PageHeaderTitle>Сотрудник</PageHeaderTitle>
+        <PageHeaderTitle>Сотрудник {data?.profile && `- ${data.profile.full_name}`}</PageHeaderTitle>
         <PageHeaderActions>
           <PageHeaderBackAction />
           <Can permission={"employee:update"}>
