@@ -10,9 +10,10 @@ import React from "react";
 interface EmployeeTableProps {
   employees?: IEmployee[];
   isFetching: boolean;
+  profileId: string | undefined;
 }
 
-export const EmployeeTable = ({ employees, isFetching }: EmployeeTableProps) => {
+export const EmployeeTable = ({ employees, isFetching, profileId }: EmployeeTableProps) => {
   const navigate = useNavigate();
 
   return (
@@ -33,7 +34,7 @@ export const EmployeeTable = ({ employees, isFetching }: EmployeeTableProps) => 
           {employees?.length ? 
             employees.map((employee, index) => (
               <React.Fragment key={index}>
-                <TableRow onClick={() => navigate({ to: `${employee.id}` })}>
+                <TableRow onClick={() => navigate({ to: `${profileId === employee.id ? '/me' : employee.id}` })}>
                   <TableCell>
                     <Avatar size={"large"} avatar_url={employee.avatar} name={employee.full_name} id={employee.id} />
                     <div>

@@ -9,13 +9,13 @@ import { Link } from "@tanstack/react-router"
 import { useSelector } from "react-redux"
 
 export const Employees = () => {
-  const { location } = useSelector(accountSelector);
+  const { location, account } = useSelector(accountSelector);
   const { isLoading, data, isSuccess, isFetching } = useGetEmployeesQuery({ location_id: location?.id ?? "" });
 
   const content = isLoading ? (
     <TableLoading rows={4} />
   ) : isSuccess && data.length > 0 ? (
-    <EmployeeTable employees={data} isFetching={isFetching} />
+    <EmployeeTable employees={data} isFetching={isFetching} profileId={account?.id} />
   ) : (
     <EmployeeEmpty />
   );
