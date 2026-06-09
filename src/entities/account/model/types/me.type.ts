@@ -3,7 +3,7 @@ import type { IRole } from "./role.type";
 export interface MeCompany {
   id: string;
   name: string;
-  currency: string;
+  currency: CurrencyType;
   industry: { id: number; name: string; };
   specialization: string;
 }

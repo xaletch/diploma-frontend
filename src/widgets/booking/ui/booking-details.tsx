@@ -96,7 +96,7 @@ export const BookingDetails = ({ booking }: BookingDetailsProps) => {
           </CardHeader>
 
           <CardContent className="flex-1 flex flex-col">
-            <div className="flex flex-col h-full">
+            <div className="flex flex-col h-full space-y-6">
               <Card className="relative">
                 <CardContent>
                   <div className="text-center font-semibold text-lg">
@@ -108,7 +108,13 @@ export const BookingDetails = ({ booking }: BookingDetailsProps) => {
                   </div>
                 </CardContent>
               </Card>
+              
+              <CardContentLabel>
+                <CardContentLabelTitle>Комментарий</CardContentLabelTitle>
+                <CardContentLabelDescription>{booking.comment}</CardContentLabelDescription>
+              </CardContentLabel>
             </div>
+
 
             <div className="flex">
               <Button type={"button"}>Продолжить</Button>
