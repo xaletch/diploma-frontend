@@ -2,7 +2,7 @@ import type { FieldError } from "react-hook-form";
 import { Label, ErrorForm, FormMessage } from "./";
 
 type FieldWrapperProps = {
-  label?: string;
+  label?: string | React.ReactNode;
   required?: boolean;
   className?: string;
   children: React.ReactNode;

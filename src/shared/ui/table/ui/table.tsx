@@ -105,7 +105,7 @@ function TableNotFound({ className, ...props }: ComponentProps<"div">) {
   return (
     <div
       data-ui="table-not-found"
-      className={cn("py-3.5 px-5 h-64 flex items-center justify-center text-sm gap-2.5 font-medium leading-5", className)}
+      className={cn("py-3.5 px-5 h-64 flex items-center justify-center text-sm text-primary/60 gap-2.5 font-medium leading-5", className)}
       {...props}
     />
   )

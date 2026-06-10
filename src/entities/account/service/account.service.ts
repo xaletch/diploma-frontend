@@ -1,6 +1,7 @@
 import { API } from "@/shared/api";
 import type { IMe } from "../model/types/me.type";
 import type { IPermission } from "../model/types/permission.type";
+import type { IPasswordChangeCredentials } from "../model/types/change-password.type";
 
 export const AccountApi = API.injectEndpoints({
   endpoints: build => ({
@@ -23,6 +24,17 @@ export const AccountApi = API.injectEndpoints({
         method: "GET",
       }),
     }),
+
+    /**
+      ===== СМЕНА ПАРОЛЯ =====
+    **/
+    changePassword: build.mutation<{ success: true }, IPasswordChangeCredentials>({
+      query: (body) => ({
+        url: `/v1/me/change-password`,
+        method: "POST",
+        body,
+      }),
+    }),
   }),
 });
 
@@ -31,4 +43,5 @@ export const {
   useLazyMeQuery,
   usePermissionsQuery,
   useLazyPermissionsQuery,
+  useChangePasswordMutation,
 } = AccountApi;

@@ -1,4 +1,7 @@
+import { useChangePasswordMutation } from "@/entities/account";
 import type { ChangePasswordSchemaType } from "../schemas/change-password.schema";
+import { getErrorMessage } from "@/shared/utils";
+import { toast } from "sonner";
 
 interface useChangePasswordReturnProps {
   onSubmit: (data: ChangePasswordSchemaType) => Promise<void>;
@@ -6,14 +9,20 @@ interface useChangePasswordReturnProps {
 }
 
 export const useChangePassword = (): useChangePasswordReturnProps => {
+
+  const [change, { isLoading }] = useChangePasswordMutation();
+
   const onSubmit = async (data: ChangePasswordSchemaType) => {
     try {
-      console.log(data);
+      const { old_password, password: new_password } = data;
+      await change({ old_password, new_password }).unwrap();
+
+      toast.success("Пароль успешно изменен");
     }
     catch (err) {
-      console.log(err);
+      toast.error(getErrorMessage(err));
     }
   }
 
-  return { onSubmit, isLoading: false }
+  return { onSubmit, isLoading }
 }

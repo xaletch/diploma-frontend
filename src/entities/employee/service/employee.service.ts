@@ -1,20 +1,21 @@
 import { API } from "@/shared/api";
-import type { ICheckEmployeeInLocationCredentials, IEmployee, IEmployeeBlockedCredentials, IEmployeeByEmail, IEmployeeByEmailCredentials, IEmployeeDeleteCredentials, IEmployeeDetail, IEmployeeInviteCredentials, IEmployeeInviteResponse, IEmployeeUpdateCredentials, IServiceFromUserCredentials, IServiceToUserCredentials, UploadEmployeeAvatarCredentials } from "../model/types/employee.type";
+import type { ICheckEmployeeInLocationCredentials, IEmployee, IEmployeeBlockedCredentials, IEmployeeByEmail, IEmployeeByEmailCredentials, IEmployeeDeleteCredentials, IEmployeeDetail, IEmployeeInviteCredentials, IEmployeeInviteResponse, IEmployeesCredentials, IEmployeeUpdateCredentials, IServiceFromUserCredentials, IServiceToUserCredentials, UploadEmployeeAvatarCredentials } from "../model/types/employee.type";
+import { buildQuery } from "@/shared/lib";
 
 export const employeeAPI = API.injectEndpoints(({
   endpoints: (build) => ({
     /** 
       ===== СПИСОК ВСЕХ СОТРУДНИКОВ РАБОТЮЩИХ В ЛОКАЦИИ =====
     **/
-    getEmployees: build.query<IEmployee[], { location_id: string }>({
-      query: ({ location_id }) => ({
-        url: `/v1/employees/${location_id}`,
+    getEmployees: build.query<ApiResponse<IEmployee>, IEmployeesCredentials>({
+      query: ({ location_id, ...query }) => ({
+        url: buildQuery(`/v1/employees/${location_id}`, { ...query }),
         method: "GET",
       }),
       providesTags: (result) =>
         result
           ? [
-              ...result.map(({ id }) => ({ type: "EMPLOYEES" as const, id })),
+              ...result.data.map(({ id }) => ({ type: "EMPLOYEES" as const, id })),
               { type: "EMPLOYEES", id: "LIST" },
             ]
           : [{ type: "EMPLOYEES", id: "LIST" }],
@@ -33,7 +34,7 @@ export const employeeAPI = API.injectEndpoints(({
     /** 
       ===== ПОЛУЧИТЬ СОТРУДНИКА ПО EMAIL =====
     **/
-    getEmployeeByEmail: build.query<ApiResponse<IEmployeeByEmail>, IEmployeeByEmailCredentials>({
+    getEmployeeByEmail: build.query<IEmployeeByEmail, IEmployeeByEmailCredentials>({
       query: ({ email }) => ({
         url: `/v1/user/${email}`,
         method: "GET",
@@ -126,13 +127,13 @@ export const employeeAPI = API.injectEndpoints(({
         url: `/v1/employee/${employee_id}/${location_id}`,
         method: "DELETE",
       }),
-      async onQueryStarted({ location_id, employee_id }, { dispatch, queryFulfilled }) {
+      async onQueryStarted({ location_id,  employee_id }, { dispatch, queryFulfilled }) {
         const result = dispatch(employeeAPI.util.updateQueryData(
           "getEmployees",
           { location_id },
           (d) => { 
-            const idx = d.findIndex(e => e.id === employee_id);
-            if (idx !== -1) d.splice(idx, 1);
+            const idx = d.data.findIndex(e => e.id === employee_id);
+            if (idx !== -1) d.data.splice(idx, 1);
           },
         ));
 
@@ -213,7 +214,7 @@ export const employeeAPI = API.injectEndpoints(({
               "getEmployees",
               { location_id },
               (d) => {
-                const emp = d.find(e => e.id === user_id);
+                const emp = d.data.find(e => e.id === user_id);
                 if (emp) emp.avatar = data.avatar;
               }
             )

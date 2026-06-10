@@ -1,23 +1,28 @@
-import type { IEmployee } from "@/entities/employee";
+import type { IEmployee, IEmployeeQuery } from "@/entities/employee";
 import { Avatar } from "@/entities/user"
 import { EMPLOYEE_STATUS, ROLE } from "@/shared/constants";
 import { ChevronRightIcon } from "@/shared/icons"
-import { Badge, Button, Table, TableBody, TableCell, TableCellActions, TableHead, TableHeader, TableNotFound, TableRow, TableSeparator } from "@/shared/ui"
+import { Badge, Button, Pagination, Table, TableBody, TableCell, TableCellActions, TableHead, TableHeader, TableNotFound, TableRow, TableSeparator } from "@/shared/ui"
 import { LazyBlur } from "@/widgets/loading";
 import { Link, useNavigate } from "@tanstack/react-router";
 import React from "react";
+import { EmployeeSort } from "./employee-sort";
 
 interface EmployeeTableProps {
   employees?: IEmployee[];
   isFetching: boolean;
   profileId: string | undefined;
+  meta: PaginationMeta;
+  query: IEmployeeQuery;
 }
 
-export const EmployeeTable = ({ employees, isFetching, profileId }: EmployeeTableProps) => {
+export const EmployeeTable = ({ employees, isFetching, profileId, meta, query }: EmployeeTableProps) => {
   const navigate = useNavigate();
 
   return (
-    <div className="mt-8">
+    <div className="mt-8 space-y-8">
+
+      <EmployeeSort {...query} />
       
       <Table>
         <TableHeader>
@@ -61,12 +66,14 @@ export const EmployeeTable = ({ employees, isFetching, profileId }: EmployeeTabl
               </React.Fragment>
             )) : (
               <TableRow>
-                <TableNotFound>Нет данных</TableNotFound>
+                <TableNotFound>Ничего не найдено</TableNotFound>
               </TableRow>
             )
           }
         </TableBody>
       </Table>
+
+      {meta.total_pages > 1 && <Pagination {...meta} />}
     </div>
   )
 }

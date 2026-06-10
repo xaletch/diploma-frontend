@@ -42,7 +42,7 @@ export const Sidebar = () => {
             />
     
             <div className="px-5">
-              <p className="text-10 font-medium text-white/60">© 2025 CRM. Все права защищены.</p>
+              <p className="text-10 font-medium text-white/60">© 2026 FastDay. Все права защищены.</p>
             </div>
           </div>
         </>

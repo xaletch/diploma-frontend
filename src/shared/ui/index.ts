@@ -21,3 +21,5 @@ export * from './dialog';
 export * from './empty';
 export * from './calendar';
 export * from './file';
+export * from './pagination';
+export * from './input';

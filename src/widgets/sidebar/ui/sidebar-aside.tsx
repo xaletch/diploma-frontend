@@ -16,6 +16,7 @@ interface MenuItem {
   label: string;
   permission?: PermissionName | PermissionName[] | string[];
   icon: React.ReactNode;
+  search?: Record<string, unknown>;
 }
 
 const menuItems: MenuItem[] = [
@@ -45,6 +46,7 @@ const menuItems: MenuItem[] = [
   {
     to: "/employees/users",
     label: "Сотрудники",
+    search: { limit: 20 },
     icon: <SvgUsersGroup width={20} height={20}/>,
     permission: ["employee:*", "employees:read"],
   },
@@ -89,6 +91,7 @@ export const SidebarAside = () => {
               name={item.label}
               selected={isRouteActive(pathname, item.to)}
               icon={item.icon}
+              search={item.search}
             />
           )
         })}
