@@ -34,7 +34,8 @@ export type PermissionName =
   | "employee:update"
   | "employee:delete"
   | "employees:read"
- 
+  | "employee:change-password"
+
 
   | "user-find:email"
   | "user-check:location"
@@ -46,6 +47,7 @@ export type PermissionName =
   | "company-customer-bookings:read"
   | "company:create"
   | "company-logo:upload"
+  | "company:update"
  
 
   | "booking:create"

@@ -24,11 +24,13 @@ export const ChangePassword = () => {
               <InputForm
                 id={"old_password"}
                 name={"old_password"}
-                type={"old_password"}
+                type={"password"}
                 inputSize={"size_60"}
                 register={register("old_password")}
                 error={formState.errors["old_password"]}
+                label={"Текущий пароль"}
                 placeholder={"Текущий пароль"}
+                required
               />
 
               <InputForm
@@ -38,7 +40,9 @@ export const ChangePassword = () => {
                 inputSize={"size_60"}
                 register={register("password")}
                 error={formState.errors["password"]}
+                label={"Новый пароль"}
                 placeholder={"Новый пароль"}
+                required
               />
             
               <InputForm
@@ -48,7 +52,9 @@ export const ChangePassword = () => {
                 inputSize={"size_60"}
                 register={register("confirm_password")}
                 error={formState.errors["confirm_password"]}
+                label={"Подтвердите пароль"}
                 placeholder={"Подтвердите пароль"}
+                required
               />
 
               <Button size={"size_48"} isLoading={isLoading} disabled={isLoading}>Сохранить</Button>

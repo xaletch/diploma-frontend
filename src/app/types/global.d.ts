@@ -17,12 +17,29 @@ declare global {
     meta: M;
   }
 
+  type PaginationQuery = {
+    page?: number;
+    limit?: number;
+  }
+
   type ApiErrorResponse<M> = {
     status: number;
     data: HttpError<M>;
   }
 
-  type ApiResponse<T> = T | HttpError;
+  type PaginationMeta = {
+    page: number;
+    limit: number;
+    total: number;
+    total_pages: number;
+    has_next: boolean;
+    has_prev: boolean;
+  }
+
+  type ApiResponse<T> = {
+    data: T[];
+    meta: PaginationMeta;
+  };
 
   // type ApiResponse<T> = {
   //   data: T;
@@ -53,6 +70,8 @@ declare global {
     TODO:
     РАСПРЕДЕЛИТЬ ТИПЫ ПО СТРУКТУРЕ
   **/
+  type RoleType = "owner" | "employee" | "admin";
+
   type CurrencyType = "RUB" | "USD" | "EUR";
 
   type MarkType = "red" | "orange" | "green" | "blue" | "purple" | "teal" | "pink";

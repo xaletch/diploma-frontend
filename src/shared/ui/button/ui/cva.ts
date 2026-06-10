@@ -21,10 +21,13 @@ export const buttonVariants = cva(
         orange: "bg-orange px-6 text-white hover:bg-orange/90 active:bg-orange/70 disabled:hover-orange/80 disabled:active:bg-orange/80",
         dialog_close: "px-10! py-3! w-auto! font-bold text-md bg-card text-primary active:scale-98 active:opacity-80",
         dialog_apply: "px-10! py-3! w-auto! font-bold text-md bg-primary text-white active:scale-98 active:opacity-80",
-        action: "rounded-3xl bg-card/60 p-6 text-2xl font-bold leading-none justify-start",
+        action_xl: "rounded-3xl bg-card/60 p-6 text-2xl font-bold leading-none justify-start",
+        action: "bg-white/40 px-5 font-medium hover:bg-white/90",
         remove: "bg-error-background rounded-full flex items-center justify-center text-white active:scale-98 active:opacity-75 hover:opacity-90",
         select: "min-w-full data-[placeholder]:text-foreground/30 font-medium [&_svg:not([class*='text-'])]:text-foreground focus-visible:border-border focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 aria-invalid:border-destructive flex items-center justify-between gap-2 border border-transparent text-md whitespace-nowrap transition-[color,box-shadow] outline-none disabled:cursor-not-allowed disabled:opacity-50 *:data-[slot=select-value]:line-clamp-1 *:data-[slot=select-value]:flex *:data-[slot=select-value]:items-center *:data-[slot=select-value]:gap-2 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 bg-card/60 w-full p-4 min-h-14 rounded-2xl",
         red: "bg-red text-white",
+        pagination: "p-0 bg-card hover:bg-border leading-3 font-bold",
+
       },
       size: {
         none: "",

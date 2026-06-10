@@ -17,6 +17,7 @@ const badgeVariants = cva(
         active: "px-2 py-0.5 text-xss! font-bold rounded-lg bg-green border-green text-white",
         invited: "px-2 py-0.5 text-xss! font-bold rounded-lg bg-orange border-orange text-white",
         inactive: "px-2 py-0.5 text-xss! font-bold rounded-lg bg-error-background border-error-background text-white",
+        disable: "px-2 py-0.5 text-xss! font-bold rounded-lg bg-error-background border-error-background text-white",
 
         count: "w-6 h-6 rounded-lg bg-border flex items-center justify-center border-transparent text-primary",
       },

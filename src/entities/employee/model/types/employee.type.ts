@@ -13,6 +13,16 @@ export interface IEmployee {
   is_banned: boolean;
 }
 
+export interface IEmployeeQuery extends PaginationQuery {
+  search?: string;
+  role?: string;
+  status?: EmployeeStatus;
+}
+
+export interface IEmployeesCredentials extends IEmployeeQuery {
+  location_id: string;
+}
+
 export interface IEmployeeProfile extends IUserProfile {
   birthday: string | null;
   first_name: string;
@@ -32,7 +42,7 @@ export interface IEmployeeDetail {
   profile: IEmployeeProfile;
 }
 
-export type EmployeeStatus = "active" | "inactive" | "invited";
+export type EmployeeStatus = "active" | "disable" | "invited";
 
 export interface IEmployees {
   data: IEmployee[];

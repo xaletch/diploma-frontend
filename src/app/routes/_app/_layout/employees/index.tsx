@@ -5,5 +5,5 @@ export const Route = createFileRoute('/_app/_layout/employees/')({
 })
 
 function RouteComponent() {
-  return <Navigate to={"/employees/users"} />
+  return <Navigate to={"/employees/users?limit=20"} />
 }

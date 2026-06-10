@@ -1,5 +1,5 @@
 import { accountSelector } from "@/entities/account"
-import { useGetEmployeesQuery } from "@/entities/employee"
+import { useGetEmployeesQuery, type IEmployeeQuery } from "@/entities/employee"
 import { Can } from "@/features/auth"
 import { AddIcon } from "@/shared/icons"
 import { Button, PageHeader, PageHeaderActions, PageHeaderBackAction, PageHeaderTitle } from "@/shared/ui"
@@ -8,14 +8,25 @@ import { TableLoading } from "@/widgets/loading"
 import { Link } from "@tanstack/react-router"
 import { useSelector } from "react-redux"
 
-export const Employees = () => {
+interface EmployeeProps {
+  query: IEmployeeQuery & PaginationQuery;
+}
+
+export const Employees = ({ query }: EmployeeProps) => {
   const { location, account } = useSelector(accountSelector);
-  const { isLoading, data, isSuccess, isFetching } = useGetEmployeesQuery({ location_id: location?.id ?? "" });
+  const { isLoading, data, isSuccess, isFetching } = useGetEmployeesQuery(
+    {
+      ...query,
+      location_id: location?.id ?? "",
+    }
+  );
+
+  const hasActiveFilters = !query.status || !query.role || !query.search;
 
   const content = isLoading ? (
     <TableLoading rows={4} />
-  ) : isSuccess && data.length > 0 ? (
-    <EmployeeTable employees={data} isFetching={isFetching} profileId={account?.id} />
+  ) : isSuccess && (data.data.length > 0 || hasActiveFilters) ? (
+    <EmployeeTable employees={data.data} meta={data.meta} isFetching={isFetching} profileId={account?.id} query={query} />
   ) : (
     <EmployeeEmpty />
   );
