@@ -17,6 +17,8 @@ declare global {
     meta: M;
   }
 
+  type SortType = "newest" | "oldest" | "price_asc" | "price_desc";
+
   type PaginationQuery = {
     page?: number;
     limit?: number;

@@ -17,6 +17,13 @@ export interface IMap {
   lng: string;
 }
 
+export interface ILocationQuery extends PaginationQuery {
+  name?: string;
+  search?: string;
+  category?: string;
+  active?: number;
+}
+
 export interface ILocation {
   id: string;
   name: string;

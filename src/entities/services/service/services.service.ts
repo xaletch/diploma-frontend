@@ -1,14 +1,15 @@
 import { API } from "@/shared/api";
-import type { IService, IServiceChangeResponse, IServiceCredentials, IServiceDeleteCredentials, IServiceDetailCredentials, IServiceEditCredentials, IServiceLocationsCredentials, IServices, IServiceUsersCredentials } from "../model/types/service.type";
+import type { IService, IServiceChangeResponse, IServiceCredentials, IServiceDeleteCredentials, IServiceDetailCredentials, IServiceEditCredentials, IServiceLocationsCredentials, IServiceQuery, IServices, IServiceUsersCredentials } from "../model/types/service.type";
+import { buildQuery } from "@/shared/lib";
 
 const ServicesApi = API.injectEndpoints({
   endpoints: build => ({
     /**
       ===== СПИСОК ВСЕХ УСЛУГ =====
     **/
-    getServices: build.query<IServices[], void>({
-      query: () => ({
-        url: `v1/services`,
+    getServices: build.query<ApiResponse<IServices>, IServiceQuery>({
+      query: (query) => ({
+        url: buildQuery(`v1/services`, { ...query }),
         method: "GET",
       }),
       providesTags: ["SERVICES"],
@@ -166,8 +167,8 @@ const ServicesApi = API.injectEndpoints({
       async onQueryStarted({ service_id }, { dispatch, queryFulfilled }) {
         const result = dispatch(ServicesApi.util.updateQueryData(
           "getServices",
-          undefined,
-          (d) => { d.splice(0, d.length, ...d.filter(s => s.id !== service_id)) }
+          {},
+          (d) => { d.data.splice(0, d.data.length, ...d.data.filter(s => s.id !== service_id)) }
         ));
 
         try {

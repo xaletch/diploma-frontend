@@ -1,14 +1,15 @@
 import { API } from "@/shared/api";
-import type { LocationCredentials, ILocationResponse, ILocationDetail, ILocationUser, ILocationUserQuery, UpdateLocationCredentials, ChangeLocationStatusCredentials, UploadLocationAvatarCredentials } from "../model/types/location.type";
+import type { LocationCredentials, ILocationResponse, ILocationDetail, ILocationUser, ILocationUserQuery, UpdateLocationCredentials, ChangeLocationStatusCredentials, UploadLocationAvatarCredentials, ILocationQuery } from "../model/types/location.type";
+import { buildQuery } from "@/shared/lib";
 
 export const locationAPI = API.injectEndpoints(({
   endpoints: (build) => ({
     /** 
       ===== СПИСОК ЛОКАЦИЙ =====
     **/
-    getLocations: build.query<ILocationResponse[], void>({
-      query: () => ({
-        url: `/v1/locations`,
+    getLocations: build.query<ApiResponse<ILocationResponse>, ILocationQuery>({
+      query: (query) => ({
+        url: buildQuery(`/v1/locations`, { ...query }),
         method: "GET",
       }),
     }),
@@ -61,8 +62,8 @@ export const locationAPI = API.injectEndpoints(({
           dispatch(
             locationAPI.util.updateQueryData(
               "getLocations",
-              undefined,
-              (d) => { d.unshift(newLocation) }
+              {},
+              (d) => { d.data.unshift(newLocation) }
             )
           )
         } catch { /* */ }
@@ -86,10 +87,10 @@ export const locationAPI = API.injectEndpoints(({
           dispatch(
             locationAPI.util.updateQueryData(
               "getLocations",
-              undefined,
+              {},
               (d) => {
-                const index = d.findIndex((l) => l.id === location_id);
-                if (index !== -1) d[index] = updatedLocation;
+                const index = d.data.findIndex((l) => l.id === location_id);
+                if (index !== -1) d.data[index] = updatedLocation;
               }
             ),
           );
@@ -117,9 +118,9 @@ export const locationAPI = API.injectEndpoints(({
         const patchResult = dispatch(
           locationAPI.util.updateQueryData(
             "getLocations",
-            undefined,
+            {},
             (d) => {
-              const location = d.find((l) => l.id === locationId);
+              const location = d.data.find((l) => l.id === locationId);
               if (location) location.is_active = active;
             }
           ),
@@ -158,9 +159,9 @@ export const locationAPI = API.injectEndpoints(({
           dispatch(
             locationAPI.util.updateQueryData(
               "getLocations",
-              undefined,
+              {},
               (d) => {
-                const loc = d.find(l => l.id === location_id);
+                const loc = d.data.find(l => l.id === location_id);
                 if (loc) loc.avatar = data.avatar;
               }
             )

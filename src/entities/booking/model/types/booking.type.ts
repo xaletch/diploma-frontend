@@ -50,6 +50,19 @@ export interface IBookingLocation {
   address: ILocationAddress;
 }
 
+export interface IBookingQuery extends PaginationQuery {
+  customer?: string;
+  employee?: string;
+  service?: string;
+  tag?: string;
+  status?: BookingStatusType;
+  sort?: SortType;
+}
+
+export interface IBookingCredentials extends IBookingQuery {
+  location_id: string;
+}
+
 export interface IBooking {
   id: string;
   name: string;

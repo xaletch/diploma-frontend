@@ -30,6 +30,15 @@ export interface IServiceCredentials {
   discount_time_end?: string;
 }
 
+export type ServicePriceSort = "asc" | "desc";
+
+export interface IServiceQuery extends PaginationQuery {
+  search?: string;
+  type?: ServiceStatusType;
+  mark?: MarkType;
+  price_sort?: ServicePriceSort;
+}
+
 export interface IServiceEditCredentials {
   service_id: string;
   body: IServiceCredentials;

@@ -28,6 +28,7 @@ const menuItems: MenuItem[] = [
   {
     to: "/bookings",
     label: "Записи",
+    search: { limit: 20, sort: "newest" },
     icon: <SvgBook width={20} height={20}/>,
     permission: ["booking:*"],
   },
@@ -40,6 +41,7 @@ const menuItems: MenuItem[] = [
   {
     to: "/customers",
     label: "Клиенты",
+    search: { limit: 20 },
     icon: <SvgCustomer width={20} height={20}/>,
     permission: ["company-customers:*"],
   },
@@ -53,6 +55,7 @@ const menuItems: MenuItem[] = [
   {
     to: "/business/services",
     label: "Услуги",
+    search: { limit: 20 },
     icon: <PaletteIcon width={20} height={20}/>,
     permission: ["service:*"],
   },

@@ -1,21 +1,26 @@
-import type { ICustomers } from "@/entities/customers";
+import type { ICustomerQuery, ICustomers } from "@/entities/customers";
 import { Avatar } from "@/entities/user"
 import { ChevronRightIcon } from "@/shared/icons"
-import { Button, Table, TableBody, TableCell, TableCellActions, TableHead, TableHeader, TableNotFound, TableRow, TableSeparator } from "@/shared/ui"
+import { Button, Pagination, Table, TableBody, TableCell, TableCellActions, TableHead, TableHeader, TableNotFound, TableRow, TableSeparator } from "@/shared/ui"
 import { LazyBlur } from "@/widgets/loading";
 import { Link, useNavigate } from "@tanstack/react-router";
 import React from "react";
+import { CustomerSort } from "./customer-sort";
 
 interface CustomerTableProps {
   customers?: ICustomers[];
   isFetching: boolean;
+  meta: PaginationMeta;
+  query: ICustomerQuery;
 }
 
-export const CustomerTable = ({ customers, isFetching }: CustomerTableProps) => {
+export const CustomerTable = ({ customers, isFetching, meta, query }: CustomerTableProps) => {
   const navigate = useNavigate();
 
   return (
-    <div className="mt-8">
+    <div className="mt-8 space-y-6">
+
+      <CustomerSort {...query} />
       
       <Table>
         <TableHeader>
@@ -57,6 +62,8 @@ export const CustomerTable = ({ customers, isFetching }: CustomerTableProps) => 
           }
         </TableBody>
       </Table>
+
+      {meta.total_pages > 1 && <Pagination {...meta} />}
     </div>
   )
 }

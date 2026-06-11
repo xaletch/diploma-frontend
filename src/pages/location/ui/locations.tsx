@@ -1,4 +1,4 @@
-import { useGetLocationsQuery } from "@/entities/location"
+import { useGetLocationsQuery, type ILocationQuery } from "@/entities/location"
 import { Can } from "@/features/auth";
 import { AddIcon } from "@/shared/icons"
 import { Button, PageHeader, PageHeaderActions, PageHeaderBackAction, PageHeaderTitle } from "@/shared/ui"
@@ -6,13 +6,22 @@ import { TableLoading } from "@/widgets/loading";
 import { LocationEmpty, LocationTable } from "@/widgets/location";
 import { Link } from "@tanstack/react-router";
 
-export const Locations = () => {
-  const { data: locations, isLoading, isSuccess, isFetching } = useGetLocationsQuery();
+interface LocationProps {
+  query: ILocationQuery & PaginationQuery;
+}
+
+export const Locations = ({ query }: LocationProps) => {
+  const { data: locations, isLoading, isSuccess, isFetching } = useGetLocationsQuery({ 
+    active: 1,
+    ...query
+  });
+
+  const hasActiveFilters = !query.active || !query.category || !query.name || !query.search;
 
   const content = isLoading ? (
     <TableLoading rows={4} />
-  ) : isSuccess && locations.length > 0 ? (
-    <LocationTable locations={locations} isFetching={isFetching} />
+  ) : isSuccess && (locations.data.length > 0 || hasActiveFilters) ? (
+    <LocationTable locations={locations.data} isFetching={isFetching} meta={locations.meta} query={query} />
   ) : (
     <LocationEmpty />
   );

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import type { AppDispatch } from "@/app/providers/redux/config";
 import { setLocation, type MeLocations } from "@/entities/account";
 import { Avatar } from "@/entities/user";
@@ -50,7 +51,7 @@ export const LocationDropdown = ({ avatar_url, name, locations, selectId }: Loca
           </HoverDropdownItemTrigger>
         ))}
         <HoverDropdownSeparator className={"mt-3 mb-1.5"} />
-        <HoverDropdownItemLink to={"/business/locations"} className={"rounded-none"}>
+        <HoverDropdownItemLink to={"/business/locations"} search={{ limit: 20 } as any} className={"rounded-none"}>
           <Can
             permission="location:create"
             fallback={

@@ -1,17 +1,23 @@
-import { useGetCustomersQuery } from "@/entities/customers";
+import { useGetCustomersQuery, type ICustomerQuery } from "@/entities/customers";
 import { AddIcon } from "@/shared/icons";
 import { Button, PageHeader, PageHeaderActions, PageHeaderBackAction, PageHeaderTitle } from "@/shared/ui";
 import { CustomerEmpty, CustomerTable } from "@/widgets/customer";
 import { TableLoading } from "@/widgets/loading";
 import { Link } from "@tanstack/react-router";
 
-export const Customers = () => {
-  const { isLoading, data, isSuccess, isFetching } = useGetCustomersQuery();
+interface CustomerProps {
+  query: ICustomerQuery & PaginationQuery;
+}
+
+export const Customers = ({ query }: CustomerProps) => {
+  const { isLoading, data, isSuccess, isFetching } = useGetCustomersQuery({ ...query });
+
+  const hasActiveFilters = !query.search || !query.sort;
 
   const content = isLoading ? (
     <TableLoading rows={3} />
-  ) : isSuccess && data.length > 0 ? (
-    <CustomerTable customers={data} isFetching={isFetching} />
+  ) : isSuccess && (data.data.length > 0 || hasActiveFilters) ? (
+    <CustomerTable customers={data.data} isFetching={isFetching} meta={data.meta} query={query} />
   ) : (
     <CustomerEmpty />
   );

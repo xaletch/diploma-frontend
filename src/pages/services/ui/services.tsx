@@ -1,4 +1,4 @@
-import { useGetServicesQuery } from "@/entities/services"
+import { useGetServicesQuery, type IServiceQuery } from "@/entities/services"
 import { Can } from "@/features/auth"
 import { AddIcon } from "@/shared/icons"
 import { Button, PageHeader, PageHeaderActions, PageHeaderBackAction, PageHeaderTitle } from "@/shared/ui"
@@ -6,13 +6,19 @@ import { TableLoading } from "@/widgets/loading"
 import { ServicesEmpty, ServicesTable } from "@/widgets/services"
 import { Link } from "@tanstack/react-router"
 
-export const Services = () => {
-  const { data, isLoading, isSuccess } = useGetServicesQuery();
+interface ServiceProps {
+  query: IServiceQuery & PaginationQuery;
+}
+
+export const Services = ({ query }: ServiceProps) => {
+  const { data, isLoading, isSuccess } = useGetServicesQuery({ ...query });
+
+  const hasActiveFilters = !query.search || !query.mark || !query.price_sort || !query.type;
 
   const content = isLoading ? (
     <TableLoading rows={4} />
-  ) : isSuccess && data.length > 0 ? (
-    <ServicesTable services={data} />
+  ) : isSuccess && (data.data.length > 0 || hasActiveFilters) ? (
+    <ServicesTable services={data.data} meta={data.meta} query={query} />
   ) : (
     <ServicesEmpty />
   );

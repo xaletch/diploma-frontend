@@ -12,6 +12,13 @@ export interface ICustomers extends CustomerProfile {
   is_banned: boolean;
 }
 
+export type CustomerSortType = "newest" | "oldest";
+
+export interface ICustomerQuery extends PaginationQuery {
+  search?: string;
+  sort?: CustomerSortType;
+}
+
 export interface ICustomer {
   id: string;
   note: string;

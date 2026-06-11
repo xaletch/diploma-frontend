@@ -1,23 +1,30 @@
-import type { ILocationResponse } from "@/entities/location"
+import type { ILocationQuery, ILocationResponse } from "@/entities/location"
 import { Avatar } from "@/entities/user"
 import { Can } from "@/features/auth";
 import { LocationOnlineToggle } from "@/features/location";
 import { ChevronRightIcon } from "@/shared/icons"
-import { Badge, Button, Table, TableBody, TableCell, TableCellActions, TableHead, TableHeader, TableNotFound, TableRow, TableSeparator } from "@/shared/ui"
+import { Badge, Button, Pagination, Table, TableBody, TableCell, TableCellActions, TableHead, TableHeader, TableNotFound, TableRow, TableSeparator } from "@/shared/ui"
 import { replaceAddress } from "@/shared/utils";
 import { LazyBlur } from "@/widgets/loading";
 import { Link, useNavigate } from "@tanstack/react-router";
 import React from "react";
+import { LocationSearch } from "./location-search";
 
 interface LocationTableProps {
   locations?: ILocationResponse[];
   isFetching: boolean;
+  meta: PaginationMeta;
+  query: ILocationQuery;
 }
 
-export const LocationTable = ({ locations, isFetching }: LocationTableProps) => {
+export const LocationTable = ({ locations, isFetching, meta, query }: LocationTableProps) => {
   const navigate = useNavigate();
+
   return (
-    <div className="mt-8">
+    <div className="mt-8 space-y-6">
+
+      <LocationSearch {...query} />
+
       <Table>
         <TableHeader>
           <TableRow>
@@ -66,6 +73,8 @@ export const LocationTable = ({ locations, isFetching }: LocationTableProps) => 
           }
         </TableBody>
       </Table>
+
+      {meta.total_pages > 1 && <Pagination {...meta} />}
     </div>
   )
 }

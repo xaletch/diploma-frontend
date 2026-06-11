@@ -1,5 +1,5 @@
 import { accountSelector } from "@/entities/account";
-import { useGetBookingsQuery } from "@/entities/booking"
+import { useGetBookingsQuery, type IBookingQuery } from "@/entities/booking"
 import { Can } from "@/features/auth";
 import { AddIcon } from "@/shared/icons";
 import { Button, PageHeader, PageHeaderActions, PageHeaderBackAction, PageHeaderTitle } from "@/shared/ui"
@@ -8,16 +8,27 @@ import { TableLoading } from "@/widgets/loading";
 import { Link } from "@tanstack/react-router";
 import { useSelector } from "react-redux";
 
-export const Bookings = () => {
+export interface BookingProps {
+  query: IBookingQuery & PaginationQuery;
+}
+
+export const Bookings = ({ query }: BookingProps) => {
   const { location } = useSelector(accountSelector);
-  const { data, isLoading, isError, isSuccess, isFetching } = useGetBookingsQuery({ location_id: location!.id });
+  const { data, isLoading, isError, isSuccess, isFetching } = useGetBookingsQuery(
+    {
+      ...query,
+      location_id: location!.id,
+    }
+  );
+
+  const hasActiveFilters = !query.customer || !query.employee || !query.service || !query.sort || !query.status || !query.tag;
   
   const content = isLoading ? (
     <TableLoading rows={6} />
   ) : isError ? (
     <>error message</>
-  ) : isSuccess && data.length > 0 ? (
-    <BookingTable bookings={data} isFetching={isFetching} />
+  ) : isSuccess && (data.data.length > 0 || hasActiveFilters) ? (
+    <BookingTable bookings={data.data} isFetching={isFetching} meta={data.meta} query={query} />
   ) : (
     <BookingEmpty />
   );

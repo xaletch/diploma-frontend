@@ -20,7 +20,7 @@ export const EmployeeTable = ({ employees, isFetching, profileId, meta, query }:
   const navigate = useNavigate();
 
   return (
-    <div className="mt-8 space-y-8">
+    <div className="mt-8 space-y-6">
 
       <EmployeeSort {...query} />
       

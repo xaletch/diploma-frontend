@@ -1,5 +1,6 @@
 import { API } from "@/shared/api";
-import type { IBooking, IBookingActionCredentials, IBookingDetail } from "../model/types/booking.type";
+import type { IBooking, IBookingActionCredentials, IBookingCredentials, IBookingDetail } from "../model/types/booking.type";
+import { buildQuery } from "@/shared/lib";
 
 export const bookingApi = API.injectEndpoints({
   endpoints: builder => ({
@@ -7,9 +8,9 @@ export const bookingApi = API.injectEndpoints({
     /**
       ===== СПИСОК ВСЕХ БРОНИРОВАНИЙ =====
     **/
-    getBookings: builder.query<IBooking[], { location_id: string }>({
-      query: ({ location_id }) => ({
-        url: `/v1/bookings/location/${location_id}`,
+    getBookings: builder.query<ApiResponse<IBooking>, IBookingCredentials>({
+      query: ({ location_id, ...query }) => ({
+        url: buildQuery(`/v1/bookings/location/${location_id}`, { ...query }),
         method: "GET",
       }),
     }),
@@ -43,7 +44,7 @@ export const bookingApi = API.injectEndpoints({
               "getBookings",
               { location_id: arg.location_id },
               (draft) => {
-                draft.unshift(newBooking);
+                draft.data.unshift(newBooking);
               }
             )
           );

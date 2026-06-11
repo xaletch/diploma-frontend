@@ -1,6 +1,7 @@
 import { API } from "@/shared/api";
-import type { ICustomer, ICustomers, ICustomerDetailCredentials, ICustomerCreateCredentials } from "../model/types/customer.type";
+import type { ICustomer, ICustomers, ICustomerDetailCredentials, ICustomerCreateCredentials, ICustomerQuery } from "../model/types/customer.type";
 import type { ICustomerBooking } from "../model/types/customer-booking.type";
+import { buildQuery } from "@/shared/lib";
 
 export const customerApi = API.injectEndpoints({
   endpoints: build => ({
@@ -8,15 +9,15 @@ export const customerApi = API.injectEndpoints({
     /**
       ===== СПИСОК КЛИЕНТОВ ЛОКАЦИИ =====
     **/
-    getCustomers: build.query<ICustomers[], void>({
-      query: () => ({
-        url: `/v1/company/customer`,
+    getCustomers: build.query<ApiResponse<ICustomers>, ICustomerQuery>({
+      query: (query) => ({
+        url: buildQuery(`/v1/company/customer`, { ...query }),
         method: "GET",
       }),
       providesTags: (result) =>
         result
           ? [
-              ...result.map(({ id }) => ({ type: "CUSTOMERS" as const, id })),
+              ...result.data.map(({ id }) => ({ type: "CUSTOMERS" as const, id })),
               { type: "CUSTOMERS", id: "LIST" },
             ]
           : [{ type: "CUSTOMERS", id: "LIST" }],

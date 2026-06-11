@@ -1,22 +1,28 @@
-import type { IServices } from "@/entities/services";
+import type { IServiceQuery, IServices } from "@/entities/services";
 import { Avatar } from "@/entities/user";
 import { markClasses } from "@/shared/constants";
 import { PaletteIcon } from "@/shared/icons";
-import { Button, Table, TableBody, TableCell, TableCellActions, TableHead, TableHeader, TableNotFound, TableRow, TableSeparator } from "@/shared/ui"
+import { Button, Pagination, Table, TableBody, TableCell, TableCellActions, TableHead, TableHeader, TableNotFound, TableRow, TableSeparator } from "@/shared/ui"
 import { cn, formatPrice, minuteFormat } from "@/shared/utils";
 import { Link, useNavigate } from "@tanstack/react-router";
 import { ChevronRightIcon } from "lucide-react";
 import React from "react";
+import { ServiceSort } from "./service-sort";
 
 interface ServicesTableProps {
   services?: IServices[];
+  meta: PaginationMeta;
+  query: IServiceQuery;
 }
 
-export const ServicesTable = ({ services }: ServicesTableProps) => {
+export const ServicesTable = ({ services, meta, query }: ServicesTableProps) => {
   const navigate = useNavigate();
 
   return (
-    <div className="mt-8">
+    <div className="mt-8 space-y-6">
+
+      <ServiceSort {...query} />
+
       <Table>
         <TableHeader>
           <TableRow>
@@ -70,6 +76,8 @@ export const ServicesTable = ({ services }: ServicesTableProps) => {
           }
         </TableBody>
       </Table>
+
+      {meta.total_pages > 1 && <Pagination {...meta} />}
     </div>
   )
 }
