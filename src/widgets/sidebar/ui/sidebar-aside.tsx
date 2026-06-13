@@ -1,4 +1,4 @@
-import type { PermissionName } from "@/entities/account"
+import { accountSelector, type PageType, type PermissionName } from "@/entities/account"
 import { usePermissions } from "@/features/auth/model/hooks/permission.hook"
 import { AsideItem } from "@/features/sidebar"
 import { PaletteIcon } from "@/shared/icons"
@@ -10,9 +10,11 @@ import SvgNotification from "@/shared/icons/Notification"
 import SvgUsersGroup from "@/shared/icons/UsersGroup"
 import { useLocation } from "@tanstack/react-router"
 import { isRouteActive } from "../model/utils/navigation.util"
+import { useSelector } from "react-redux"
 
 interface MenuItem {
   to: string;
+  type: PageType;
   label: string;
   permission?: PermissionName | PermissionName[] | string[];
   icon: React.ReactNode;
@@ -22,11 +24,13 @@ interface MenuItem {
 const menuItems: MenuItem[] = [
   {
     to: "/",
+    type: "DASHBOARD",
     label: "Дашбоард",
     icon: <SvgDashboard width={20} height={20}/>,
   },
   {
     to: "/bookings",
+    type: "BOOKINGS",
     label: "Записи",
     search: { limit: 20, sort: "newest" },
     icon: <SvgBook width={20} height={20}/>,
@@ -34,12 +38,14 @@ const menuItems: MenuItem[] = [
   },
   {
     to: "/schedule",
+    type: "CALENDAR",
     label: "Расписание",
     icon: <SvgCalendar width={20} height={20}/>,
     permission: ["schedule:*"],
   },
   {
     to: "/customers",
+    type: "CUSTOMERS",
     label: "Клиенты",
     search: { limit: 20 },
     icon: <SvgCustomer width={20} height={20}/>,
@@ -47,6 +53,7 @@ const menuItems: MenuItem[] = [
   },
   {
     to: "/employees/users",
+    type: "EMPLOYEES",
     label: "Сотрудники",
     search: { limit: 20 },
     icon: <SvgUsersGroup width={20} height={20}/>,
@@ -54,6 +61,7 @@ const menuItems: MenuItem[] = [
   },
   {
     to: "/business/services",
+    type: "SERVICES",
     label: "Услуги",
     search: { limit: 20 },
     icon: <PaletteIcon width={20} height={20}/>,
@@ -61,6 +69,7 @@ const menuItems: MenuItem[] = [
   },
   {
     to: "/notifications",
+    type: "NOTIFICATIONS",
     label: "Уведомления",
     icon: <SvgNotification width={20} height={20}/>,
     permission: [],
@@ -70,6 +79,14 @@ const menuItems: MenuItem[] = [
 export const SidebarAside = () => {
   const { pathname } = useLocation();
   const { hasWildcard } = usePermissions();
+  const { account } = useSelector(accountSelector);
+
+  const isPageVisible = (type: PageType): boolean => {
+    const pages = account?.settings?.pages;
+    if (!pages || pages.length === 0) return true;
+    const setting = pages.find(p => p.page === type);
+    return setting ? setting.is_visible : true;
+  };
 
   return (
     <aside className="px-5">
@@ -86,6 +103,8 @@ export const SidebarAside = () => {
               }
             }
           }
+
+          if (!isPageVisible(item.type)) return null;
 
           return (
             <AsideItem

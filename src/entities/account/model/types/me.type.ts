@@ -4,6 +4,8 @@ export interface MeCompany {
   id: string;
   name: string;
   currency: CurrencyType;
+  logo: string | null;
+  site_url: string;
   industry: { id: number; name: string; };
   specialization: string;
 }
@@ -13,6 +15,17 @@ export interface MeLocations {
   name: string;
   avatar: string;
   full_address: string;
+}
+
+export type PageType = "DASHBOARD" | "CALENDAR" | "BOOKINGS" | "CUSTOMERS" | "SERVICES" | "EMPLOYEES" | "ANALYTICS" | "SETTINGS" | "NOTIFICATIONS"
+
+export interface MeSettingPages {
+  page: PageType;
+  is_visible: boolean;
+}
+
+export interface MeSettings {
+  pages: MeSettingPages[];
 }
 
 export interface IMe {
@@ -27,4 +40,5 @@ export interface IMe {
   role_id: { id: number; };
   company: MeCompany | null;
   locations: MeLocations[];
+  settings: MeSettings;
 }

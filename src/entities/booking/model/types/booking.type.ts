@@ -85,7 +85,7 @@ export interface IBookingDetail extends IBooking {
 }
 
 export interface IBookingActionCredentials {
-  name: string;
+  // name: string;
   start_time: string;
   end_time: string;
   date: string;

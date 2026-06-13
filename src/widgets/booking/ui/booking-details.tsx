@@ -109,15 +109,17 @@ export const BookingDetails = ({ booking }: BookingDetailsProps) => {
                 </CardContent>
               </Card>
               
-              <CardContentLabel>
-                <CardContentLabelTitle>Комментарий</CardContentLabelTitle>
-                <CardContentLabelDescription>{booking.comment}</CardContentLabelDescription>
-              </CardContentLabel>
+              {booking.comment && (
+                <CardContentLabel>
+                  <CardContentLabelTitle>Комментарий</CardContentLabelTitle>
+                  <CardContentLabelDescription>{booking.comment}</CardContentLabelDescription>
+                </CardContentLabel>
+              )}
             </div>
 
 
             <div className="flex">
-              <Button type={"button"}>Продолжить</Button>
+              <Button type={"button"} size={"size_56"} className="w-full">Продолжить</Button>
             </div>
           </CardContent>
         </Card>

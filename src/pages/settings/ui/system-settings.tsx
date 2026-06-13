@@ -1,5 +1,5 @@
 import { Button, PageHeader, PageHeaderActions, PageHeaderBackAction, PageHeaderTitle } from "@/shared/ui"
-import { SystemSettingContent } from "@/widgets/settings"
+import { SystemSettingContent } from "./system-setting-content"
 
 export const SystemSettings = () => {
   return (

@@ -36,7 +36,7 @@ export const ServicesTable = ({ services, meta, query }: ServicesTableProps) => 
         <TableBody>
           {services?.length ? 
             services.map((service, index) => (
-              <React.Fragment key={index}>
+              <React.Fragment key={service.id || index}>
                 <TableRow onClick={() => navigate({ to: `/business/services/${service.id}` })}>
                   <TableCell>
                     <Avatar 
@@ -44,7 +44,7 @@ export const ServicesTable = ({ services, meta, query }: ServicesTableProps) => 
                       avatar_url={service.avatar} 
                       name={service.name} 
                       id={service.id}
-                      className={"bg-black/15!"}
+                      className={"bg-black/15! overflow-visible!"}
                       isIcon
                       icon={<PaletteIcon width={22} height={22} />}
                     >
@@ -52,7 +52,7 @@ export const ServicesTable = ({ services, meta, query }: ServicesTableProps) => 
                     </Avatar>
                     <div>
                       <p>{service.name}</p>
-                      <p className="text-11 leading-3 opacity-50 mt-px font-normal">{service.category.length ? service.category : "Без категории"}</p>
+                      <p className="text-11 leading-3 opacity-50 mt-px font-normal">{service.category?.length ? service.category : "Без категории"}</p>
                     </div>
                   </TableCell>
                   <TableCell>{formatPrice(service.price)} ₽</TableCell>
