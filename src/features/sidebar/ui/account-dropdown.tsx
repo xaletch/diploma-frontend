@@ -33,7 +33,7 @@ export const AccountDropdown = ({ id, avatar_url, first_name, last_name, full_na
           <span>Мой профиль</span>
         </HoverDropdownItemLink>
         <HoverDropdownSeparator />
-        <HoverDropdownItemLink href={""} className={"text-red hover:text-red"}>
+        <HoverDropdownItemLink href={"/logout"} className={"text-red hover:text-red"}>
           <SvgExit width={20} height={20}/>
           <span>Выйти</span>
         </HoverDropdownItemLink>

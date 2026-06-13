@@ -1,5 +1,5 @@
 import { API } from "@/shared/api";
-import type { ICheckEmployeeInLocationCredentials, IEmployee, IEmployeeBlockedCredentials, IEmployeeByEmail, IEmployeeByEmailCredentials, IEmployeeDeleteCredentials, IEmployeeDetail, IEmployeeInviteCredentials, IEmployeeInviteResponse, IEmployeesCredentials, IEmployeeUpdateCredentials, IServiceFromUserCredentials, IServiceToUserCredentials, UploadEmployeeAvatarCredentials } from "../model/types/employee.type";
+import type { ICheckEmployeeInLocationCredentials, IEmployee, IEmployeeBlockedCredentials, IEmployeeByEmail, IEmployeeByEmailCredentials, IEmployeeDeleteCredentials, IEmployeeDetail, IEmployeeInviteCredentials, IEmployeeInviteResponse, IEmployeePasswordChangeCredentials, IEmployeesCredentials, IEmployeeUpdateCredentials, IServiceFromUserCredentials, IServiceToUserCredentials, UploadEmployeeAvatarCredentials } from "../model/types/employee.type";
 import { buildQuery } from "@/shared/lib";
 
 export const employeeAPI = API.injectEndpoints(({
@@ -230,6 +230,17 @@ export const employeeAPI = API.injectEndpoints(({
         } catch { /* */ }
       },
     }),
+
+    /**
+      ===== СМЕНА ПАРОЛЯ =====
+    **/
+    employeeChangePassword: build.mutation<{ success: true }, IEmployeePasswordChangeCredentials>({
+      query: ({ employee_id, body }) => ({
+        url: `/v1/employee/change-password/${employee_id}`,
+        method: "POST",
+        body,
+      }),
+    }),
   }),
 }));
 
@@ -248,4 +259,5 @@ export const {
   useAddServiceToUserMutation,
   useRemoveServiceFromUserMutation,
   usePhotoEmployeeMutation,
+  useEmployeeChangePasswordMutation,
 } = employeeAPI;

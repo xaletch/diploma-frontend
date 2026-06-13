@@ -1,5 +1,5 @@
 import { useEmployeeBlockedMutation } from "@/entities/employee";
-import { Button } from "@/shared/ui"
+import { Card, CardDescription, CardHeader, CardTitle } from "@/shared/ui"
 
 interface BannedProps {
   isBanned: boolean;
@@ -21,12 +21,13 @@ export const Banned = ({ isBanned, employee_id, location_id }: BannedProps) => {
   }
 
   return (
-    <Button
-      variant={"orange"}
-      className={"text-sm font-bold"}
-      size={"size_44"}
-      disabled={isLoading}
-      onClick={handleBlocked}
-    >{isBanned ? "Разблокировать" : "Заблокировать"}</Button>
+    <button type="button" onClick={handleBlocked} disabled={isLoading} className="cursor-pointer">
+      <Card>
+        <CardHeader>
+          <CardTitle className="text-orange text-start">{isBanned ? "Разблокировать" : "Заблокировать"}</CardTitle>
+          <CardDescription className="text-start">Доступ в локацию будет {isBanned ? "открыт" : "закрыт"}.</CardDescription>
+        </CardHeader>
+      </Card>
+    </button>
   )
 }

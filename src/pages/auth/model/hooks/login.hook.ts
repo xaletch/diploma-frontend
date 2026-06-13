@@ -4,6 +4,7 @@ import type { LoginType } from "../schemas/login.schema";
 import type { UserSession } from "../types/auth.type";
 import { useLocation, useNavigate } from "@tanstack/react-router";
 import { useAuth } from "@/features/auth";
+import { getErrorMessage } from "@/shared/utils";
 
 interface LoginReturnProps {
   onSubmit: (data: LoginType) => void;
@@ -27,8 +28,7 @@ export const useLogin = (): LoginReturnProps => {
       navigate({ to: to, replace: true });
     }
     catch (err) {
-      const { title, detail } = err as HttpError;
-      toast.error(title, { description: detail });
+      toast.error(getErrorMessage(err));
     }
   }
 

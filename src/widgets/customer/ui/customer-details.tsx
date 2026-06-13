@@ -19,7 +19,7 @@ export const CustomerDetails = ({ customer }: CustomerDetailsProps) => {
             <Card>
               <CardHeader className="flex-row items-center gap-4">
                 <div className="relative">
-                  <Avatar size={"xl"} id={customer.profile.id} name={customer.profile.first_name} avatar_url={customer.profile.avatar} />
+                  <Avatar size={"xl"} id={customer.id} name={customer.profile.full_name} avatar_url={customer.profile.avatar} />
                 </div>
                 <div className="flex justify-between gap-4 flex-1">
                   <div className="space-y-0.5 flex-1">

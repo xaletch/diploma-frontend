@@ -138,3 +138,11 @@ export interface UploadEmployeeAvatarCredentials {
   user_id: string;
   body: FormData;
 }
+
+export interface IEmployeePasswordChangeCredentials {
+  employee_id: string;
+  body: {
+    new_password: string;
+    confirm_password: string;
+  }
+}

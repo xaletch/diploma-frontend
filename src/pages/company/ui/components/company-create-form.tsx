@@ -1,14 +1,15 @@
 import { mockCountries, mockCurrency, mockTimezone } from "@/pages/company/model/mock"
 import { CompanySchema, type CompanyType } from "@/pages/company/model/schema/company.schema"
 import SvgChevron from "@/shared/icons/Chevron"
-import { Button, Form, InputForm, SelectForm } from "@/shared/ui"
+import { Button, ErrorForm, Form, ImagePicker, InputForm, SelectForm } from "@/shared/ui"
+import { Controller } from "react-hook-form"
 
 export const CompanyCreateForm = ({ setCompany }: { setCompany: (data: CompanyType) => void }) => {
   return (
     <Form onSubmit={(data) => setCompany(data)} schema={CompanySchema}>
       {({ register, formState, control }) => (
-        <div className="relative w-full">
-          <div className="w-full space-y-8">
+        <div className="relative flex gap-8 justify-center">
+          <div className="w-full space-y-8 max-w-140">
             <div className="space-y-4">
               <div className="space-y-4">
                 <h2 className="text-lg font-extrabold leading-4">Как называется ваша компания?</h2>
@@ -75,6 +76,21 @@ export const CompanyCreateForm = ({ setCompany }: { setCompany: (data: CompanyTy
               </div>
             </div>
           </div>
+
+          <Controller
+            control={control}
+            name={"logo"}
+            render={({ field, fieldState }) => (
+              <div className="sticky top-4 self-start h-fit">
+                <ImagePicker
+                  value={field.value}
+                  onChange={field.onChange}
+                />
+                {fieldState.error && <ErrorForm msg={fieldState.error.message} />}
+              </div>
+            )}
+          />
+
           <div className="left-0 right-0 mx-auto fixed bottom-0 flex justify-center md:bg-transparent backdrop-blur-xs bg-black/4 py-6 rounded-t-3xl px-5">
             <Button
               type={"submit"}

@@ -2,7 +2,7 @@ import type { AppDispatch } from "@/app/providers/redux/config";
 import { useDispatch, useSelector } from "react-redux";
 import type { CompanyType } from "../schema/company.schema";
 import { addCompany, addCompanyIndustry, addCompanySpecialization, clearCompany, CompanyNextStep, CompanyPrevStep } from "../slice/company.slice";
-import { useCompanyCreateMutation } from "../../service/company.service";
+import { useCompanyCreateMutation, useCompanyLogoMutation } from "../../service/company.service";
 import { toast } from "sonner";
 import { companySelector } from "../selector/company.selector";
 import type { CompanyCredentials } from "../type/company-create.type";
@@ -11,6 +11,7 @@ import { useNavigate } from "@tanstack/react-router";
 import { setAccount, setLocation, useLazyMeQuery } from "@/entities/account";
 import { useState } from "react";
 import { timezoneCredSchema } from "@/shared/schemas/timezone.schema";
+import { getErrorMessage } from "@/shared/utils";
 
 interface CompanyCreateReturnProps {
   step: number;
@@ -33,6 +34,7 @@ export const useCompanyCreate = (): CompanyCreateReturnProps => {
   const { company: companyData, step, specialization } = useSelector(companySelector);
   
   const [company] = useCompanyCreateMutation();
+  const [uploadLogo] = useCompanyLogoMutation();
   const [account] = useLazyMeQuery();
 
   const setCompany = (data: CompanyType) => {
@@ -62,29 +64,44 @@ export const useCompanyCreate = (): CompanyCreateReturnProps => {
     try {
       if (!companyData) return;
 
+      const {
+        name, post_code, country,
+        currency, lat, lng, specialization,
+        industry, logo, address, ...companyDto
+      } = companyData;
+
+      console.log(address);
+
       const { timezone, timezone_offset } = timezoneCredSchema.parse(companyData.timezone);
       const payload = { 
-        // ...companyData, 
+        ...companyDto,
 
         // TEST
-        name: companyData.name,
-        post_code: companyData.post_code,
-        country: companyData.country,
-        currency: companyData.currency,
+        name,
+        post_code,
+        country,
+        currency,
         city: "Москва",
         region: "Московская область",
 
-        timezone: timezone,
-        timezone_offset: timezone_offset,
-        lat: parseFloat(companyData.lat),
-        lng: parseFloat(companyData.lng),
+        timezone,
+        timezone_offset,
+        lat: parseFloat(lat),
+        lng: parseFloat(lng),
         //
 
-        specialization: companyData.specialization ?? 0, 
-        industry: companyData.industry ?? 0 
+        specialization: specialization ?? 0, 
+        industry: industry ?? 0 
       } satisfies CompanyCredentials;
 
       await company(payload).unwrap();
+
+      if (logo) {
+        const formData = new FormData();
+        formData.append("file", logo);
+        await uploadLogo(formData).unwrap();
+      }
+
       const me = await account().unwrap();
 
       dispatch(setAccount(me));
@@ -94,7 +111,7 @@ export const useCompanyCreate = (): CompanyCreateReturnProps => {
     }
     catch (err) {
       console.error("Не удалось создать компанию", err);
-      toast.error("Не удалось создать компанию", { description: JSON.stringify(err) });
+      toast.error(getErrorMessage(err));
     }
     finally {
       setIsLoading(false);

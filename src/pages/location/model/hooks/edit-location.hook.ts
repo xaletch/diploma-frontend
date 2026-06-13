@@ -5,6 +5,7 @@ import { toast } from "sonner";
 import { useNavigate } from "@tanstack/react-router";
 import { timezoneCredSchema } from "@/shared/schemas/timezone.schema";
 import { omitNullValues } from "@/shared/lib";
+import { getErrorMessage } from "@/shared/utils";
 
 interface EditLocationReturnProps {
   isLoading: boolean;
@@ -50,7 +51,7 @@ export const useEditLocation = (): EditLocationReturnProps => {
     }
     catch (err) {
       console.error("Не удалось обновить локацию", err);
-      toast.error("Не удалось обновить локацию", { description: JSON.stringify(err) });
+      toast.error(getErrorMessage(err));
     }
     finally {
       setIsLoading(false);

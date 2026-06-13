@@ -18,7 +18,7 @@ export const CompanyCreate = () => {
   }
 
   return (
-    <div className={`max-w-140 mx-auto w-full pt-10 lg:pt-20 pb-28 px-5 flex-1 ${step === 1 ? "max-w-140" : "max-w-220"}`}>
+    <div className={`max-w-140 mx-auto w-full pt-10 lg:pt-20 pb-28 px-5 flex-1 ${step === 1 ? "max-w-203" : "max-w-220"}`}>
       <h1 className="text-32 leading-8 font-extrabold">
         {step === 1 ? "Создание компании" : step === 2 || step === 3 ? "В какой индустрии работает ваш бизнес?" : null}
       </h1>

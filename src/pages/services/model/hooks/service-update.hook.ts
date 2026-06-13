@@ -2,6 +2,7 @@ import { useEditServiceMutation } from "@/entities/services";
 import type { ServiceType } from "../schema/service.schema";
 import { useNavigate } from "@tanstack/react-router";
 import { toast } from "sonner";
+import { getErrorMessage } from "@/shared/utils";
 
 interface UseEditServiceReturnProps {
   isLoading: boolean;
@@ -25,7 +26,7 @@ export const useEditService = (service_id: string): UseEditServiceReturnProps =>
     }
     catch (err) {
       console.log(err instanceof Error && err.message);
-      toast.error(err instanceof Error && err.message);
+      toast.error(getErrorMessage(err));
     }
   }
 

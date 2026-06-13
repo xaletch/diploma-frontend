@@ -2,6 +2,7 @@ import { useCreateCustomerMutation, type ICustomerCreateCredentials } from "@/en
 import { toast } from "sonner";
 import type { customerSchemaType } from "../schemas/customer.schema";
 import { useNavigate } from "@tanstack/react-router";
+import { getErrorMessage } from "@/shared/utils";
 
 interface useCustomerCreateReturnProps {
   onSubmit: (data: customerSchemaType) => Promise<void>;
@@ -26,7 +27,7 @@ export const useCustomerCreate = (): useCustomerCreateReturnProps => {
     }
     catch (error) {
       console.log(error);
-      toast.error(JSON.stringify(error));
+      toast.error(getErrorMessage(error));
     }
   }
 

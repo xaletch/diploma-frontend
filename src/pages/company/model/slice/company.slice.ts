@@ -16,6 +16,8 @@ interface Company {
   lng: string;
   specialization?: number;
   industry?: number;
+  logo?: File | null;
+  address?: string;
 }
 
 type CompanyState = {

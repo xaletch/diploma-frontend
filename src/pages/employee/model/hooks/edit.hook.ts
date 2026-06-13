@@ -3,6 +3,7 @@ import type { EmployeeSchemaType } from "../schemas";
 import { toast } from "sonner";
 import { useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
+import { getErrorMessage } from "@/shared/utils";
 
 interface UseEmployeeEditReturnProps {
   onSubmit: (data: EmployeeSchemaType) => Promise<void>;
@@ -46,7 +47,7 @@ export const useEmployeeEdit = (employeeId: string, employeeProfileId: string, l
     }
     catch (error) {
       console.log("error edit", error);
-      toast.error(JSON.stringify(error));
+      toast.error(getErrorMessage(error));
     }
     finally {
       setIsLoading(false);

@@ -8,3 +8,4 @@ export { EmployeeEditLazy } from './ui/employee-edit-lazy';
 export { EmployeeServiceSetting } from './ui/employee-service-setting';
 export { EmployeeServiceSettingLazy } from './ui/employee-service-setting-lazy';
 export { EmployeeDeleteDialog } from './ui/employee-delete-dialog';
+export { EmployeeChangePassword } from './ui/employee-change-password';

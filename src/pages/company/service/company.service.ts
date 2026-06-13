@@ -36,11 +36,23 @@ export const companyApi = API.injectEndpoints({
         body, 
       }),
     }),
+
+    /** 
+      ===== ЗАГРУЗКА ЛОГОТИПА КОМПАНИИ =====
+    **/
+    companyLogo: builder.mutation<{ avatar: string }, FormData>({
+      query: (body) => ({
+        url: `/v1/company/upload/logo`,
+        method: "POST",
+        body,
+      }),
+    }),
   }),
 });
 
 export const {
   useGetSpecializationQuery,
   useGetSpecializationIndustryQuery, 
-  useCompanyCreateMutation
+  useCompanyCreateMutation,
+  useCompanyLogoMutation,
 } = companyApi;

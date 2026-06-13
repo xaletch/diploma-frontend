@@ -1,4 +1,5 @@
 import { useOnlineLocationMutation } from "@/entities/location";
+import { getErrorMessage } from "@/shared/utils";
 import { toast } from "sonner";
 
 interface UseLocationOnlineReturnProps {
@@ -18,7 +19,7 @@ export const useLocationOnline = (): UseLocationOnlineReturnProps => {
     // {"status":404,"data":{"message":"Локация не найдена","error":"Not Found","statusCode":404}}
     catch (err) {
       console.error("Не удалось изменить статус", err);
-      toast.error("Не удалось изменить статус", { description: JSON.stringify(err) })
+      toast.error(getErrorMessage(err));
     }
   }
 

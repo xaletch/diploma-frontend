@@ -17,22 +17,13 @@ interface EmployeeDetailsProps {
 export const EmployeeDetails = ({ employee, locationId }: EmployeeDetailsProps) => {
   return (
     <div className="mt-2.5">
-      <Can permission={"employee:update"}>
-        <div className="flex justify-end">
-          <Banned
-            isBanned={employee.is_banned}
-            employee_id={employee.profile.id}
-            location_id={locationId}
-          />
-        </div>
-      </Can>
       <div className="mt-8">
         <div className="grid grid-cols-5 gap-8 w-full">
           <div className="col-span-3 space-y-8">
             <Card>
               <CardHeader className="flex-row items-center gap-4">
                 <div className="relative">
-                  <Avatar size={"xl"} id={employee.profile.id} name={employee.profile.first_name} avatar_url={employee.profile.avatar} />
+                  <Avatar size={"xl"} id={employee.profile.id} name={employee.profile.full_name} avatar_url={employee.profile.avatar} />
                 </div>
                 <div className="flex justify-between gap-4 flex-1">
                   <div className="space-y-0.5 flex-1">
@@ -114,9 +105,30 @@ export const EmployeeDetails = ({ employee, locationId }: EmployeeDetailsProps) 
               </Link>
             </Can>
             {/* <AvatarGroup title={"Локации"} to={"locations"} data={employee.locations} /> */}
+            
             <Can permission="directory:services">
               <AvatarGroup title={"Услуги"} to={"services"} data={employee.services} />
             </Can>
+            
+            <Can permission={"employee:update"}>
+              <Banned
+                isBanned={employee.is_banned}
+                employee_id={employee.profile.id}
+                location_id={locationId}
+              />
+            </Can>
+
+          <Can permission={"employee:change-password"}>
+            <Link to={"password"}>
+              <Card>
+                <CardHeader>
+                  <CardTitle>Изменить пароль</CardTitle>
+                  <CardDescription>После сохранения сотрудник не сможет войти со старым паролем. Новый пароль нужно будет передать ему в защищённом канале.</CardDescription>
+                </CardHeader>
+              </Card>
+            </Link>
+          </Can>
+
             <Can permission="employee:delete">
               <EmployeeDeleteAction employee_id={employee.profile.id} />
             </Can>

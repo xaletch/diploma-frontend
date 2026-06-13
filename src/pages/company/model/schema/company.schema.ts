@@ -1,3 +1,4 @@
+import { avatarSchema } from "@/shared/schemas/avatar.schema";
 import { timezoneSchema } from "@/shared/schemas/timezone.schema";
 import z from "zod";
 
@@ -21,6 +22,8 @@ export const CompanySchema = z.object({
   post_code: z.string().optional(),
 
   timezone: timezoneSchema,
+
+  logo: avatarSchema,
 });
 
 export type CompanyType = z.infer<typeof CompanySchema>;

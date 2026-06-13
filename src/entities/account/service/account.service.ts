@@ -2,6 +2,7 @@ import { API } from "@/shared/api";
 import type { IMe } from "../model/types/me.type";
 import type { IPermission } from "../model/types/permission.type";
 import type { IPasswordChangeCredentials } from "../model/types/change-password.type";
+import type { ILogoutCredentials } from "../model/types/logout.type";
 
 export const AccountApi = API.injectEndpoints({
   endpoints: build => ({
@@ -35,6 +36,17 @@ export const AccountApi = API.injectEndpoints({
         body,
       }),
     }),
+
+    /**
+      ===== ВЫХОД ИЗ АККАУНТА =====
+    **/
+    logout: build.mutation<{ success: true }, ILogoutCredentials>({
+      query: (body) => ({
+        url: `/v1/auth/logout`,
+        method: "POST",
+        body,
+      }),
+    }),
   }),
 });
 
@@ -44,4 +56,5 @@ export const {
   usePermissionsQuery,
   useLazyPermissionsQuery,
   useChangePasswordMutation,
+  useLogoutMutation,
 } = AccountApi;

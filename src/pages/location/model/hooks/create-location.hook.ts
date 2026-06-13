@@ -4,6 +4,7 @@ import { useCreateLocationMutation, usePhotoLocationMutation, type LocationCrede
 import { toast } from "sonner";
 import { useNavigate } from "@tanstack/react-router";
 import { timezoneCredSchema } from "@/shared/schemas/timezone.schema";
+import { getErrorMessage } from "@/shared/utils";
 
 interface CreateLocationReturnProps {
   isLoading: boolean;
@@ -47,7 +48,7 @@ export const useCreateLocation = (): CreateLocationReturnProps => {
     }
     catch (err) {
       console.error("Не удалось создать локацию", err);
-      toast.error("Не удалось создать локацию", { description: JSON.stringify(err) });
+      toast.error(getErrorMessage(err));
     }
     finally {
       setIsLoading(false);

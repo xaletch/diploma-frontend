@@ -4,6 +4,7 @@ import type { UserSession } from "../types/auth.type";
 import { useNavigate } from "@tanstack/react-router";
 import type { RegisterType } from "../schemas/register.schema";
 import { useAuth } from "@/features/auth";
+import { getErrorMessage } from "@/shared/utils";
 
 interface RegisterReturnProps {
   onSubmit: (data: RegisterType) => void;
@@ -25,8 +26,7 @@ export const useRegister = (): RegisterReturnProps => {
       navigate({ to: "/company/create", replace: true });
     }
     catch (err) {
-      const { title, detail } = err as HttpError;
-      toast.error(title, { description: detail });
+      toast.error(getErrorMessage(err));
     }
   }
 

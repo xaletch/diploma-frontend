@@ -106,6 +106,15 @@ export const ProfileInfo = ({ employee }: ProfileInfoProps) => {
             </Card>
           </Link>
 
+          <Link to={"/logout"}>
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-red">Выйти</CardTitle>
+                <CardDescription>Выход из системы.</CardDescription>
+              </CardHeader>
+            </Card>
+          </Link>
+
           <DeleteAccountAction profile_id={employee.profile.id} />
         </div>
         

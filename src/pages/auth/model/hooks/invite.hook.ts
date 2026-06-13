@@ -4,6 +4,7 @@ import type { UserSession } from "../types/auth.type";
 import { useInviteMutation } from "../../service/auth.service";
 import { useNavigate } from "@tanstack/react-router";
 import { useAuth } from "@/features/auth";
+import { getErrorMessage } from "@/shared/utils";
 
 interface InviteReturnProps {
   onSubmit: (data: RegisterType, token: string) => Promise<void>;
@@ -26,8 +27,7 @@ export const useInvite = (): InviteReturnProps => {
       navigate({ to: "/company/create", replace: true });
     }
     catch (err) {
-      const { title, detail } = err as HttpError;
-      toast.error(title, { description: detail });
+      toast.error(getErrorMessage(err));
     }
   }
 

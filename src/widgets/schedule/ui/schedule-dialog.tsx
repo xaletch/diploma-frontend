@@ -4,6 +4,7 @@ import type { DayInfo } from "@/features/calendar";
 import { intervalsSchema, type IntervalsSchemaType } from "@/features/schedule/model/schemas/schedule.schema";
 import { IntervalsField } from "@/features/schedule/ui/intervals-field";
 import { Button, Dialog, DialogClose, DialogContent, DialogFooter, DialogHeader, DialogTitle, Form } from "@/shared/ui"
+import { getErrorMessage } from "@/shared/utils";
 import { toast } from "sonner";
 
 interface ScheduleDialogProps {
@@ -53,7 +54,7 @@ export const ScheduleDialog = ({ location_id, data: props }: ScheduleDialogProps
     }
     catch (error) {
       console.error("Не удалось сохранить расписание");
-      toast.error("Не удалось сохранить расписание", { description: JSON.stringify(error) });
+      toast.error(getErrorMessage(error));
     }
   }
   

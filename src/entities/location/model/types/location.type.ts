@@ -61,6 +61,7 @@ export interface ILocationServices {
   id: string;
   name: string;
   mark: MarkType;
+  avatar: string | null;
 }
 
 export interface ILocationDetail extends ILocation {
