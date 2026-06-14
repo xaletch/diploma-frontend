@@ -7,7 +7,7 @@ export const ServiceCreate = () => {
 
   return (
     <>
-      <PageHeader className="sticky top-8">
+      <PageHeader>
         <PageHeaderTitle>Создание услуги</PageHeaderTitle>
         <PageHeaderActions>
           <PageHeaderBackAction />

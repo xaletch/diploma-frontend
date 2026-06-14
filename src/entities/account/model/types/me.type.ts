@@ -1,9 +1,12 @@
+import type { PageType } from "@/entities/settings";
 import type { IRole } from "./role.type";
 
-export interface MeCompany {
+export interface IMeCompany {
   id: string;
   name: string;
   currency: CurrencyType;
+  logo: string | null;
+  site_url: string;
   industry: { id: number; name: string; };
   specialization: string;
 }
@@ -13,6 +16,15 @@ export interface MeLocations {
   name: string;
   avatar: string;
   full_address: string;
+}
+
+export interface MeSettingPages {
+  page: PageType;
+  is_visible: boolean;
+}
+
+export interface MeSettings {
+  pages: MeSettingPages[];
 }
 
 export interface IMe {
@@ -25,6 +37,7 @@ export interface IMe {
   avatar: string | null;
   role: IRole;
   role_id: { id: number; };
-  company: MeCompany | null;
+  company: IMeCompany | null;
   locations: MeLocations[];
+  settings: MeSettings;
 }

@@ -1,4 +1,4 @@
-import { getCookie, setCookie } from "@/shared/utils";
+import { getCookie, getErrorMessage, setCookie } from "@/shared/utils";
 import { baseQuery } from "./base-query";
 import { toast } from "sonner";
 import { logout } from "@/entities/account";
@@ -46,7 +46,7 @@ export const reauthQuery: typeof baseQuery = async (args, api, opt) => {
 
         if (refresh.data && "access_token" in refresh.data) {
           const token = refresh.data.access_token;
-          setCookie("access_token", token, { days: 7 });
+          setCookie("access_token", token, { path: "/", sameSite: "Strict", secure: true });
 
           res = await baseQuery(args, api, opt);
           // console.log(`refresh.data && "access_token" in refresh.data ${refresh.data && "access_token" in refresh.data}`);
@@ -59,8 +59,7 @@ export const reauthQuery: typeof baseQuery = async (args, api, opt) => {
     }
 
     if (res.error) {
-      const { title, detail } = res.error as unknown as HttpError;
-      toast.error(title, { description: detail });
+      toast.error(getErrorMessage(res.error));
     }
   }
 

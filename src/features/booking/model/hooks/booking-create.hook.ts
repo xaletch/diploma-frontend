@@ -36,7 +36,6 @@ export const useBookingCreate = (): UseBookingCreateReturnProps => {
         : "";
 
     const req = {
-      name: "",
       start_time: booking.time!,
       end_time,
       date: booking.date!,

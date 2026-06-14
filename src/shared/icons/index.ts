@@ -53,6 +53,7 @@ export { default as NetworkOffIcon } from "./NetworkOff";
 export { default as NetworkOnIcon } from "./NetworkOn";
 export { default as NotificationIcon } from "./Notification";
 export { default as PaletteIcon } from "./Palette";
+export { default as PaperClipIcon } from "./PaperClip";
 export { default as PdfIcon } from "./Pdf";
 export { default as PencilEditIcon } from "./PencilEdit";
 export { default as PencilShareIcon } from "./PencilShare";

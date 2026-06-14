@@ -18,7 +18,7 @@ export const Invite = () => {
 
   useEffect(() => {
     check({ token: search.token });
-  }, []);
+  }, [search.token]);
 
   if (isLoading) return <Loading />
 

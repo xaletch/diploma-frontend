@@ -116,3 +116,8 @@ export interface IServiceLocationsCredentials {
 export interface IServiceDeleteCredentials {
   service_id: string;
 }
+
+export interface UploadServiceAvatarCredentials {
+  service_id: string;
+  body: FormData;
+}

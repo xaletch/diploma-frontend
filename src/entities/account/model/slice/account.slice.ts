@@ -1,6 +1,6 @@
 import { deleteCookie, getCookie } from "@/shared/utils";
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
-import type { IMe, MeLocations } from "../types/me.type";
+import type { IMe, MeLocations, MeSettings } from "../types/me.type";
 import type { IPermission } from "../types/permission.type";
 
 interface AccountState {
@@ -42,7 +42,11 @@ export const accountSlice = createSlice({
     setPermission: (state, action: PayloadAction<IPermission[]>) => {
       state.permissions = action.payload;
     },
-
+    updateSettings: (state, action: PayloadAction<MeSettings>) => {
+      if (state.account) {
+        state.account.settings = action.payload;
+      }
+    },
     logout: (state) => {
       deleteCookie("access_token");
       deleteCookie("refresh_token");
@@ -62,6 +66,7 @@ export const {
   setLocation,
   setIsCompany,
   setPermission,
+  updateSettings,
   logout,
 } = accountSlice.actions;
 export default accountSlice.reducer;

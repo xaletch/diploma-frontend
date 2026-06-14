@@ -12,7 +12,7 @@ export const ServiceEdit = () => {
   
   return (
     <>
-      <PageHeader className="sticky top-8">
+      <PageHeader>
         <PageHeaderTitle>Редактировать услугу {data?.name && `- ${data.name}`}</PageHeaderTitle>
         <PageHeaderActions>
           <PageHeaderBackAction />

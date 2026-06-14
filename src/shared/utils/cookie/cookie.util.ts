@@ -19,7 +19,7 @@ type CookieOptions = {
   minutes?: number;
   path?: string;
   secure?: boolean;
-  sameSite?: "strict" | "lax" | "none";
+  sameSite?: "Strict" | "Lax" | "None";
 }
 
 export const setCookie = (key: string, val: string, opt?: CookieOptions): void => {
@@ -32,8 +32,8 @@ export const setCookie = (key: string, val: string, opt?: CookieOptions): void =
   }
 
   const path = opt?.path ? `; path=${opt.path}` : "";
-  const secure = opt?.secure ? "; secure" : "";
-  const sameSite = opt?.sameSite ? `; samesite=${opt.sameSite}` : "";
+  const secure = opt?.secure !== false ? "; Secure" : "";
+  const sameSite = `; SameSite=${opt?.sameSite || "Strict"}`;
 
   document.cookie = `${key}=${val || ""}${exp}${path}${secure}${sameSite}`;
 }
@@ -41,5 +41,6 @@ export const setCookie = (key: string, val: string, opt?: CookieOptions): void =
 // delete cookie
 // KEY - cookie name
 export const deleteCookie = (key: string): void => {
-  setCookie(key, "", { days: -1 });
+  document.cookie = `${key}=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC; Secure; SameSite=Strict`;
+  document.cookie = `${key}=; expires=Thu, 01 Jan 1970 00:00:00 UTC`;
 }

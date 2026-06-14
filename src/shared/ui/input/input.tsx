@@ -9,7 +9,7 @@ FieldWrapperPassThroughProps & VariantProps<typeof inputVariants> & {
   className?: string;
   isError?: boolean;
   lcls?: string;
-  label: React.ReactNode;
+  label?: React.ReactNode;
 }
 
 const Input = React.forwardRef<HTMLInputElement, InputProps>(

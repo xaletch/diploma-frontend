@@ -10,9 +10,10 @@ interface ImagePickerProps {
   className?: string;
   sizeCls?: string;
   iconCls?: string;
+  children?: React.ReactNode;
 }
 
-export const ImagePicker = ({ value, onChange, preview_url, disabled=false, className="", sizeCls="", iconCls="" }: ImagePickerProps) => {
+export const ImagePicker = ({ value, onChange, preview_url, disabled=false, className="", sizeCls="", iconCls="", children }: ImagePickerProps) => {
   const [localPreview, setLocalPreview] = useState<string | null>(null);
 
   useEffect(() => {
@@ -49,7 +50,7 @@ export const ImagePicker = ({ value, onChange, preview_url, disabled=false, clas
             className={"w-full h-full object-cover"}
           />
         </div>
-      ) : undefined}
+      ) : children}
 
     </FilePicker>
   )

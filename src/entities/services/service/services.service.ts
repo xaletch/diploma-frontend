@@ -1,8 +1,8 @@
 import { API } from "@/shared/api";
-import type { IService, IServiceChangeResponse, IServiceCredentials, IServiceDeleteCredentials, IServiceDetailCredentials, IServiceEditCredentials, IServiceLocationsCredentials, IServiceQuery, IServices, IServiceUsersCredentials } from "../model/types/service.type";
+import type { IService, IServiceChangeResponse, IServiceCredentials, IServiceDeleteCredentials, IServiceDetailCredentials, IServiceEditCredentials, IServiceLocationsCredentials, IServiceQuery, IServices, IServiceUsersCredentials, UploadServiceAvatarCredentials } from "../model/types/service.type";
 import { buildQuery } from "@/shared/lib";
 
-const ServicesApi = API.injectEndpoints({
+const servicesApi = API.injectEndpoints({
   endpoints: build => ({
     /**
       ===== СПИСОК ВСЕХ УСЛУГ =====
@@ -23,7 +23,7 @@ const ServicesApi = API.injectEndpoints({
         url: `v1/service/${service_id}`,
         method: "GET",
       }),
-      providesTags: ["SERVICE"]
+      providesTags: ["SERVICE"],
     }),
 
     /**
@@ -50,7 +50,7 @@ const ServicesApi = API.injectEndpoints({
       invalidatesTags: ["SERVICES"],
 
       async onQueryStarted({ service_id, body }, { dispatch, queryFulfilled }) {
-        const result = dispatch(ServicesApi.util.updateQueryData(
+        const result = dispatch(servicesApi.util.updateQueryData(
           "getDetailService",
           { service_id },
           (d) => { Object.assign(d, body) }
@@ -73,7 +73,7 @@ const ServicesApi = API.injectEndpoints({
         method: "POST",
       }),
       async onQueryStarted({ service_id, user }, { dispatch, queryFulfilled }) {
-        const result = dispatch(ServicesApi.util.updateQueryData(
+        const result = dispatch(servicesApi.util.updateQueryData(
           "getDetailService",
           { service_id },
           (d) => { d.users.push({ ...user, name: `${user.first_name} ${user.last_name}` })},
@@ -96,7 +96,7 @@ const ServicesApi = API.injectEndpoints({
         method: "DELETE",
       }),
       async onQueryStarted({ service_id, user }, { dispatch, queryFulfilled }) {
-        const result = dispatch(ServicesApi.util.updateQueryData(
+        const result = dispatch(servicesApi.util.updateQueryData(
           "getDetailService",
           { service_id },
           (d) => { d.users = d.users.filter(u => u.id !== user.id)},
@@ -119,7 +119,7 @@ const ServicesApi = API.injectEndpoints({
         method: "POST",
       }),
       async onQueryStarted({ service_id, location }, { dispatch, queryFulfilled }) {
-        const result = dispatch(ServicesApi.util.updateQueryData(
+        const result = dispatch(servicesApi.util.updateQueryData(
           "getDetailService",
           { service_id },
           (d) => { d.locations.push({ ...location }) },
@@ -142,7 +142,7 @@ const ServicesApi = API.injectEndpoints({
         method: "DELETE",
       }),
       async onQueryStarted({ service_id, location }, { dispatch, queryFulfilled }) {
-        const result = dispatch(ServicesApi.util.updateQueryData(
+        const result = dispatch(servicesApi.util.updateQueryData(
           "getDetailService",
           { service_id },
           (d) => { d.locations = d.locations.filter(l => l.id !== location.id) },
@@ -165,7 +165,7 @@ const ServicesApi = API.injectEndpoints({
         method: "DELETE",
       }),
       async onQueryStarted({ service_id }, { dispatch, queryFulfilled }) {
-        const result = dispatch(ServicesApi.util.updateQueryData(
+        const result = dispatch(servicesApi.util.updateQueryData(
           "getServices",
           {},
           (d) => { d.data.splice(0, d.data.length, ...d.data.filter(s => s.id !== service_id)) }
@@ -176,6 +176,41 @@ const ServicesApi = API.injectEndpoints({
         } catch {
           result.undo();
         }
+      },
+    }),
+
+    /** 
+      ===== ЗАГРУЗКА ФОТО УСЛУГИ =====
+    **/
+    photoService: build.mutation<{ avatar: string }, UploadServiceAvatarCredentials>({
+      query: ({ service_id, body }) => ({
+        url: `/v1/service/avatar/${service_id}`,
+        method: "POST",
+        body,
+      }),
+      
+      async onQueryStarted({ service_id }, { dispatch, queryFulfilled }) {
+        try {
+          const { data } = await queryFulfilled;
+          dispatch(
+            servicesApi.util.updateQueryData(
+              "getServices",
+              {},
+              (d) => {
+                const loc = d.data.find(l => l.id === service_id);
+                if (loc) loc.avatar = data.avatar;
+              }
+            )
+          );
+
+          dispatch(
+            servicesApi.util.updateQueryData(
+              "getDetailService",
+              { service_id },
+              (d) => { d.avatar = data.avatar }
+            ),
+          );
+        } catch { /* */ }
       },
     }),
   }),
@@ -193,4 +228,5 @@ export const {
   useAddLocationToServiceMutation,
   useRemoveLocationForServiceMutation,
   useDeleteServiceMutation,
-} = ServicesApi;
+  usePhotoServiceMutation,
+} = servicesApi;
