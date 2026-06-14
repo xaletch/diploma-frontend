@@ -14,7 +14,7 @@ function validateBooking(booking: BookingCreate): ValidationError[] {
   if (!booking.employee) errors.push({ field: "employee", message: "Выберите сотрудника" });
   if (!booking.customer) errors.push({ field: "customer", message: "Выберите клиента" });
   if (!booking.location) errors.push({ field: "location", message: "Выберите локацию" });
-  if (!booking.payment_method) errors.push({ field: "payment_method", message: "Выберите способ оплаты" });
+  // if (!booking.payment_method) errors.push({ field: "payment_method", message: "Выберите способ оплаты" });
 
   return errors;
 }

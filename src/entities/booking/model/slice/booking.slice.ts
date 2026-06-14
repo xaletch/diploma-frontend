@@ -10,7 +10,7 @@ export type BookingCreate = {
   // ....
   date?: string;
   time?: string;
-  payment_method?: PaymentMethodType;
+  // payment_method?: PaymentMethodType;
 }
 
 interface BookingState {

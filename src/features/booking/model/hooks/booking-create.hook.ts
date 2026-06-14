@@ -41,7 +41,7 @@ export const useBookingCreate = (): UseBookingCreateReturnProps => {
       date: booking.date!,
       service_id: booking.service!.id,
       employee_id: booking.employee!.profile_id,
-      payment_method: booking.payment_method!,
+      payment_method: "cash", // ВРЕМЕННАЯ ЗАГЛУШКА !!!!!
       customer_id: booking.customer!.profile_id,
       location_id: booking.location!.id,
       status: "pending",

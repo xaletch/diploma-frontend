@@ -20,6 +20,19 @@ const badgeVariants = cva(
         disable: "px-2 py-0.5 text-xss! font-bold rounded-lg bg-error-background border-error-background text-white",
 
         count: "w-6 h-6 rounded-lg bg-border flex items-center justify-center border-transparent text-primary",
+
+        open: "bg-primary text-white border-none px-4 py-1.5",
+        pending: "bg-orange border-none px-4 py-1.5",
+        closed: "bg-red border-none px-4 py-1.5",
+        paid: "bg-green text-white border-none px-4 py-1.5",
+        unpaid: "bg-blue text-white border-none px-4 py-1.5",
+
+        new_b: "px-2 py-0.5 text-xss! font-bold rounded-lg border-none bg-primary text-white",
+        pending_b: "px-2 py-0.5 text-xss! font-bold rounded-lg border-none bg-orange text-white",
+        expired_b: "px-2 py-0.5 text-xss! font-bold rounded-lg border-none bg-red text-white",
+        confirmed_b: "px-2 py-0.5 text-xss! font-bold rounded-lg border-none bg-blue text-white",
+        cancelled_b: "px-2 py-0.5 text-xss! font-bold rounded-lg border-none bg-red text-white",
+        completed_b: "px-2 py-0.5 text-xss! font-bold rounded-lg border-none bg-green text-white",
       },
     },
     defaultVariants: {

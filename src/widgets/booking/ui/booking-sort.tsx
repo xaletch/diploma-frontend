@@ -4,14 +4,16 @@ import { Button, Card, CardContent } from "@/shared/ui"
 import { cn } from "@/shared/utils";
 import { useNavigate } from "@tanstack/react-router";
 
-const variant = ["all", "pending", "confirmed", "cancelled"] as BookingStatusType[] | "all"[];
+const variant = ["all", "pending", "confirmed", "cancelled", "completed"] as BookingStatusType[] | "all"[];
 
 const BOOKING_STATUS: Record<BookingStatusType | "all", string> = {
   "all": "Все",
   "pending": "В ожидании",
-  "confirmed": "Подтверждено",
-  "completed": "Завершено",
-  "cancelled": "Отменено",
+  "confirmed": "Подтвержденные",
+  "completed": "Завершенные",
+  "cancelled": "Отмененные",
+  "new": "Новый",
+  "expired": "Просрочен"
 };
 
 export const BookingSort = ({ status }: IBookingQuery) => {

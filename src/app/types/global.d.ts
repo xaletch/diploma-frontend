@@ -88,7 +88,7 @@ declare global {
   type BookingStatusType = "new" | "pending" | "expired" | "confirmed" | "cancelled" | "completed";
 
   /** СТАТУСЫ ДЛЯ ЗАКАЗОВ **/
-  type OrderStatusType = "pending" | "open" | "closed" | "paid";
+  type OrderStatusType = "pending" | "open" | "closed" | "paid" | "unpaid";
 
   /** МЕТОДЫ ДЛЯ ОПЛАТЫ **/
   type PaymentMethodType = "online" | "cash" | "credit_card";

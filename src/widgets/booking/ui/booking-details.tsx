@@ -2,6 +2,8 @@ import type { IBookingDetail } from "@/entities/booking"
 import { Avatar } from "@/entities/user";
 import { Copyable } from "@/features/copyable";
 import { markClasses } from "@/shared/constants";
+import { ORDER_STATUS } from "@/shared/constants/order-status.constant";
+import { ChevronIcon, PencilEditIcon } from "@/shared/icons";
 import { Badge, Button, Card, CardContent, CardContentLabel, CardContentLabelDescription, CardContentLabelTitle, CardDescription, CardHeader, CardTitle } from "@/shared/ui";
 import { cn, formatDateWeek, formatPrice, minuteFormat } from "@/shared/utils";
 import { Link } from "@tanstack/react-router";
@@ -13,9 +15,9 @@ interface BookingDetailsProps {
 
 export const BookingDetails = ({ booking }: BookingDetailsProps) => {
   return (
-    <div className="mt-8">
+    <div className="mt-8 h-full">
       
-      <div className="grid grid-cols-3 gap-8">
+      <div className="grid grid-cols-3 gap-8 h-full">
       
       <div className="col-span-2 space-y-8">
         <Card>
@@ -26,7 +28,7 @@ export const BookingDetails = ({ booking }: BookingDetailsProps) => {
             <div className="flex gap-2.5 items-center justify-between">
               <div className="flex gap-2.5 items-center">
                 <Link to={`/business/services/${booking.service.id}`} className="relative">
-                  <Avatar size={"md"} id={booking.service.id} name={booking.service.name} avatar_url={null} />
+                  <Avatar size={"md"} id={booking.service.id} name={booking.service.name} avatar_url={booking.service.avatar} />
                   <div className={cn("absolute -bottom-px -right-px w-2 h-2 rounded-full",  markClasses[booking.service.mark ?? "red"])} />
                 </Link>
                 <div>
@@ -97,30 +99,51 @@ export const BookingDetails = ({ booking }: BookingDetailsProps) => {
 
           <CardContent className="flex-1 flex flex-col">
             <div className="flex flex-col h-full space-y-6">
-              <Card className="relative">
+              
+              {booking.order.id && (
+                <Card className="bg-white mb-10">
+                  <CardContent className="p-5 space-y-5">
+                    <div className="flex items-center justify-between gap-2.5">
+                      <Badge variant={booking.order.status}>{ORDER_STATUS[booking.order.status]}</Badge>
+                      <div className="font-bold">{formatPrice(booking.service.prices.price)}₽</div>
+                    </div>
+                    <Link to="result">
+                      <Button variant={"accent"} size={"size_48"} className="w-full bg-primary">Заказ № {booking.order.tag}</Button>
+                    </Link>
+                  </CardContent>
+                </Card>
+              )}
+
+              <Card className="relative bg-white/40">
                 <CardContent>
                   <div className="text-center font-semibold text-lg">
                     <span>{formatDateWeek(booking.date)} </span>
                     <span>{booking.start_time}</span>
                   </div>
-                  <div className="absolute -top-6 left-1/2 -translate-x-1/2 bg-card-accent border-4 border-card-ring w-11 h-11 flex items-center justify-center rounded-full">
+                  <div className="absolute -top-6 left-1/2 -translate-x-1/2 bg-white/40 border-4 border-card-ring w-11 h-11 flex items-center justify-center rounded-full">
                     <CalendarIcon width={22} height={22}/>
                   </div>
                 </CardContent>
               </Card>
               
-              {booking.comment && (
-                <CardContentLabel>
-                  <CardContentLabelTitle>Комментарий</CardContentLabelTitle>
-                  <CardContentLabelDescription>{booking.comment}</CardContentLabelDescription>
-                </CardContentLabel>
-              )}
+              <CardContentLabel>
+                <CardContentLabelTitle>Примечание к бронированию</CardContentLabelTitle>
+                <CardContentLabelDescription>{booking.comment ?? "-"}</CardContentLabelDescription>
+              </CardContentLabel>
             </div>
 
-
-            <div className="flex">
-              <Button type={"button"} size={"size_56"} className="w-full">Продолжить</Button>
-            </div>
+            {booking.order.status !== "paid" && (
+              <div className="flex gap-3">
+                <Link to={"edit"}>
+                  <Button type={"button"} size={"icon_60"} variant={"white"} className="p-5">
+                    <PencilEditIcon width={24} height={24} />
+                  </Button>
+                </Link>
+                <Link to={"checkout"} className="w-full">
+                  <Button type={"button"} size={"size_60"} iconRight={<ChevronIcon width={20} height={20} />} className="w-full">Продолжить</Button>
+                </Link>
+              </div>
+            )}
           </CardContent>
         </Card>
 

@@ -34,6 +34,8 @@
 
     --orange: #EF9831;                                      /* #EF9831 */
     
+    --blue: oklch(53.397% 0.11435 265.046);                /* #blue */
+
     /* notify colors */
     --warn-background: oklch(81.081% 0.12154 70.422);       /* #f3b364 */
     --warn-color-text: oklch(25.785% 0.05555 70.851 / 0.6); /* #341e0099 */
@@ -109,6 +111,8 @@
   --color-green-accent: var(--green-accent);
 
   --color-orange: var(--orange);
+
+  --color-blue: var(--blue);
 
   /* notify colors */
   --color-warn-background: var(--warn-background);

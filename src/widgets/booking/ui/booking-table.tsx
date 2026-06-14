@@ -71,7 +71,7 @@ export const BookingTable = ({ bookings, isFetching, meta, query}: BookingTableP
                   </TableCell>
                   <TableCell>{formatPrice(booking.subtotal ?? booking.service.prices.price)} ₽</TableCell>
                   <TableCell>
-                    <Badge variant={"online"}>{BOOKING_STATUS[booking.status]}</Badge>
+                    <Badge variant={`${booking.status}_b`}>{BOOKING_STATUS[booking.status]}</Badge>
                   </TableCell>
                   <TableCellActions>
                     <Link to={`${booking.id}`}>

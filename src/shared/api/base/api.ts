@@ -4,6 +4,6 @@ import { reauthQuery } from "./setting/reauth";
 export const API = createApi({
   baseQuery: reauthQuery,
   reducerPath: "API",
-  tagTypes: ["LOCATIONS", "SERVICES", "SERVICE", "EMPLOYEES", "CUSTOMERS"],
+  tagTypes: ["LOCATIONS", "SERVICES", "SERVICE", "EMPLOYEES", "CUSTOMERS", "BOOKINGS"],
   endpoints: () => ({}),
 });

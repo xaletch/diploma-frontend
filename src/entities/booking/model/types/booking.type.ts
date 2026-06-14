@@ -26,6 +26,7 @@ export interface IBookingService {
   name: string;
   public_name: string;
   mark: MarkType;
+  avatar: string | null;
   duration: number;
   prices: {
     price: number;
@@ -38,8 +39,11 @@ export interface IBookingOrder {
   id: string;
   status: OrderStatusType;
   subtotal: number;
+  total: number;
   comment: string | null;
-  discount: null;
+  discount: number | null;
+  paid_at: boolean | null;
+  tag: string;
   payment_method: PaymentMethodType;
 }
 
@@ -96,4 +100,14 @@ export interface IBookingActionCredentials {
   location_id: string;
   payment_method: PaymentMethodType;
   status: BookingStatusType;
+}
+
+export interface IBookingConfirmCredentials {
+  params: {
+    booking_id: string;
+  }
+  body: {
+    status: OrderStatusType;
+    payment_method?: PaymentMethodType;
+  }
 }

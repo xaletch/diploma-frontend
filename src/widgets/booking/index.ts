@@ -4,3 +4,4 @@ export { BookingNotFound } from './ui/booking-not-found';
 export { BookingDetails } from './ui/booking-details';
 export { BookingCreateForm } from './ui/booking-create-form';
 export { BookingEmpty } from './ui/booking-empty';
+export { BookingCheckoutContent } from './ui/booking-checkout-content';
