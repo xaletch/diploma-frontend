@@ -1,16 +1,40 @@
+import { setBookingCreate } from "@/entities/booking";
 import type { ICustomer } from "@/entities/customers";
 import { Avatar } from "@/entities/user";
 import { Copyable } from "@/features/copyable";
-import { AddFillIcon, ShoppingCartIcon } from "@/shared/icons";
+import { useAppDispatch } from "@/shared/hooks";
+import { AddFillIcon } from "@/shared/icons";
 import { Button, Card } from "@/shared/ui";
 import { CardContent, CardContentLabel, CardContentLabelDescription, CardContentLabelTitle, CardDescription, CardHeader, CardTitle } from "@/shared/ui/card/ui/card";
-import { Link } from "@tanstack/react-router";
+import { Link, useNavigate } from "@tanstack/react-router";
 
 interface CustomerDetailsProps {
   customer: ICustomer;
 }
 
 export const CustomerDetails = ({ customer }: CustomerDetailsProps) => {
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+
+  const createNewBooking = () => {
+    const { id, booking_count, profile } = customer;
+    dispatch(setBookingCreate({
+      customer: {
+        id,
+        profile_id: profile.id,
+        first_name: profile.first_name,
+        last_name: profile.last_name ?? "",
+        full_name: `${profile.first_name} ${profile.last_name ?? ""}`,
+        birthday: profile.birthday,
+        avatar: profile.avatar,
+        email: profile.email,
+        phone: profile.phone,
+        bookings_count: booking_count,
+      }
+    }));
+    navigate({ to: "/bookings/create" });
+  }
+
   return (
     <div className="mt-2.5">
       <div className="mt-8">
@@ -28,8 +52,8 @@ export const CustomerDetails = ({ customer }: CustomerDetailsProps) => {
                 </div>
               </CardHeader>
               <CardContent className="grid grid-cols-2 gap-2.5 pt-0">
-                <Button size={"size_54"} variant={"white"} animation={"toggle"} className="font-medium" iconLeft={<AddFillIcon width={22} height={22}/>}>Новое бронирование</Button>
-                <Button size={"size_54"} variant={"default"} animation={"toggle"} className="font-medium" iconLeft={<ShoppingCartIcon width={22} height={22} />}>Новый заказ</Button>
+                <Button onClick={createNewBooking} size={"size_54"} variant={"white"} animation={"toggle"} className="font-medium" iconLeft={<AddFillIcon width={22} height={22}/>}>Новое бронирование</Button>
+                {/* <Button size={"size_54"} variant={"default"} animation={"toggle"} className="font-medium" iconLeft={<ShoppingCartIcon width={22} height={22} />}>Новый заказ</Button> */}
               </CardContent>
             </Card>
 

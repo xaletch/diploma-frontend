@@ -12,6 +12,7 @@ import { useLocation } from "@tanstack/react-router"
 import { isRouteActive } from "../model/utils/navigation.util"
 import { useSelector } from "react-redux"
 import type { PageType } from "@/entities/settings"
+import Cast from "@/shared/icons/Cast"
 
 interface MenuItem {
   to: string;
@@ -27,21 +28,29 @@ const menuItems: MenuItem[] = [
     to: "/",
     type: "DASHBOARD",
     label: "Дашбоард",
-    icon: <SvgDashboard width={20} height={20}/>,
+    icon: <SvgDashboard width={20} height={20} />,
   },
   {
     to: "/bookings",
     type: "BOOKINGS",
     label: "Записи",
-    search: { limit: 20, sort: "newest" },
-    icon: <SvgBook width={20} height={20}/>,
+    search: { limit: 20, sort: "newest", status: "new" },
+    icon: <SvgBook width={20} height={20} />,
     permission: ["booking:*"],
+  },
+  {
+    to: "/orders",
+    type: "ORDERS",
+    label: "Заказы",
+    search: { limit: 20, status: "open" },
+    icon: <Cast width={20} height={20} />,
+    permission: ["orders:*"],
   },
   {
     to: "/schedule",
     type: "CALENDAR",
     label: "Расписание",
-    icon: <SvgCalendar width={20} height={20}/>,
+    icon: <SvgCalendar width={20} height={20} />,
     permission: ["schedule:*"],
   },
   {
@@ -49,7 +58,7 @@ const menuItems: MenuItem[] = [
     type: "CUSTOMERS",
     label: "Клиенты",
     search: { limit: 20 },
-    icon: <SvgCustomer width={20} height={20}/>,
+    icon: <SvgCustomer width={20} height={20} />,
     permission: ["company-customers:*"],
   },
   {
@@ -57,7 +66,7 @@ const menuItems: MenuItem[] = [
     type: "EMPLOYEES",
     label: "Сотрудники",
     search: { limit: 20 },
-    icon: <SvgUsersGroup width={20} height={20}/>,
+    icon: <SvgUsersGroup width={20} height={20} />,
     permission: ["employee:*", "employees:read"],
   },
   {
@@ -65,14 +74,14 @@ const menuItems: MenuItem[] = [
     type: "SERVICES",
     label: "Услуги",
     search: { limit: 20 },
-    icon: <PaletteIcon width={20} height={20}/>,
+    icon: <PaletteIcon width={20} height={20} />,
     permission: ["service:*"],
   },
   {
     to: "/notifications",
     type: "NOTIFICATIONS",
     label: "Уведомления",
-    icon: <SvgNotification width={20} height={20}/>,
+    icon: <SvgNotification width={20} height={20} />,
     permission: [],
   },
 ];

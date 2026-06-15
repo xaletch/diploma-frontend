@@ -1,17 +1,31 @@
+import { setBookingCreate } from "@/entities/booking";
+import { useDialog } from "@/entities/dialog";
 import type { IService } from "@/entities/services"
 import { Avatar } from "@/entities/user"
 import { markClasses } from "@/shared/constants";
-import { AddFillIcon, ShoppingCartIcon } from "@/shared/icons";
+import { useAppDispatch } from "@/shared/hooks";
+import { AddFillIcon } from "@/shared/icons";
 import { Button } from "@/shared/ui";
 import { AvatarGroup } from "@/shared/ui/avatar";
 import { Card, CardContent, CardContentLabel, CardContentLabelDescription, CardContentLabelTitle, CardDescription, CardHeader, CardTitle } from "@/shared/ui/card/ui/card"
 import { cn, formatPrice } from "@/shared/utils";
+import { useNavigate } from "@tanstack/react-router";
 
 interface ServiceDetailProps {
   service: IService;
 }
 
 export const ServiceDetails = ({ service }: ServiceDetailProps) => {
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+  const { openDialog } = useDialog();
+
+  const createNewBooking = () => {
+    dispatch(setBookingCreate({ service }));
+    openDialog("booking_service_create", undefined)
+    navigate({ to: "/bookings/create" });
+  }
+  
   return (
     <div className="mt-8">
       <div className="grid grid-cols-5 gap-8 w-full">
@@ -31,8 +45,8 @@ export const ServiceDetails = ({ service }: ServiceDetailProps) => {
               </div>
             </CardHeader>
             <CardContent className="grid grid-cols-2 gap-2.5 pt-0">
-              <Button size={"size_54"} variant={"white"} animation={"toggle"} className="font-medium" iconLeft={<AddFillIcon width={22} height={22}/>}>Новое бронирование</Button>
-              <Button size={"size_54"} variant={"default"} animation={"toggle"} className="font-medium" iconLeft={<ShoppingCartIcon width={22} height={22} />}>Новый заказ</Button>
+              <Button onClick={createNewBooking} size={"size_54"} variant={"white"} animation={"toggle"} className="font-medium" iconLeft={<AddFillIcon width={22} height={22}/>}>Новое бронирование</Button>
+              {/* <Button size={"size_54"} variant={"default"} animation={"toggle"} className="font-medium" iconLeft={<ShoppingCartIcon width={22} height={22} />}>Новый заказ</Button> */}
             </CardContent>
           </Card>
 

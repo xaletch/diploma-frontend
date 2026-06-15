@@ -13,6 +13,7 @@ import SvgBook from "@/shared/icons/Book"
 import SvgDashboard from "@/shared/icons/Dashboard"
 import { usePermissions } from "@/features/auth/model/hooks/permission.hook"
 import { type PageType } from "@/entities/settings"
+import Cast from "@/shared/icons/Cast"
 
 const MENU = [
   {
@@ -23,9 +24,16 @@ const MENU = [
   {
     type: "BOOKINGS",
     label: "Записи",
-    search: { limit: 20, sort: "newest" },
+    search: { limit: 20, sort: "new" },
     icon: <SvgBook />,
     permission: ["booking:*"],
+  },
+  {
+    type: "ORDERS",
+    label: "Заказы",
+    search: { limit: 20, sort: "newest" },
+    icon: <Cast />,
+    permission: ["orders:*"],
   },
   {
     type: "CALENDAR",

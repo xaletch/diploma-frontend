@@ -6,7 +6,7 @@ export const settingSchema = z.object({
   currency: z.enum(["RUB", "USD", "EUR"], { message: "Укажите валюту" }),
   logo: avatarSchema,
   pages: z.array(z.object({
-    page: z.enum(["DASHBOARD", "CALENDAR", "BOOKINGS", "CUSTOMERS", "SERVICES", "EMPLOYEES", "ANALYTICS", "SETTINGS", "NOTIFICATIONS"]),
+    page: z.enum(["DASHBOARD", "CALENDAR", "BOOKINGS", "ORDERS", "CUSTOMERS", "SERVICES", "EMPLOYEES", "ANALYTICS", "SETTINGS", "NOTIFICATIONS"]),
     is_visible: z.boolean(),
   })),
 });

@@ -4,6 +4,7 @@ export interface IBookingCustomer {
   id: string;
   full_name: string;
   first_name: string;
+  profile_id: string;
   last_name: string | null;
   phone: string;
   email: string | null;

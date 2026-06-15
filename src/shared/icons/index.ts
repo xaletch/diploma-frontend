@@ -13,6 +13,7 @@ export { default as BookIcon } from "./Book";
 export { default as BookmarksIcon } from "./Bookmarks";
 export { default as CalendarIcon } from "./Calendar";
 export { default as CaseIcon } from "./Case";
+export { default as CastIcon } from "./Cast";
 export { default as ChartIcon } from "./Chart";
 export { default as CheckIcon } from "./Check";
 export { default as ChecksIcon } from "./Checks";

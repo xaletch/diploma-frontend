@@ -3,7 +3,7 @@ import { Avatar } from "@/entities/user";
 import { Copyable } from "@/features/copyable";
 import { markClasses } from "@/shared/constants";
 import { ORDER_STATUS } from "@/shared/constants/order-status.constant";
-import { ChevronIcon, PencilEditIcon } from "@/shared/icons";
+import { ChevronIcon } from "@/shared/icons";
 import { Badge, Button, Card, CardContent, CardContentLabel, CardContentLabelDescription, CardContentLabelTitle, CardDescription, CardHeader, CardTitle } from "@/shared/ui";
 import { cn, formatDateWeek, formatPrice, minuteFormat } from "@/shared/utils";
 import { Link } from "@tanstack/react-router";
@@ -54,7 +54,7 @@ export const BookingDetails = ({ booking }: BookingDetailsProps) => {
 
         <Card>
           <CardHeader className="p-0">
-            <Link to={`/customers/${booking.customer.id}`} className="flex flex-row items-center gap-4 p-6 hover:bg-card rounded-t-3xl duration-200">
+            <Link to={`/customers/${booking.customer.profile_id}`} className="flex flex-row items-center gap-4 p-6 hover:bg-card rounded-t-3xl duration-200">
               <div className="relative">
                 <Avatar size={"xl"} id={booking.customer.id} name={booking.customer.full_name} avatar_url={booking.customer.avatar} />
               </div>
@@ -134,11 +134,11 @@ export const BookingDetails = ({ booking }: BookingDetailsProps) => {
 
             {booking.order.status !== "paid" && (
               <div className="flex gap-3">
-                <Link to={"edit"}>
+                {/* <Link to={"edit"}>
                   <Button type={"button"} size={"icon_60"} variant={"white"} className="p-5">
                     <PencilEditIcon width={24} height={24} />
                   </Button>
-                </Link>
+                </Link> */}
                 <Link to={"checkout"} className="w-full">
                   <Button type={"button"} size={"size_60"} iconRight={<ChevronIcon width={20} height={20} />} className="w-full">Продолжить</Button>
                 </Link>

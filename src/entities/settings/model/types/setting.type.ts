@@ -1,4 +1,4 @@
-export type PageType = "DASHBOARD" | "CALENDAR" | "BOOKINGS" | "CUSTOMERS" | "SERVICES" | "EMPLOYEES" | "ANALYTICS" | "SETTINGS" | "NOTIFICATIONS"
+export type PageType = "DASHBOARD" | "CALENDAR" | "BOOKINGS" | "ORDERS" | "CUSTOMERS" | "SERVICES" | "EMPLOYEES" | "ANALYTICS" | "SETTINGS" | "NOTIFICATIONS"
 
 export interface ISettingPage {
   page: PageType;

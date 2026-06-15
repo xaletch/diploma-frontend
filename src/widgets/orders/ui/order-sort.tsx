@@ -1,27 +1,26 @@
-import { Route } from "@/app/routes/_app/_layout/bookings";
-import type { IBookingQuery } from "@/entities/booking"
+import { Route } from "@/app/routes/_app/_layout/orders";
+import type { IOrderQuery } from "@/entities/orders";
 import { Button, Card, CardContent } from "@/shared/ui"
 import { cn } from "@/shared/utils";
 import { useNavigate } from "@tanstack/react-router";
 
-const variant = ["all", "new", "pending", "confirmed", "cancelled", "completed"] as BookingStatusType[] | "all"[];
+const variant = ["all", "pending", "open", "closed", "paid", "unpaid"] as OrderStatusType[] | "all"[];
 
-const BOOKING_STATUS: Record<BookingStatusType | "all", string> = {
+const ORDER_STATUS: Record<OrderStatusType | "all", string> = {
   "all": "Все",
-  "new": "Новые",
   "pending": "В ожидании",
-  "confirmed": "Подтвержденные",
-  "completed": "Завершенные",
-  "cancelled": "Отмененные",
-  "expired": "Просрочен"
+  "open": "Новый",
+  "closed": "Отменен",
+  "paid": "Оплачен",
+  "unpaid": "Не оплачен"
 };
 
-export const BookingSort = ({ status }: IBookingQuery) => {
+export const OrderSort = ({ status }: IOrderQuery) => {
   const navigate = useNavigate({ from: Route.fullPath });
   
-  const handleChange = (name: "status", value: BookingStatusType | "all" ) => {
+  const handleChange = (name: "status", value: OrderStatusType | "all" ) => {
     navigate({
-      search: (p: IBookingQuery) => {
+      search: (p: IOrderQuery) => {
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const { [name]: _, ...rest } = p;
         return value === "all" ? { ...rest } : { ...rest, [name]: value, page: 1 };
@@ -40,7 +39,7 @@ export const BookingSort = ({ status }: IBookingQuery) => {
                 className={cn((v === "all" ? !status : status === v) ? "bg-white" : "")}
                 size={"size_40"}
                 onClick={() => handleChange("status", v)}
-              >{BOOKING_STATUS[v]}</Button>
+              >{ORDER_STATUS[v]}</Button>
             ))}
           </CardContent>
         </Card>

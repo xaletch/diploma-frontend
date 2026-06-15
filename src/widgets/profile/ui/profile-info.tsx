@@ -2,7 +2,7 @@ import type { IEmployeeDetail } from "@/entities/employee";
 import { Avatar } from "@/entities/user";
 import { Can } from "@/features/auth";
 import { Copyable } from "@/features/copyable";
-import { DeleteAccountAction } from "@/features/profile";
+// import { DeleteAccountAction } from "@/features/profile";
 import { ROLE } from "@/shared/constants";
 import { Card, CardContent, CardContentLabel, CardContentLabelDescription, CardContentLabelTitle, CardDescription, CardHeader, CardTitle } from "@/shared/ui"
 import { AvatarGroup } from "@/shared/ui/avatar";
@@ -109,7 +109,7 @@ export const ProfileInfo = ({ employee }: ProfileInfoProps) => {
             </Card>
           </Link>
 
-          <DeleteAccountAction profile_id={employee.profile.id} />
+          {/* <DeleteAccountAction profile_id={employee.profile.id} /> */}
         </div>
         
       </div>
