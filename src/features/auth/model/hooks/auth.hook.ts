@@ -17,8 +17,8 @@ export const useAuth = (): AuthReturnProps => {
   const navigate = useNavigate();
 
   const login = useCallback((access: string, refresh: string) => {
-    setCookie("access_token", access, { path: "/", sameSite: "Strict" });
-    setCookie("refresh_token", refresh, { path: "/", sameSite: "Strict" });
+    setCookie("access_token", access, { path: "/", sameSite: "Strict", secure: false });
+    setCookie("refresh_token", refresh, { path: "/", sameSite: "Strict", secure: false });
     dispatch(setAuthenticated(true));
   }, []);
 
