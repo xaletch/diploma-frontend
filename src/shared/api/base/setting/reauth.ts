@@ -46,7 +46,7 @@ export const reauthQuery: typeof baseQuery = async (args, api, opt) => {
 
         if (refresh.data && "access_token" in refresh.data) {
           const token = refresh.data.access_token;
-          setCookie("access_token", token, { path: "/", sameSite: "Strict", secure: true });
+          setCookie("access_token", token, { path: "/", sameSite: "Strict" });
 
           res = await baseQuery(args, api, opt);
           // console.log(`refresh.data && "access_token" in refresh.data ${refresh.data && "access_token" in refresh.data}`);
