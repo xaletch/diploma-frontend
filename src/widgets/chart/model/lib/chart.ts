@@ -2,8 +2,9 @@ import type { IChart } from "@/entities/dashboard";
 
 export const parseChartDate = (raw: string): Date => {
   const [datePart, timePart] = raw.split(" ");
-  const [dd, mm, yyyy] = datePart.split("-");
+  const [yyyy, mm, dd] = datePart.split("-");
   return new Date(`${yyyy}-${mm}-${dd}T${timePart}`);
+  // console.log(new Date(`${yyyy}-${mm}-${dd}T${timePart}`))
 };
 
 export const groupChartByDay = (data: IChart[]): IChart[] => {

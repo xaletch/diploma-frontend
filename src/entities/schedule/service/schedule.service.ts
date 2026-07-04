@@ -1,5 +1,6 @@
 import { API } from "@/shared/api";
 import { type IScheduleDetail, type IScheduleCreateCredentials, type IScheduleCredentials, type ISchedule, type IScheduleEmployeeParams, type IScheduleUpdateCredentials, type IScheduleUpdateResponse, } from "../model/types/schedule.type";
+import { buildQuery } from "@/shared/lib";
 
 export const scheduleAPI = API.injectEndpoints({
   endpoints: builder => ({
@@ -40,8 +41,8 @@ export const scheduleAPI = API.injectEndpoints({
       ===== ПОЛУЧЕНИЕ ВСЕГО РАСПИСАНИЯ СОТРУДНИКА =====
     **/
     getEmployeeServices: builder.query<ISchedule[], IScheduleEmployeeParams>({
-      query: ({ user_id, location_id }) => ({
-        url: `/v1/schedule/${user_id}/${location_id}`,
+      query: ({ user_id, location_id, query }) => ({
+        url: buildQuery(`/v1/schedule/${user_id}/${location_id}`, { ...query }),
         method: "GET",
       }),
     }),

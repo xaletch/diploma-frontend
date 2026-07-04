@@ -54,7 +54,7 @@ export const BookingDetails = ({ booking }: BookingDetailsProps) => {
 
         <Card>
           <CardHeader className="p-0">
-            <Link to={`/customers/${booking.customer.profile_id}`} className="flex flex-row items-center gap-4 p-6 hover:bg-card rounded-t-3xl duration-200">
+            <Link to={`/customers/${booking.customer.id}`} className="flex flex-row items-center gap-4 p-6 hover:bg-card rounded-t-3xl duration-200">
               <div className="relative">
                 <Avatar size={"xl"} id={booking.customer.id} name={booking.customer.full_name} avatar_url={booking.customer.avatar} />
               </div>
@@ -104,7 +104,7 @@ export const BookingDetails = ({ booking }: BookingDetailsProps) => {
                 <Card className="bg-white mb-10">
                   <CardContent className="p-5 space-y-5">
                     <div className="flex items-center justify-between gap-2.5">
-                      <Badge variant={booking.order.status}>{ORDER_STATUS[booking.order.status]}</Badge>
+                      <Badge variant={booking.order.status}>{ORDER_STATUS[booking.order.status].label}</Badge>
                       <div className="font-bold">{formatPrice(booking.service.prices.price)}₽</div>
                     </div>
                     <Link to="result">

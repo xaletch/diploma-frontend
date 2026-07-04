@@ -67,7 +67,7 @@ const menuItems: MenuItem[] = [
     label: "Сотрудники",
     search: { limit: 20 },
     icon: <SvgUsersGroup width={20} height={20} />,
-    permission: ["employee:*", "employees:read"],
+    permission: ["employee:*"],
   },
   {
     to: "/business/services",

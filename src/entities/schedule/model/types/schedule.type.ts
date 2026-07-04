@@ -14,6 +14,10 @@ export interface IScheduleIntervals {
 export interface IScheduleEmployeeParams {
   user_id: string;
   location_id: string;
+  query?: {
+    month?: string;
+    year?: string;
+  }
 }
 
 export interface IScheduleCreateCredentials {

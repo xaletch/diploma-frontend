@@ -34,9 +34,9 @@ const badgeVariants = cva(
         cancelled_b: "px-2 py-0.5 text-xss! font-bold rounded-lg border-none bg-red text-white",
         completed_b: "px-2 py-0.5 text-xss! font-bold rounded-lg border-none bg-green text-white",
 
-        online_p: "px-2 py-0.5 text-xss! font-bold rounded-lg border-none bg-primary text-white",
-        cash_p: "px-2 py-0.5 text-xss! font-bold rounded-lg border-none bg-green text-white",
-        credit_card_p: "px-2 py-0.5 text-xss! font-bold rounded-lg border-none bg-blue text-white",
+        online_p: "px-2 py-0.5 text-xss! font-bold rounded-lg border-none bg-taupe-500/40 text-taupe-500",
+        cash_p: "px-2 py-0.5 text-xss! font-bold rounded-lg border-none bg-green/30 text-green",
+        credit_card_p: "px-2 py-0.5 text-xss! font-bold rounded-lg border-none bg-blue/30 text-blue",
       },
     },
     defaultVariants: {

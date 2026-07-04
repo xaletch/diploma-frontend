@@ -8,6 +8,7 @@ import type { IOrder, IOrderQuery } from "@/entities/orders";
 import { PAYMENT_METHODS_ENUM } from "@/shared/constants/payment-methods.constant";
 import { ORDER_STATUS } from "@/shared/constants/order-status.constant";
 import { OrderSort } from "./order-sort";
+import { Avatar } from "@/entities/user";
 
 interface OrderTableProps {
   orders?: IOrder[];
@@ -28,6 +29,7 @@ export const OrderTable = ({ orders, isFetching, meta, query}: OrderTableProps) 
         <TableHeader>
           <TableRow>
             <TableHead>Номер заказа</TableHead>
+            <TableHead>Клиент</TableHead>
             <TableHead>Цена</TableHead>
             <TableHead>Способ оплаты</TableHead>
             <TableHead>Статус</TableHead>
@@ -44,14 +46,45 @@ export const OrderTable = ({ orders, isFetching, meta, query}: OrderTableProps) 
                   <TableCell>
                     {ord.tag ?? "-"}
                   </TableCell>
+                  <TableCell className="flex-col items-start justify-center">
+                    <div className="flex items-center gap-2.5">
+                      <Avatar size={"tiny"} avatar_url={ord.customer.avatar} name={ord.customer.full_name} id={ord.customer.id} />
+                      <p>{ord.customer.full_name}</p>
+                    </div>
+                    <Link className="text-xss leading-3 text-primary" onClick={(e)=>e.stopPropagation()} to={"tel:8991392993994"}>{ord.customer.phone}</Link>
+                  </TableCell>
                   <TableCell>
                     {formatPrice(ord.subtotal ?? ord.total)} ₽
                   </TableCell>
                   <TableCell>
-                    {ord.payment_method ? <Badge variant={`${ord.payment_method}_p`}>{PAYMENT_METHODS_ENUM[ord.payment_method]}</Badge> : "-"}
+                    {ord.payment_method ? (
+                      <Badge variant={`${ord.payment_method}_p`}>
+                        {(() => {
+                          const method = PAYMENT_METHODS_ENUM[ord.payment_method];
+                          const Icon = method.icon;
+                          return (
+                            <>
+                              <Icon />
+                              {method.label}
+                            </>
+                          );
+                        })()}
+                      </Badge>
+                    ) : "-"}
                   </TableCell>
                   <TableCell>
-                    <Badge variant={`${ord.status}`} className="px-2 py-0.5 text-xss! font-bold rounded-lg border-none text-white">{ORDER_STATUS[ord.status]}</Badge>
+                    <Badge variant={`${ord.status}`} className="px-2 py-0.5 text-xss! font-bold rounded-lg border-none text-white">
+                        {(() => {
+                          const status = ORDER_STATUS[ord.status];
+                          const Icon = status.icon;
+                          return (
+                            <>
+                              <Icon />
+                              {status.label}
+                            </>
+                          );
+                        })()}
+                    </Badge>
                   </TableCell>
                   <TableCellActions>
                     <Link to={`${ord.id}`}>

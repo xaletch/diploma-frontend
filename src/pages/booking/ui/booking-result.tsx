@@ -53,7 +53,7 @@ export const BookingResult = ({ booking_id }: BookingResultProps) => {
               
               <div className="flex flex-col items-center space-y-2.5">
                 <h3 className="text-2xl font-bold">{ORDER_STATUS_TITLE[data.order.status]}</h3>
-                <Badge variant={data.order.status} className="py-1 px-2 text-xss text-white rounded-lg">{ORDER_STATUS[data.order.status]}</Badge>
+                <Badge variant={data.order.status} className="py-1 px-2 text-xss text-white rounded-lg">{ORDER_STATUS[data.order.status].label}</Badge>
               </div>
             </div>
 
