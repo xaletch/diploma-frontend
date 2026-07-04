@@ -3,16 +3,13 @@ const SvgCreditCard = (props: SVGProps<SVGSVGElement>) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     fill="none"
-    stroke="currentColor"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-    strokeWidth={2}
-    className="icon icon-tabler icons-tabler-outline icon-tabler-credit-card"
-    viewBox="0 0 24 24"
+    viewBox="0 0 20 20"
     {...props}
   >
-    <path stroke="none" d="M0 0h24v24H0z" />
-    <path d="M3 8a3 3 0 0 1 3-3h12a3 3 0 0 1 3 3v8a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3zM3 10h18M7 15h.01M11 15h2" />
+    <path
+      fill="currentColor"
+      d="M4.178 3.332a2.5 2.5 0 0 0-2.5 2.5v8.333a2.5 2.5 0 0 0 2.5 2.5h11.667a2.5 2.5 0 0 0 2.5-2.5V5.832a2.5 2.5 0 0 0-2.5-2.5zm0 1.666h11.667c.46 0 .833.374.833.834v5.833H3.345V5.832c0-.46.373-.834.833-.834m8.334 1.667a.834.834 0 0 0 0 1.667h1.666a.834.834 0 0 0 0-1.667zm-9.167 6.667h13.333v.833c0 .46-.373.833-.833.833H4.178a.834.834 0 0 1-.833-.833z"
+    />
   </svg>
 );
 export default SvgCreditCard;

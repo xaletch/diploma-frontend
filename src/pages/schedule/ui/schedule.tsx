@@ -12,10 +12,12 @@ export const Schedule = () => {
   const { account, location } = useSelector(useAccount);
   const { dialog } = useSelector(dialogSelector);
   
-  const user_id = account?.id ?? "";
+  const user_id = account?.id ?? ""; 
   const location_id = location?.id ?? "";
 
-  const { data: schedules, isLoading, isFetching } = useGetEmployeeServicesQuery({ user_id, location_id });
+  const { data: schedules, isLoading, isFetching } = useGetEmployeeServicesQuery({
+    user_id, location_id, query: { month: "05", year: "2026" }
+  });
 
   const dayInfoByKey = useMemo(() => {
     const map = new Map<string, DayInfo>();
@@ -56,6 +58,7 @@ export const Schedule = () => {
         <PageHeaderTitle>Расписание</PageHeaderTitle>
         <PageHeaderActions>
           <PageHeaderBackAction />
+          {/* <ScheduleSetting /> */}
         </PageHeaderActions>
       </PageHeader>
 

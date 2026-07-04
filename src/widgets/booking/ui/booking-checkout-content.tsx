@@ -96,7 +96,7 @@ export const BookingCheckoutContent = ({ booking }: BookingCheckoutContentProps)
             {PAYMENT_METHODS.map((m, idx) => (
               <Card key={idx} onClick={() => setPayment(m)} className={cn("border-2 border-transparent cursor-pointer", payment === m ? "border-primary" : "")}>
                 <CardContent className="p-5">
-                  <CardTitle className="text-xl">{PAYMENT_METHODS_ENUM[m]}</CardTitle>
+                  <CardTitle className="text-xl">{PAYMENT_METHODS_ENUM[m].label}</CardTitle>
                 </CardContent>
               </Card>
             ))}
@@ -109,7 +109,7 @@ export const BookingCheckoutContent = ({ booking }: BookingCheckoutContentProps)
             <div className="flex items-center gap-6">
               <div className="flex items-center gap-2">
                 <div className="w-2 h-2 rounded-full bg-primary" />
-                <div className="font-medium">{PAYMENT_METHODS_ENUM[payment]}</div>
+                <div className="font-medium">{PAYMENT_METHODS_ENUM[payment].label}</div>
               </div>
               <div className="font-medium">{formatPrice(booking.service.prices.price)} ₽</div>
 

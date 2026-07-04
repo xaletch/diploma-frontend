@@ -10,13 +10,13 @@ import { parseChartDate } from "../model/lib/chart"
 
 export const description = "An interactive area chart"
 
-// const MOCK_DATA: IChart[] = [
+// const data: IChart[] = [
 //   { date: "2026-01-01", profit: 4200 },
 //   { date: "2026-01-08", profit: 7800 },
 //   { date: "07-05-2026", profit: 5100 },
 //   { date: "07-25-2026", profit: 9400 },
 //   { date: "2026-01-29", profit: 6600 },
-//   { date: "2026-02-05", profit: 11200 },
+//   { date: "20-05-2026 04:00", profit: 11200 },
 //   { date: "23-05-2026 04:30", profit: 8300 },
 // ];
 
