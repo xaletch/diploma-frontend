@@ -42,7 +42,10 @@ export const OrderTable = ({ orders, isFetching, meta, query}: OrderTableProps) 
           {orders?.length ? 
             orders.map((ord, index) => (
               <React.Fragment key={index}>
-                <TableRow onClick={() => navigate({ to: (ord.status === "pending" || ord.status === "open" || ord.status === "unpaid" ? `/bookings/${ord.booking_ids[0]}/checkout` : `/bookings/${ord.booking_ids[0]}/result`) })}>
+                <TableRow
+                  // onClick={() => navigate({ to: (ord.status === "pending" || ord.status === "open" || ord.status === "unpaid" ? `/bookings/${ord.booking_ids[0]}/checkout` : `/bookings/${ord.booking_ids[0]}/result`) })}
+                  onClick={() => navigate({ to: (ord.status === "pending" || ord.status === "open" || ord.status === "unpaid" ? `/orders/${ord.id}` : `/orders/${ord.id}/result`) })}
+                >
                   <TableCell>
                     {ord.tag ?? "-"}
                   </TableCell>

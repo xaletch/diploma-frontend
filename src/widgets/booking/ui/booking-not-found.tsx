@@ -1,6 +1,5 @@
 import { BookIcon } from "@/shared/icons";
-import { Empty } from "@/shared/ui"
-import { EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle } from "@/shared/ui/empty/ui/empty"
+import { Empty, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle } from "@/shared/ui"
 
 export const BookingNotFound = () => {
   return (
