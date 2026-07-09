@@ -22,18 +22,40 @@ export interface IBookingEmployee {
   avatar: string | null;
 }
 
-export interface IBookingService {
+export type BookingServicePriceType = {
+  price: number;
+  cost_price: number | null;
+}
+
+export type BookingServiceType = {
   id: string;
   name: string;
   public_name: string;
   mark: MarkType;
   avatar: string | null;
   duration: number;
-  prices: {
-    price: number;
-    cost_price: number;
-  };
+  prices: BookingServicePriceType;
   category: string | null;
+}
+
+export interface IBookingService {
+  booking_service_id: string;
+  booking_service_price: number;
+  booking_service_count: number;
+  booking_service_duration: number | null;
+  service: {
+    id: string;
+    name: string;
+    public_name: string;
+    mark: MarkType;
+    avatar: string | null;
+    duration: number;
+    prices: {
+      price: number;
+      cost_price: number;
+    };
+    category: string | null;
+  }
 }
 
 export interface IBookingOrder {
@@ -78,7 +100,7 @@ export interface IBooking {
   comment: string | null;
   customer: IBookingCustomer;
   employee: IBookingEmployee;
-  service: IBookingService;
+  services: IBookingService[];
   subtotal: number;
   payment_method: PaymentMethodType;
   tag: string;

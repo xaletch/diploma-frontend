@@ -13,7 +13,7 @@ export interface BookingProps {
 }
 
 export const Bookings = ({ query }: BookingProps) => {
-  const { location } = useSelector(accountSelector);
+  const { location, account } = useSelector(accountSelector);
   const { data, isLoading, isError, isSuccess, isFetching } = useGetBookingsQuery(
     {
       ...query,
@@ -28,7 +28,7 @@ export const Bookings = ({ query }: BookingProps) => {
   ) : isError ? (
     <>error message</>
   ) : isSuccess && (data.data.length > 0 || hasActiveFilters) ? (
-    <BookingTable bookings={data.data} isFetching={isFetching} meta={data.meta} query={query} />
+    <BookingTable bookings={data.data} isFetching={isFetching} profileId={account?.id} meta={data.meta} query={query} />
   ) : (
     <BookingEmpty />
   );

@@ -54,7 +54,7 @@ export const OrderTable = ({ orders, isFetching, meta, query}: OrderTableProps) 
                       <Avatar size={"tiny"} avatar_url={ord.customer.avatar} name={ord.customer.full_name} id={ord.customer.id} />
                       <p>{ord.customer.full_name}</p>
                     </div>
-                    <Link className="text-xss leading-3 text-primary" onClick={(e)=>e.stopPropagation()} to={"tel:8991392993994"}>{ord.customer.phone}</Link>
+                    <Link className="text-xss leading-3 text-primary" onClick={(e)=>e.stopPropagation()} to={`tel:${ord.customer.phone}`}>{ord.customer.phone}</Link>
                   </TableCell>
                   <TableCell>
                     {formatPrice(ord.subtotal ?? ord.total)} ₽

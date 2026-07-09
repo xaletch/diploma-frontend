@@ -20,7 +20,7 @@ function formatDateTime (dateTime: string): string {
   ===== ПРЕОБРАЗОВАНИЕ ДАТЫ 31-03-2026 В ЧИСЛО МЕСЯЦ, ГОД =====
 **/
 function formatDate(date: string): string {
-  const [day, month, year] = date.split('-');
+  const [year, month, day] = date.split('-');
   const months = [
     "Января", "Февраля", "Марта", 
     "Апреля", "Мая", "Июня", 

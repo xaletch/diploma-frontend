@@ -37,9 +37,9 @@ export const BookingSelectCustomer = ({ customer }: BookingSelectCustomerProps) 
               onChange={() => dispatch(setBookingCreate({ customer }))}
               className="flex items-center gap-2 rounded-none"
             >
-              <Avatar size={"small"} id={customer.id} avatar_url={customer.avatar} name={customer.first_name} />
+              <Avatar size={"small"} id={customer.id} avatar_url={customer.avatar} name={customer.full_name} />
               <div>
-                <div className="text-md leading-5">{customer.full_name}</div>
+                <div className="text-xs leading-5 font-medium">{customer.full_name}</div>
                 <div className="text-11 leading-3">{customer.phone}</div>
               </div>
             </SelectItem>

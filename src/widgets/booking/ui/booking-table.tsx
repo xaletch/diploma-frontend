@@ -3,7 +3,7 @@ import { Avatar } from "@/entities/user";
 import { BOOKING_STATUS } from "@/shared/constants";
 import { ChevronRightIcon } from "@/shared/icons"
 import { Badge, Button, Pagination, Table, TableBody, TableCell, TableCellActions, TableHead, TableHeader, TableNotFound, TableRow, TableSeparator } from "@/shared/ui"
-import { formatDate, formatPrice, minuteFormat } from "@/shared/utils";
+import { formatDate, formatPrice } from "@/shared/utils";
 import { LazyBlur } from "@/widgets/loading";
 import { Link, useNavigate } from "@tanstack/react-router";
 import React from "react";
@@ -12,11 +12,12 @@ import { BookingSort } from "./booking-sort";
 interface BookingTableProps {
   bookings?: IBooking[];
   isFetching: boolean;
+  profileId?: string;
   meta: PaginationMeta;
   query: IBookingQuery;
 }
 
-export const BookingTable = ({ bookings, isFetching, meta, query}: BookingTableProps) => {
+export const BookingTable = ({ bookings, isFetching, profileId, meta, query}: BookingTableProps) => {
   const navigate = useNavigate();
 
   return (
@@ -51,25 +52,38 @@ export const BookingTable = ({ bookings, isFetching, meta, query}: BookingTableP
                         <span> - </span>
                         <p>{booking.end_time}</p>
                       </div>
-                      <span className="text-xss leading-3 opacity-80">{minuteFormat(booking.service.duration)}</span>
+                      {/* <span className="text-xss leading-3 opacity-80">{minuteFormat(booking.service.duration)}</span> */}
                     </div>
                   </TableCell>
-                  <TableCell>
-                    {/* <Avatar size={"tiny"} avatar_url={""} name={"t"} id={"48934"} /> */}
-                    <p>{booking.service.name}</p>
+                  <TableCell className="flex-col">
+                    {booking.services.length > 0 ? (
+                      <>
+                        {booking.services.slice(0,2).map((service, idx) => (
+                          <Link to={`/business/services/${service.service.id}`} onClick={(e)=>e.stopPropagation()} key={idx} className="flex items-center gap-2.5">
+                            <Avatar size={"tiny"} avatar_url={service.service.avatar} name={service.service.name} id={service.service.id} />
+                            <p className="leading-4">{service.service.name}</p>
+                          </Link>
+                        ))}
+                        {booking.services.length > 2 && (
+                          <p className="text-xs font-normal leading-2.5">еще +{booking.services.length - 2}</p>
+                        )}
+                      </>
+                    ) : ( <div className="flex items-center justify-center flex-1">-</div> )}
                   </TableCell>
                   <TableCell className="flex-col items-start justify-center">
                     <div className="flex items-center gap-2.5">
                       <Avatar size={"tiny"} avatar_url={booking.customer.avatar} name={booking.customer.first_name} id={booking.customer.id} />
                       <p>{booking.customer.full_name}</p>
                     </div>
-                    <Link className="text-xss leading-3 text-primary" onClick={(e)=>e.stopPropagation()} to={"tel:8991392993994"}>{booking.customer.phone}</Link>
+                    <Link className="text-xss leading-3 text-primary" onClick={(e)=>e.stopPropagation()} to={`tel:${booking.customer.phone}`}>{booking.customer.phone}</Link>
                   </TableCell>
                   <TableCell>
-                    <Avatar size={"tiny"} avatar_url={booking.employee.avatar} name={booking.employee.first_name} id={booking.employee.id} />
-                    <p>{booking.employee.full_name}</p>
+                    <Link to={profileId === booking.employee.id ? `/me` : `/employees/users/${booking.employee.id}`} onClick={(e)=>e.stopPropagation()} className="flex items-center gap-2.5">
+                      <Avatar size={"tiny"} avatar_url={booking.employee.avatar} name={booking.employee.first_name} id={booking.employee.id} />
+                      <p>{booking.employee.full_name}</p>
+                    </Link>
                   </TableCell>
-                  <TableCell>{formatPrice(booking.subtotal ?? booking.service.prices.price)} ₽</TableCell>
+                  <TableCell>{formatPrice(booking.subtotal ?? booking.services.reduce((sum, s) => sum + s.booking_service_price, 0))} ₽</TableCell>
                   <TableCell>
                     <Badge variant={`${booking.status}_b`}>{BOOKING_STATUS[booking.status]}</Badge>
                   </TableCell>

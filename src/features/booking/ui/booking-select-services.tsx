@@ -46,7 +46,7 @@ export const BookingSelectServices = ({ location_id, service, services, setSetti
                   <div className={cn("absolute bottom-0 right-0 w-1.5 h-1.5 rounded-full",  markClasses[service.mark ?? "red"])} />
                 </div>
                 <div>
-                  <div className="text-md leading-5">{service.name}</div>
+                  <div className="text-xs leading-5 font-medium">{service.name}</div>
                   <div className="flex items-center gap-1">
                     <span className="text-11 leading-3">{minuteFormat(service.duration)} • {formatPrice(service.prices.price)} ₽</span>
                   </div>

@@ -40,7 +40,7 @@ export const BookingSelectEmployee = ({ location_id, employee, users, setSetting
               >
                 <Avatar size={"small"} id={emp.id} avatar_url={emp.avatar} name={emp.full_name} />
                 <div>
-                  <div className="text-md leading-5">{emp.full_name}</div>
+                  <div className="text-xs leading-5 font-medium">{emp.full_name}</div>
                   <div className="flex items-center gap-1">
                     <span className="text-11 leading-3">{emp.position}</span>
                   </div>
