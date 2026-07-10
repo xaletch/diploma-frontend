@@ -1,17 +1,21 @@
-import type { ISchedule } from "@/entities/schedule";
-import { CalendarDayItem, ChangeYear, CurrentDate, useCalendar, WEEKDAYS_MONDAY_START, type DayInfo } from "@/features/calendar"
+import type { ScheduleDialogData } from "@/entities/schedule";
+import { CalendarDayItem, ChangeYear, CurrentDate, WEEKDAYS_MONDAY_START, type DayInfo, type ScheduleEditInfo } from "@/features/calendar"
+import type { UseCalendarReturnProps } from "@/features/calendar/model/hooks/calendar.hook";
 import { LazyBlur } from "@/widgets/loading";
 
 interface CalendarProps {
-  schedules?: ISchedule[];
+  calendar: UseCalendarReturnProps;
   dayInfoByKey: Map<string, DayInfo>;
+  scheduleEditByKey: Map<string, ScheduleEditInfo>;
   isLoading?: boolean;
   isFetching: boolean;
-  user_id: string;
 }
 
-export const Calendar = ({ schedules, dayInfoByKey, isLoading=false, isFetching, user_id }: CalendarProps) => {
-  const calendar = useCalendar(user_id, schedules);
+export const Calendar = ({ calendar, dayInfoByKey, scheduleEditByKey, isLoading=false, isFetching }: CalendarProps) => {
+  const handleChangeSchedule = (data: ScheduleDialogData) => {
+    const editInfo = scheduleEditByKey.get(data.date_key);
+    calendar.handleChangeSchedule(data, editInfo);
+  };
 
   return (
     <div className="mt-8">
@@ -45,21 +49,17 @@ export const Calendar = ({ schedules, dayInfoByKey, isLoading=false, isFetching,
           {isLoading && <div className="absolute top-0 left-0 h-full w-full rounded-xl z-10 backdrop-blur-xs" />}
           {calendar.calendarCells.map((cell) => {
             const dayInfo = dayInfoByKey.get(cell.dateKey);
-            const isMarked = Boolean(dayInfo);
-            const isToday = cell.dateKey === calendar.todayDateKey;
-            const isSelected = calendar.selectedDateKey === cell.dateKey;
-
             return (
               <CalendarDayItem
                 key={cell.dateKey}
                 dayInfo={dayInfo}
-                isMarked={isMarked}
-                isToday={isToday}
-                isSelected={isSelected}
-                handleChangeSchedule={calendar.handleChangeSchedule}
+                isMarked={Boolean(dayInfo)}
+                isToday={cell.dateKey === calendar.todayDateKey}
+                isSelected={calendar.selectedDateKey === cell.dateKey}
+                handleChangeSchedule={handleChangeSchedule}
                 cell={cell}
               />
-            )
+            );
           })}
         </div>
       </div>

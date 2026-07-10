@@ -33,7 +33,7 @@ export const ScheduleDialog = ({ location_id, data: props }: ScheduleDialogProps
   const onSubmit = async (data: IntervalsSchemaType): Promise<void> => {
     try {
       const payloadBody = {
-        date: props.schedule.backend_date,
+        date: props.schedule.date_key,
         intervals: data.intervals,
         user_id: props.user_id,
       } satisfies IScheduleCreateBodyCredentials;

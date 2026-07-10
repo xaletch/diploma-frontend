@@ -1,17 +1,17 @@
 import { useMemo, useState } from "react";
 import { MONTHS } from "../constants/calendar.constant";
-import { isTimeValue, isWeekendValue, parseBackendDate, toBackendDateString, toDateKey } from "../utils/calendar.util";
+import { toBackendDateString, toDateKey } from "../utils/calendar.util";
 import type { CalendarCell, ScheduleEditInfo } from "../types/calendar.type";
 import { useDialog } from "@/entities/dialog";
-import type { ISchedule, ScheduleDialogData } from "@/entities/schedule";
+import type { ScheduleDialogData } from "@/entities/schedule";
 
-interface UseCalendarReturnProps {
+export interface UseCalendarReturnProps {
   goPrevMonth: () => void;
   goNextMonth: () => void;
   goPrevYear: () => void;
   goNextYear: () => void;
   handleSelectDate: (dateKey: string | null) => void;
-  handleChangeSchedule: (data: ScheduleDialogData) => void;
+  handleChangeSchedule: (data: ScheduleDialogData, editInfo?: ScheduleEditInfo) => void; // ← вот это
   handleViewMonthIndex: (idx: number) => void;
 
   viewYear: number;
@@ -24,7 +24,7 @@ interface UseCalendarReturnProps {
   todayDateKey: string;
 }
 
-export const useCalendar = (user_id: string, schedules?: ISchedule[]): UseCalendarReturnProps => {
+export const useCalendar = (user_id: string): UseCalendarReturnProps => {
   const today = useMemo(() => new Date(), []);
   const [viewYear, setViewYear] = useState(() => today.getFullYear());
   const [viewMonthIndex, setViewMonthIndex] = useState(() => today.getMonth());
@@ -76,43 +76,63 @@ export const useCalendar = (user_id: string, schedules?: ISchedule[]): UseCalend
   const yearMin = yearRange[0] ?? today.getFullYear();
   const yearMax = yearRange[yearRange.length - 1] ?? today.getFullYear();
 
-  const scheduleEditByKey = useMemo(() => {
-    const map = new Map<string, ScheduleEditInfo>();
-    const scheduleList = (schedules ?? []) as ISchedule[];
+  // const scheduleEditByKey = useMemo(() => {
+  //   const map = new Map<string, ScheduleEditInfo>();
+  //   const scheduleList = (schedules ?? []) as ISchedule[];
 
-    for (const item of scheduleList) {
-      const parsed = parseBackendDate(item.date);
-      if (!parsed) continue;
+  //   for (const item of scheduleList) {
+  //     const parsed = parseBackendDate(item.date);
+  //     if (!parsed) continue;
 
-      const key = toDateKey(parsed.year, parsed.monthIndex, parsed.day);
-      const intervals = item.intervals ?? [];
+  //     const key = toDateKey(parsed.year, parsed.monthIndex, parsed.day);
+  //     const intervals = item.intervals ?? [];
 
-      const workIntervals = intervals.filter((it) => {
-        const start = it.start ?? "";
-        const end = it.end ?? "";
-        if (isWeekendValue(start) || isWeekendValue(end)) return false;
-        if (!isTimeValue(start) || !isTimeValue(end)) return false;
-        return true;
-      })
+  //     const workIntervals = intervals.filter((it) => {
+  //       const start = it.start ?? "";
+  //       const end = it.end ?? "";
+  //       if (isWeekendValue(start) || isWeekendValue(end)) return false;
+  //       if (!isTimeValue(start) || !isTimeValue(end)) return false;
+  //       return true;
+  //     })
 
-      map.set(key, {
-        scheduleId: item.id,
-        workIntervals: workIntervals.map((it) => ({ start: it.start, end: it.end })),
-      });
-    }
+  //     map.set(key, {
+  //       scheduleId: item.id,
+  //       workIntervals: workIntervals.map((it) => ({ start: it.start, end: it.end })),
+  //     });
+  //   }
 
-    return map
-  }, [schedules]);
+  //   return map
+  // }, [schedules]);
 
   const handleSelectDate = (dateKey: string | null) => setSelectedDateKey(dateKey);
 
-  const handleChangeSchedule = (data: ScheduleDialogData) => {
+  // const handleChangeSchedule = (data: ScheduleDialogData) => {
+  //   if (!data.in_month) return;
+
+  //   const backDate = toBackendDateString(data.year, data.month_index, data.day);
+  //   const editInfo = scheduleEditByKey.get(data.date_key);
+  //   const initIntervals = editInfo && editInfo.workIntervals.length > 0 ? editInfo.workIntervals : [{ start: "00:00", end: "00:05" }];
+    
+  //   openDialog("schedule", {
+  //     schedule_id: editInfo?.scheduleId ?? null,
+  //     schedule: {
+  //       date_key: data.date_key,
+  //       year: data.year,
+  //       month_index: data.month_index,
+  //       day: data.day,
+  //       backend_date: backDate,
+  //     },
+  //     user_id: user_id,
+  //     intervals: initIntervals,
+  //     day_info: data.day_info,
+  //   });
+  // }
+  const handleChangeSchedule = (data: ScheduleDialogData, editInfo?: ScheduleEditInfo) => {
     if (!data.in_month) return;
 
     const backDate = toBackendDateString(data.year, data.month_index, data.day);
-    const editInfo = scheduleEditByKey.get(data.date_key);
     const initIntervals = editInfo && editInfo.workIntervals.length > 0 ? editInfo.workIntervals : [{ start: "00:00", end: "00:05" }];
-    
+
     openDialog("schedule", {
       schedule_id: editInfo?.scheduleId ?? null,
       schedule: {

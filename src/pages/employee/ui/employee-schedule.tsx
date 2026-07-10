@@ -1,7 +1,7 @@
 import { useAccount } from "@/entities/account";
 import { dialogSelector } from "@/entities/dialog";
 import { useGetEmployeeServicesQuery, type ISchedule } from "@/entities/schedule";
-import { isTimeValue, isWeekendValue, parseBackendDate, toDateKey, type DayInfo } from "@/features/calendar";
+import { isTimeValue, isWeekendValue, parseBackendDate, toDateKey, useCalendar, type DayInfo, type ScheduleEditInfo } from "@/features/calendar";
 import { PageHeader, PageHeaderActions, PageHeaderBackAction, PageHeaderTitle } from "@/shared/ui"
 import { Calendar } from "@/widgets/calendar";
 import { EmployeeNotFound } from "@/widgets/employee";
@@ -17,8 +17,36 @@ export const EmployeeSchedule = () => {
   const location_id = location?.id ?? "";
 
   const { employee_id } = useParams({ from: "/_app/_layout/employees/schedule/$employee_id" });
+  
+  const calendar = useCalendar(employee_id);
 
   const { data: schedules, isLoading, isError, isFetching } = useGetEmployeeServicesQuery({ user_id: employee_id, location_id });
+  
+  const scheduleEditByKey = useMemo(() => {
+    const map = new Map<string, ScheduleEditInfo>();
+    const scheduleList = (schedules ?? []) as ISchedule[];
+
+    for (const item of scheduleList) {
+      const parsed = parseBackendDate(item.date);
+      if (!parsed) continue;
+
+      const key = toDateKey(parsed.year, parsed.monthIndex, parsed.day);
+      const workIntervals = (item.intervals ?? []).filter((it) => {
+        const start = it.start ?? "";
+        const end = it.end ?? "";
+        if (isWeekendValue(start) || isWeekendValue(end)) return false;
+        if (!isTimeValue(start) || !isTimeValue(end)) return false;
+        return true;
+      });
+
+      map.set(key, {
+        scheduleId: item.id,
+        workIntervals: workIntervals.map((it) => ({ start: it.start, end: it.end })),
+      });
+    }
+
+    return map;
+  }, [schedules]);
   
   const dayInfoByKey = useMemo(() => {
     const map = new Map<string, DayInfo>();
@@ -63,7 +91,15 @@ export const EmployeeSchedule = () => {
       </PageHeader>
 
       {isError && <EmployeeNotFound />}
-      {!isError && <Calendar schedules={schedules} dayInfoByKey={dayInfoByKey} isLoading={isLoading || isFetching} isFetching={isFetching} user_id={employee_id} />}
+      {!isError && 
+        <Calendar 
+          dayInfoByKey={dayInfoByKey}
+          isLoading={isLoading || isFetching}
+          isFetching={isFetching}
+          calendar={calendar}
+          scheduleEditByKey={scheduleEditByKey}
+        />
+      }
       {dialog.name === "schedule" && <ScheduleDialog location_id={location_id} data={dialog.data} />}
     </>
   )
