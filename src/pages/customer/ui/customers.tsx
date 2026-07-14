@@ -16,7 +16,7 @@ export const Customers = ({ query }: CustomerProps) => {
 
   const content = isLoading ? (
     <TableLoading rows={3} />
-  ) : isSuccess && (data.data.length > 0 || hasActiveFilters) ? (
+  ) : isSuccess && (data.data.length > 0 && hasActiveFilters) ? (
     <CustomerTable customers={data.data} isFetching={isFetching} meta={data.meta} query={query} />
   ) : (
     <CustomerEmpty />

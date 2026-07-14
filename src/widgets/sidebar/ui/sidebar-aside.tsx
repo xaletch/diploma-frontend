@@ -7,7 +7,7 @@ import SvgCalendar from "@/shared/icons/Calendar"
 import SvgCustomer from "@/shared/icons/Customer"
 import SvgDashboard from "@/shared/icons/Dashboard"
 import SvgNotification from "@/shared/icons/Notification"
-import SvgUsersGroup from "@/shared/icons/UsersGroup"
+// import SvgUsersGroup from "@/shared/icons/UsersGroup"
 import { useLocation } from "@tanstack/react-router"
 import { isRouteActive } from "../model/utils/navigation.util"
 import { useSelector } from "react-redux"
@@ -41,7 +41,7 @@ const menuItems: MenuItem[] = [
   {
     to: "/orders",
     type: "ORDERS",
-    label: "Заказы",
+    label: "Платежи",
     search: { limit: 20, status: "open" },
     icon: <Cast width={20} height={20} />,
     permission: ["orders:*"],
@@ -61,14 +61,14 @@ const menuItems: MenuItem[] = [
     icon: <SvgCustomer width={20} height={20} />,
     permission: ["company-customers:*"],
   },
-  {
-    to: "/employees/users",
-    type: "EMPLOYEES",
-    label: "Сотрудники",
-    search: { limit: 20 },
-    icon: <SvgUsersGroup width={20} height={20} />,
-    permission: ["employee:*"],
-  },
+  // {
+  //   to: "/employees/users",
+  //   type: "EMPLOYEES",
+  //   label: "Сотрудники",
+  //   search: { limit: 20 },
+  //   icon: <SvgUsersGroup width={20} height={20} />,
+  //   permission: ["employee:*"],
+  // },
   {
     to: "/business/services",
     type: "SERVICES",

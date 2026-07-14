@@ -17,7 +17,7 @@ export const Services = ({ query }: ServiceProps) => {
 
   const content = isLoading ? (
     <TableLoading rows={4} />
-  ) : isSuccess && (data.data.length > 0 || hasActiveFilters) ? (
+  ) : isSuccess && (data.data.length > 0 && hasActiveFilters) ? (
     <ServicesTable services={data.data} meta={data.meta} query={query} />
   ) : (
     <ServicesEmpty />

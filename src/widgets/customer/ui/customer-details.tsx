@@ -80,7 +80,7 @@ export const CustomerDetails = ({ customer }: CustomerDetailsProps) => {
                 </CardContentLabel>
 
                 <CardContentLabel>
-                  <CardContentLabelTitle>Заметка</CardContentLabelTitle>
+                  <CardContentLabelTitle>Описание</CardContentLabelTitle>
                   <CardContentLabelDescription>{customer.note ?? "-"}</CardContentLabelDescription>
                 </CardContentLabel>
 
@@ -93,7 +93,16 @@ export const CustomerDetails = ({ customer }: CustomerDetailsProps) => {
               <Card>
                 <CardHeader>
                   <CardTitle>Бронирования</CardTitle>
-                  <CardDescription>{customer.booking_count ?? `${customer.profile.first_name} пока ничего не бронировал.`}</CardDescription>
+                  <CardDescription>История записей и предстоящие сессии клиента</CardDescription>
+                </CardHeader>
+              </Card>
+            </Link>
+
+            <Link to={"#"}>
+              <Card>
+                <CardHeader>
+                  <CardTitle>Заметки</CardTitle>
+                  <CardDescription>Видны только вам - удобно фиксировать наблюдения между сессиями</CardDescription>
                 </CardHeader>
               </Card>
             </Link>

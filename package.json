@@ -30,6 +30,7 @@
     "class-variance-authority": "^0.7.1",
     "date-fns": "^4.1.0",
     "lucide-react": "^0.562.0",
+    "motion": "^12.42.2",
     "radix-ui": "^1.4.3",
     "react": "^19.1.1",
     "react-day-picker": "^10.0.0",

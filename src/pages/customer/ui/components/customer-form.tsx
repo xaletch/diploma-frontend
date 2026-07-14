@@ -96,8 +96,8 @@ export const CustomerForm = ({ data, onSubmit, isLoading }: CustomerFormProps) =
                     name={"note"}
                     id={"note"}
                     register={register("note")}
-                    label={"Заметка"}
-                    placeholder={"Заметка"}
+                    label={"Описание"}
+                    placeholder={"Описание (видно только вам)"}
                     error={formState.errors["note"]}
                   />
                 </CardContent>

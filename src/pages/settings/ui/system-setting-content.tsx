@@ -6,7 +6,7 @@ import { accountSelector } from "@/entities/account"
 import { Controller } from "react-hook-form"
 import { PaletteIcon, PaperClipIcon } from "@/shared/icons"
 import { cn } from "@/shared/utils"
-import SvgUsersGroup from "@/shared/icons/UsersGroup"
+// import SvgUsersGroup from "@/shared/icons/UsersGroup"
 import SvgCustomer from "@/shared/icons/Customer"
 import SvgCalendar from "@/shared/icons/Calendar"
 import SvgBook from "@/shared/icons/Book"
@@ -30,7 +30,7 @@ const MENU = [
   },
   {
     type: "ORDERS",
-    label: "Заказы",
+    label: "Платежи",
     search: { limit: 20, sort: "newest" },
     icon: <Cast />,
     permission: ["orders:*"],
@@ -48,13 +48,13 @@ const MENU = [
     icon: <SvgCustomer />,
     permission: ["company-customers:*"],
   },
-  {
-    type: "EMPLOYEES",
-    label: "Сотрудники",
-    search: { limit: 20 },
-    icon: <SvgUsersGroup />,
-    permission: ["employee:*", "employees:read"],
-  },
+  // {
+  //   type: "EMPLOYEES",
+  //   label: "Сотрудники",
+  //   search: { limit: 20 },
+  //   icon: <SvgUsersGroup />,
+  //   permission: ["employee:*", "employees:read"],
+  // },
   {
     type: "SERVICES",
     label: "Услуги",

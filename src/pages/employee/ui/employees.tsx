@@ -25,7 +25,7 @@ export const Employees = ({ query }: EmployeeProps) => {
 
   const content = isLoading ? (
     <TableLoading rows={4} />
-  ) : isSuccess && (data.data.length > 0 || hasActiveFilters) ? (
+  ) : isSuccess && (data.data.length > 0 && hasActiveFilters) ? (
     <EmployeeTable employees={data.data} meta={data.meta} isFetching={isFetching} profileId={account?.id} query={query} />
   ) : (
     <EmployeeEmpty />
