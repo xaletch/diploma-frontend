@@ -41,6 +41,7 @@ export { default as EyeIcon } from "./Eye";
 export { default as FilePgfIcon } from "./FilePgf";
 export { default as FilePngIcon } from "./FilePng";
 export { default as FileIcon } from "./File";
+export { default as FolderOpenIcon } from "./FolderOpen";
 export { default as FolderPlusIcon } from "./FolderPlus";
 export { default as FolderIcon } from "./Folder";
 export { default as GeoIcon } from "./Geo";

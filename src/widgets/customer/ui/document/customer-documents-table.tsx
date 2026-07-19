@@ -1,6 +1,6 @@
 import type { ICustomerDocument } from "@/entities/customers"
 import { AddFillIcon } from "@/shared/icons"
-import { Card, CardDescription, CardHeader, CardTitle } from "@/shared/ui"
+import { Card, CardDescription, CardHeader, CardTitle, Pagination } from "@/shared/ui"
 import { Link } from "@tanstack/react-router"
 
 interface ICustomerDocumentsTableProps {
@@ -8,7 +8,7 @@ interface ICustomerDocumentsTableProps {
   meta: PaginationMeta;
 }
 
-export const CustomerDocumentsTable = ({ documents }: ICustomerDocumentsTableProps) => {
+export const CustomerDocumentsTable = ({ documents, meta }: ICustomerDocumentsTableProps) => {
   return (
     <div className="space-y-8 mt-8">
       <div className="grid grid-cols-4 gap-2.5">
@@ -18,7 +18,7 @@ export const CustomerDocumentsTable = ({ documents }: ICustomerDocumentsTablePro
             <CardHeader className="flex items-center justify-center flex-1">
               <CardTitle className="flex items-center justify-center gap-2 text-lg">
                 <AddFillIcon width={22} height={22}/>
-                Новый документ
+                Новая заметка
               </CardTitle>
             </CardHeader>
           </Card>
@@ -42,6 +42,8 @@ export const CustomerDocumentsTable = ({ documents }: ICustomerDocumentsTablePro
 
 
       </div>
+
+      {meta.total_pages > 1 && <Pagination {...meta} />}
     </div>
   )
 }

@@ -1,6 +1,6 @@
 import { useGetCustomerDocumentsQuery, type ICustomerDocumentQuery } from "@/entities/customers";
 import { PageHeader, PageHeaderActions, PageHeaderBackAction, PageHeaderTitle } from "@/shared/ui"
-import { CustomerDocumentsLoading, CustomerDocumentsTable } from "@/widgets/customer";
+import { CustomerDocumentsLoading, CustomerDocumentsNotFound, CustomerDocumentsTable } from "@/widgets/customer";
 
 interface ICustomerDocumentsProps {
   query: PaginationQuery & ICustomerDocumentQuery;
@@ -15,7 +15,7 @@ export const CustomerDocuments = ({ query, customer_id }: ICustomerDocumentsProp
       page: query.page,
       limit: query.limit,
     },
-  });
+  }, { refetchOnMountOrArgChange: true });
 
   return (
     <>
@@ -28,7 +28,7 @@ export const CustomerDocuments = ({ query, customer_id }: ICustomerDocumentsProp
       </PageHeader>
     
       {isLoading && <CustomerDocumentsLoading />}
-      {isError && "error"}
+      {isError && <CustomerDocumentsNotFound />}
       {data && <CustomerDocumentsTable documents={data.data} meta={data.meta} />}
     </>
   )

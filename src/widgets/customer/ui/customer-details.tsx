@@ -98,7 +98,7 @@ export const CustomerDetails = ({ customer }: CustomerDetailsProps) => {
               </Card>
             </Link>
 
-            <Link to={customer.documents_count > 0 ? `documents?full_name=${customer.profile.full_name}` : `documents/create`}>
+            <Link to={customer.documents_count > 0 ? `documents?full_name=${customer.profile.full_name}&limit=20` : `documents/create`}>
               <Card>
                 <CardHeader>
                   <CardTitle>Заметки</CardTitle>

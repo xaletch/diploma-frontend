@@ -1,15 +1,14 @@
 import type { ICustomerDocumentProfileInfo } from "@/entities/customers";
 import { Avatar } from "@/entities/user";
-import { Button, Card, CardContent, CardTitle } from "@/shared/ui";
+import { Card, CardContent, CardTitle } from "@/shared/ui";
 import { Link } from "@tanstack/react-router";
-import { toast } from "sonner";
 
 interface IEditorHeadProps {
   document_id: string;
   customer: ICustomerDocumentProfileInfo;
 }
 
-export const EditorHead = ({ document_id, customer }: IEditorHeadProps) => {
+export const EditorHead = ({ customer }: IEditorHeadProps) => {
   return (
     <div>
       <Card>
@@ -22,12 +21,7 @@ export const EditorHead = ({ document_id, customer }: IEditorHeadProps) => {
             </div>
           </div>
           <div>
-            <Button
-              variant={"action"}
-              size={"size_44"}
-              className={"text-sm"}
-              onClick={() => toast.success(document_id)}
-            >Сохранить в docx</Button>
+            {/* <DownloadCustomerDocument document_id={document_id} /> */}
           </div>
         </CardContent>
       </Card>

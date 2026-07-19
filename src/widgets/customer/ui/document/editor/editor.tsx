@@ -24,7 +24,7 @@ export const Editor = ({ customer_id, document_id, name, data }: IEditorProps) =
   const [title, setTitle] = useState(name ?? "");
   const [outputData, setOutputData] = useState<OutputData | null>(null);
   const [document] = useCustomerUpdateDocumentMutation();
-
+const isFirstRun = useRef(true);
   useEffect(() => {
     if (!documentRef.current) return;
 
@@ -69,15 +69,16 @@ export const Editor = ({ customer_id, document_id, name, data }: IEditorProps) =
     };
   }, []);
 
-  const debounce = useDebounce(outputData, 6000);
+  const debounce = useDebounce(outputData, 3500);
+  const titleDebounce = useDebounce(title, 3500);
 
-  const updateDocument = useCallback(async (content: OutputData | null) => {
+  const updateDocument = useCallback(async (content: OutputData | null, name?: string) => {
     try {
       const res = await document(
         {
           customer_id,
           document_id,
-          body: { name: title, content }
+          body: { name, content }
         }
       ).unwrap();
 
@@ -87,13 +88,26 @@ export const Editor = ({ customer_id, document_id, name, data }: IEditorProps) =
       console.error("Не удалось обновить документ", error);
       toast.error(getErrorMessage(error));
     }
-  }, [customer_id, document, document_id, title]);
+  }, [customer_id, document, document_id]);
 
+  const handleTitleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key !== "Enter") return;
+    e.preventDefault();
+    ref.current?.focus();
+  }
+
+
+  /**
+    !=====! УБРАТЬ В БУДУЩЕМ КОСТЫЛЬ !=====! 
+  **/
   useEffect(() => {
-    if (debounce === null) return;
+    if (isFirstRun.current) {
+      isFirstRun.current = false;
+      return;
+    }
     console.log("debounce", debounce);
-    updateDocument(debounce);
-  }, [debounce, updateDocument]);
+    updateDocument(debounce, titleDebounce);
+  }, [debounce, titleDebounce, updateDocument]);
 
   return (
     <div>
@@ -101,12 +115,19 @@ export const Editor = ({ customer_id, document_id, name, data }: IEditorProps) =
         <input
           ref={inputRef}
           value={title}
+          onKeyDown={handleTitleKeyDown}
           onChange={(e) => setTitle(e.target.value)}
           placeholder="Название заметки"
           className="w-full border-none bg-transparent text-5xl font-bold outline-none placeholder:text-primary/50"
         />
       </div>
       <div ref={documentRef} id='editorjs'></div>
+      
+      {/* {isLoading && (
+        <div className="fixed bottom-8 right-8">
+          <Spinner className="opacity-50" />
+        </div>
+      )} */}
     </div>
   );
 }
