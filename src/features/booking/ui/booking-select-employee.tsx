@@ -11,7 +11,10 @@ interface BookingSelectEmployeeProps {
 }
 
 export const BookingSelectEmployee = ({ location_id, employee, users, setSetting }: BookingSelectEmployeeProps) => {
-  const { data, isLoading } = useLocationEmployeesQuery({ location_id });
+  const { data, isLoading } = useLocationEmployeesQuery(
+    { location_id },
+    { refetchOnMountOrArgChange: true },
+  );
 
   return (
     <div>

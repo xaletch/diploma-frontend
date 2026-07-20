@@ -12,7 +12,7 @@ function validateBooking(booking: BookingCreate): ValidationError[] {
   if (!booking.time)     errors.push({ field: "time",     message: "Выберите время" });
   if (!booking.service)  errors.push({ field: "service",  message: "Выберите услугу" });
   if (!booking.employee) errors.push({ field: "employee", message: "Выберите сотрудника" });
-  if (!booking.customer) errors.push({ field: "customer", message: "Выберите клиента" });
+  // if (!booking.customer) errors.push({ field: "customer", message: "Выберите клиента" });
   if (!booking.location) errors.push({ field: "location", message: "Выберите локацию" });
   // if (!booking.payment_method) errors.push({ field: "payment_method", message: "Выберите способ оплаты" });
 

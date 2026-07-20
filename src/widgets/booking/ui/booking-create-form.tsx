@@ -1,70 +1,68 @@
 import { accountSelector } from "@/entities/account"
-import { BookingSelectCustomerInfo, bookingSelector, BookingSelectServiceCard, BookingTotalPrice, setBookingCreate, type BookingCreate } from "@/entities/booking";
-import { Avatar } from "@/entities/user";
+import { BookingSelectCustomerInfo, bookingSelector, BookingSelectServiceCard, BookingTotalPrice } from "@/entities/booking";
 import { BookingSelectCustomer, BookingSelectDate, useBookingCreate } from "@/features/booking";
 import { AddIcon } from "@/shared/icons";
-import { Button, Card, CardContent, CardHeader, CardTitle, Dialog } from "@/shared/ui"
+import { Badge, Button, Card, CardContent, CardHeader, CardTitle, Dialog } from "@/shared/ui"
 import { useSelector } from "react-redux"
-import { BookingServiceSetting } from "./components/booking-service-setting";
 import { dialogSelector, useDialog } from "@/entities/dialog";
-import { BookingScheduleIntervals } from "./components/booking-schedule-intervals";
-import { useEffect } from "react";
-import { useAppDispatch } from "@/shared/hooks";
+import { BookingChangeService } from "./components/booking-change-service";
 
 export const BookingCreateForm = ({ date }: { date: string }) => {
-  const dispatch = useAppDispatch();
+  // const dispatch = useAppDispatch();
   const { location } = useSelector(accountSelector);
-  const { booking_create } = useSelector(bookingSelector);
+  const { booked, customer, date: current_date } = useSelector(bookingSelector);
   const { dialog } = useSelector(dialogSelector);
 
   const { closeDialog, openDialog } = useDialog();
 
-  const { handleSave, isLoading } = useBookingCreate();
+  const { isLoading } = useBookingCreate();
 
-  useEffect(() => {
-    const payload: Partial<BookingCreate> = {};
-    if (date && !booking_create?.date) payload.date = date;
-    if (location && !booking_create?.location) payload.location = location;
-    if (Object.keys(payload).length > 0) dispatch(setBookingCreate(payload));
-  }, [date, location]);
+  // useEffect(() => {
+    // const payload: Partial<BookingCreate> = {};
+    // if (date && !booking_create?.date) payload.date = date;
+    // if (location && !booking_create?.location) payload.location = location;
+    // if (Object.keys(payload).length > 0) dispatch(setBookingCreate(payload));
+  // }, [date, location]);
+
+  console.log("render", booked);
 
   return (
     <div className="mt-8 relative flex gap-8 h-full">
       <div className="max-w-140 mx-auto space-y-8 relative flex-1">
-        <Card>
-          <CardContent>
-            {!location ? (
-              <div>Загрузка...</div>
-            ) : (
-              <div className="flex items-center gap-2.5">
-                <Avatar size={"md"} id={location?.id} name={location?.name} avatar_url={location?.avatar} />
-
-                <div>
-                  <h3 className="text-base font-medium leading-5">{location?.name}</h3>
-                  <p className="text-xs leading-4">{location?.full_address}</p>
-                </div>
-              </div>
-            )}
-          </CardContent>
-        </Card>
 
         {location && (
           <>
             <Card>
-              <CardHeader className="pb-0">
-                <CardTitle>Услуга</CardTitle>
+              <CardHeader className="pb-0 flex-row items-center justify-between gap-2.5">
+                <CardTitle>Услуги</CardTitle>
+                <Badge variant={"count"}>{booked?.length ?? 0}</Badge>
               </CardHeader>
               <CardContent>
 
-
-                {(booking_create?.service && booking_create.employee) ? (
-                  <BookingSelectServiceCard onClick={() => openDialog("booking_service_create", undefined)} service={booking_create.service} employee={booking_create.employee} />
-                ) : (
-                  <Button type={"button"} onClick={() => openDialog("booking_service_create", undefined)} variant={"dashed"} size={"icon_42"} className="w-full rounded-lg text-sm" iconLeft={<AddIcon width={18} height={18}/>}>Выбрать услугу</Button>
-                )}
+                <Button
+                  type={"button"}
+                  onClick={() => openDialog("booking_service_create", undefined)}
+                  variant={"dashed"}
+                  size={"icon_42"}
+                  className="w-full rounded-lg text-sm"
+                  iconLeft={<AddIcon width={18} height={18}/>}
+                >Выбрать услугу</Button>
+                
+                  {booked && booked?.length > 0 && (
+                    <div>
+                      {booked.map((book, idx) => (
+                        <BookingSelectServiceCard
+                          key={idx}
+                          onClick={() => console.log("book: ", book)}
+                          service={undefined}
+                          employee={undefined}
+                        />
+                      ))}
+                    </div>
+                  )}
 
                 <Dialog open={dialog.name === "booking_service_create"} onOpenChange={closeDialog}>
-                  <BookingServiceSetting location_id={location.id} service={booking_create?.service} employee={booking_create?.employee} />
+                  <BookingChangeService location_id={location.id} date={date ?? current_date} />
                 </Dialog>
 
               </CardContent>
@@ -76,9 +74,9 @@ export const BookingCreateForm = ({ date }: { date: string }) => {
               </CardHeader>
 
               <CardContent className="space-y-5">
-                <BookingSelectCustomer customer={booking_create?.customer} />
+                <BookingSelectCustomer customer={customer} />
 
-                {booking_create?.customer && <BookingSelectCustomerInfo customer={booking_create.customer} />}
+                {customer && <BookingSelectCustomerInfo customer={customer} />}
               </CardContent>
             </Card>
           </>
@@ -92,12 +90,12 @@ export const BookingCreateForm = ({ date }: { date: string }) => {
         <CardContent className="flex-1 flex flex-col space-y-8">
           <div className="flex items-center justify-between">
             <div className="font-medium opacity-60">Итого</div>
-            <BookingTotalPrice price={booking_create?.service?.prices.price ?? 0} />
+            <BookingTotalPrice booked={booked} />
           </div>
 
           <div className="flex-1 space-y-6">
 
-            <BookingSelectDate date={booking_create?.date} />
+            <BookingSelectDate date={current_date} />
 
 
             {/* SELECT DATE */}
@@ -112,7 +110,9 @@ export const BookingCreateForm = ({ date }: { date: string }) => {
                 </div>
               </div>
             )} */}
-            {(booking_create?.employee && location && booking_create.service) && (
+
+            {/* !=====! УБРАТЬ ИНТЕРВАЛЫ !=====! */}
+            {/* {(booking_create?.employee && location && booking_create.service) && (
               <BookingScheduleIntervals
                 user_id={booking_create.employee.profile_id}
                 location_id={location?.id}
@@ -120,7 +120,7 @@ export const BookingCreateForm = ({ date }: { date: string }) => {
                 current_time={booking_create.time}
                 duration={booking_create.service.duration}
               />
-            )}
+            )} */}
 
             {/* <Select
               value={booking_create?.payment_method}
@@ -138,7 +138,7 @@ export const BookingCreateForm = ({ date }: { date: string }) => {
           <div>
             <Button
               type={"button"}
-              onClick={() => handleSave(booking_create)}
+              // onClick={() => handleSave(booking_create)}
               isLoading={isLoading}
               disabled={isLoading}
             >Сохранить</Button>

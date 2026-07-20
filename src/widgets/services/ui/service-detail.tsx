@@ -1,9 +1,9 @@
-import { setBookingCreate } from "@/entities/booking";
+// import { setBookingCreate } from "@/entities/booking";
 import { useDialog } from "@/entities/dialog";
 import type { IService } from "@/entities/services"
 import { Avatar } from "@/entities/user"
 import { markClasses } from "@/shared/constants";
-import { useAppDispatch } from "@/shared/hooks";
+// import { useAppDispatch } from "@/shared/hooks";
 import { AddFillIcon } from "@/shared/icons";
 import { Button } from "@/shared/ui";
 import { AvatarGroup } from "@/shared/ui/avatar";
@@ -16,12 +16,12 @@ interface ServiceDetailProps {
 }
 
 export const ServiceDetails = ({ service }: ServiceDetailProps) => {
-  const dispatch = useAppDispatch();
+  // const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const { openDialog } = useDialog();
 
   const createNewBooking = () => {
-    dispatch(setBookingCreate({ service }));
+    // dispatch(setBookingCreate({ service }));
     openDialog("booking_service_create", undefined)
     navigate({ to: "/bookings/create" });
   }

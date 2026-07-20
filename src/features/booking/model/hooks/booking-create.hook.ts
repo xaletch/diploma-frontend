@@ -42,7 +42,8 @@ export const useBookingCreate = (): UseBookingCreateReturnProps => {
       service_id: booking.service!.id,
       employee_id: booking.employee!.profile_id,
       payment_method: "cash", // ВРЕМЕННАЯ ЗАГЛУШКА !!!!!
-      customer_id: booking.customer!.profile_id,
+      // customer_id: booking.customer!.profile_id,
+      customer_id: "",
       location_id: booking.location!.id,
       status: "pending",
     } satisfies IBookingActionCredentials;

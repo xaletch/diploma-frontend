@@ -1,7 +1,5 @@
-import { setBookingCreate } from "@/entities/booking";
 import { useEmployeeScheduleSlotsQuery } from "@/entities/directories"
 import { BookingChangeTime } from "@/features/booking";
-import { useAppDispatch } from "@/shared/hooks";
 
 interface BookingScheduleIntervalsProps {
   user_id: string;
@@ -9,10 +7,10 @@ interface BookingScheduleIntervalsProps {
   date: string;
   duration: number;
   current_time: string | undefined;
+  onSelectInterval: (time: string) => void;
 }
 
-export const BookingScheduleIntervals = ({ user_id, location_id, date, duration, current_time }: BookingScheduleIntervalsProps) => {
-  const dispatch = useAppDispatch();
+export const BookingScheduleIntervals = ({ user_id, location_id, date, duration, current_time, onSelectInterval }: BookingScheduleIntervalsProps) => {
   const { data, isLoading, isError } = useEmployeeScheduleSlotsQuery({
     params: { user_id, location_id },
     query: { date, duration },
@@ -29,7 +27,7 @@ export const BookingScheduleIntervals = ({ user_id, location_id, date, duration,
             key={idx}
             time={item}
             current_time={current_time}
-            onChange={() => dispatch(setBookingCreate({ time: item }))}
+            onChange={() => onSelectInterval(item)}
           />
         ))}
       </div>

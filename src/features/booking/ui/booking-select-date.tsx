@@ -1,13 +1,13 @@
-import { setBookingCreate } from '@/entities/booking';
+import { setBookingDate } from '@/entities/booking';
 import { useAppDispatch } from '@/shared/hooks';
 import { CalendarIcon } from '@/shared/icons';
 import { Calendar, Card, CardContent } from '@/shared/ui';
 import { formatDateWeek } from '@/shared/utils';
 import { ru } from 'date-fns/locale';
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 interface BookingSelectDateProps {
-  date: string | undefined;
+  date: string;
 }
 
 export const BookingSelectDate = ({ date }: BookingSelectDateProps) => {
@@ -16,16 +16,6 @@ export const BookingSelectDate = ({ date }: BookingSelectDateProps) => {
   const [month, setMonth] = useState<Date>(new Date());
   const containerRef = useRef<HTMLDivElement>(null);
 
-  const calendarDate = useMemo(() => {
-    if (!date) return undefined;
-    const [day, mo, year] = date.split("-").map(Number);
-    return new Date(year, mo - 1, day);
-  }, [date]);
-
-  useEffect(() => {
-    if (calendarDate) setMonth(calendarDate);
-  }, [calendarDate]);
-  
   useEffect(() => {
     function handleClickOutside(e: MouseEvent) {
       if (containerRef.current && !containerRef.current.contains(e.target as Node)) {
@@ -37,15 +27,13 @@ export const BookingSelectDate = ({ date }: BookingSelectDateProps) => {
   }, []);
 
   function handleSelect(selected: Date | undefined) {
-    console.log(selected);
     if (!selected) return;
     const formatted = [
-      String(selected.getDate()).padStart(2, "0"),
-      String(selected.getMonth() + 1).padStart(2, "0"),
       selected.getFullYear(),
+      String(selected.getMonth() + 1).padStart(2, "0"),
+      String(selected.getDate()).padStart(2, "0"),
     ].join("-");
-    console.log(formatted)
-    dispatch(setBookingCreate({ date: formatted }));
+    dispatch(setBookingDate(formatted));
     setOpen(false);
   }
 
@@ -59,7 +47,7 @@ export const BookingSelectDate = ({ date }: BookingSelectDateProps) => {
             ) : (
               formatDateWeek()
             )} */}
-            {formatDateWeek(calendarDate)}
+            {formatDateWeek(date)}
             
             {/* Вт, 25 Апреля 2026г. 10:13 */}
           </div>
@@ -76,7 +64,7 @@ export const BookingSelectDate = ({ date }: BookingSelectDateProps) => {
         >
           <Calendar
             mode={"single"}
-            selected={calendarDate}
+            selected={new Date(date)}
             onSelect={handleSelect}
             onMonthChange={setMonth}
             month={month}

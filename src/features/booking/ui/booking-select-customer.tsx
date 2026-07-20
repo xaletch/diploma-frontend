@@ -1,11 +1,11 @@
-import { setBookingCreate } from "@/entities/booking";
+import { setBookingCustomer } from "@/entities/booking";
 import { useCompanyCustomersQuery, type IDirectoryCustomer } from "@/entities/directories";
 import { Avatar } from "@/entities/user";
 import { useAppDispatch } from "@/shared/hooks";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/shared/ui/select/ui/select-custom";
 
 interface BookingSelectCustomerProps {
-  customer: IDirectoryCustomer | undefined;
+  customer: IDirectoryCustomer | null;
 }
 
 export const BookingSelectCustomer = ({ customer }: BookingSelectCustomerProps) => {
@@ -34,7 +34,7 @@ export const BookingSelectCustomer = ({ customer }: BookingSelectCustomerProps) 
                 label: customer.first_name,
                 avatar: { id: customer.id, name: customer.first_name, avatar_url: customer.avatar }
               }}
-              onChange={() => dispatch(setBookingCreate({ customer }))}
+              onChange={() => dispatch(setBookingCustomer(customer))}
               className="flex items-center gap-2 rounded-none"
             >
               <Avatar size={"small"} id={customer.id} avatar_url={customer.avatar} name={customer.full_name} />

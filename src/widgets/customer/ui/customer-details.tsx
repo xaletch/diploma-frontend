@@ -1,8 +1,6 @@
-import { setBookingCreate } from "@/entities/booking";
 import type { ICustomer } from "@/entities/customers";
 import { Avatar } from "@/entities/user";
 import { Copyable } from "@/features/copyable";
-import { useAppDispatch } from "@/shared/hooks";
 import { AddFillIcon } from "@/shared/icons";
 import { Button, Card } from "@/shared/ui";
 import { CardContent, CardContentLabel, CardContentLabelDescription, CardContentLabelTitle, CardDescription, CardHeader, CardTitle } from "@/shared/ui/card/ui/card";
@@ -13,25 +11,24 @@ interface CustomerDetailsProps {
 }
 
 export const CustomerDetails = ({ customer }: CustomerDetailsProps) => {
-  const dispatch = useAppDispatch();
+  // const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
   const createNewBooking = () => {
-    const { id, booking_count, profile } = customer;
-    dispatch(setBookingCreate({
-      customer: {
-        id,
-        profile_id: profile.id,
-        first_name: profile.first_name,
-        last_name: profile.last_name ?? "",
-        full_name: `${profile.first_name} ${profile.last_name ?? ""}`,
-        birthday: profile.birthday,
-        avatar: profile.avatar,
-        email: profile.email,
-        phone: profile.phone,
-        bookings_count: booking_count,
-      }
-    }));
+    // dispatch(setBookingCreate({
+    //   customer: {
+    //     id,
+    //     profile_id: profile.id,
+    //     first_name: profile.first_name,
+    //     last_name: profile.last_name ?? "",
+    //     full_name: `${profile.first_name} ${profile.last_name ?? ""}`,
+    //     birthday: profile.birthday,
+    //     avatar: profile.avatar,
+    //     email: profile.email,
+    //     phone: profile.phone,
+    //     bookings_count: booking_count,
+    //   }
+    // }));
     navigate({ to: "/bookings/create" });
   }
 

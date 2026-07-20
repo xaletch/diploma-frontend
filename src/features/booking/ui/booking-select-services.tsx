@@ -14,7 +14,10 @@ interface BookingSelectServicesProps {
 }
 
 export const BookingSelectServices = ({ location_id, service, services, setSetting }: BookingSelectServicesProps) => {
-  const { data, isLoading } = useLocationServicesQuery({ location_id });
+  const { data, isLoading } = useLocationServicesQuery(
+    { location_id },
+    { refetchOnMountOrArgChange: true },
+  );
 
   return (
     <div>

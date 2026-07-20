@@ -3,4 +3,6 @@ import type { IDirectoryLocationEmployee, IDirectoryLocationService } from "@/en
 export type ServiceSettingType = {
   service: IDirectoryLocationService | undefined;
   employee: IDirectoryLocationEmployee | undefined;
+  date: string | undefined;
+  time: string | undefined;
 }
