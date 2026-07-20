@@ -3,6 +3,9 @@ import { Button, DialogClose, DialogContent, DialogDescription, DialogFooter, Di
 import { useState } from "react";
 import { BookingScheduleIntervals } from "./booking-schedule-intervals";
 import { formatDateWeek } from "@/shared/utils";
+import { useAppDispatch } from "@/shared/hooks";
+import { setBookingCreate } from "@/entities/booking";
+import { useDialog } from "@/entities/dialog";
 
 interface BookingChangeServiceProps {
   location_id: string;
@@ -10,20 +13,33 @@ interface BookingChangeServiceProps {
 }
 
 export const BookingChangeService = ({ location_id, date }: BookingChangeServiceProps) => {
+  const dispatch = useAppDispatch();
   const [setting, setSetting] = useState<ServiceSettingType>(
     {
       service: undefined,
       employee: undefined,
-      date: undefined,
+      date: date ?? undefined,
       time: undefined,
     }
   );
   
-  // const { closeDialog } = useDialog();
+  const { closeDialog } = useDialog();
 
   const handleSave = () => {
-    // closeDialog();
+    dispatch(setBookingCreate({
+      service: setting.service,
+      employee: setting.employee,
+      date: date,
+      time: setting.time,
+    }))
     console.log(setting);
+    closeDialog();
+    setSetting({
+      service: undefined,
+      employee: undefined,
+      date: undefined,
+      time: undefined,
+    });
   }
 
   const onSelectInterval = (time: string) => {

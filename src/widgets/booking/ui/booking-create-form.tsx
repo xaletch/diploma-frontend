@@ -39,27 +39,28 @@ export const BookingCreateForm = ({ date }: { date: string }) => {
               </CardHeader>
               <CardContent>
 
-                <Button
-                  type={"button"}
-                  onClick={() => openDialog("booking_service_create", undefined)}
-                  variant={"dashed"}
-                  size={"icon_42"}
-                  className="w-full rounded-lg text-sm"
-                  iconLeft={<AddIcon width={18} height={18}/>}
-                >Выбрать услугу</Button>
-                
+                <div className="space-y-6">
                   {booked && booked?.length > 0 && (
-                    <div>
+                    <div className="grid gap-4">
                       {booked.map((book, idx) => (
                         <BookingSelectServiceCard
                           key={idx}
                           onClick={() => console.log("book: ", book)}
-                          service={undefined}
-                          employee={undefined}
+                          {...book}
                         />
                       ))}
                     </div>
                   )}
+
+                  <Button
+                    type={"button"}
+                    onClick={() => openDialog("booking_service_create", undefined)}
+                    variant={"dashed"}
+                    size={"icon_42"}
+                    className="w-full rounded-lg text-sm"
+                    iconLeft={<AddIcon width={18} height={18}/>}
+                  >Выбрать услугу</Button>
+                </div>
 
                 <Dialog open={dialog.name === "booking_service_create"} onOpenChange={closeDialog}>
                   <BookingChangeService location_id={location.id} date={date ?? current_date} />

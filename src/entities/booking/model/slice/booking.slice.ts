@@ -37,12 +37,8 @@ export const bookingSlice = createSlice({
   name: "booking",
   initialState,
   reducers: {
-    setBookingCreate: (state, action: PayloadAction<BookingCreate[]>) => {
-      if (state.booked) {
-        state.booked = { ...state.booked, ...action.payload };
-      } else {
-        state.booked = action.payload;
-      }
+    setBookingCreate: (state, action: PayloadAction<BookingCreate>) => {
+      state.booked.push(action.payload);
     },
     changeBookingServicePrice: () => {
       // if (state.booked) {
